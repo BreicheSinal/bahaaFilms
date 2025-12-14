@@ -1,0 +1,20 @@
+/* Responsive breakpoint utility classes */
+@media (min-width: 640px) {
+  .sm\:show { display: block; }
+}
+
+@media (min-width: 768px) {
+  .md\:show { display: block; }
+}
+
+@media (min-width: 1024px) {
+  .lg\:show { display: block; }
+}
+
+@media (min-width: 1280px) {
+  .xl\:show { display: block; }
+}
+
+@media (min-width: 1536px) {
+  .\32xl\:show { display: block; }
+}

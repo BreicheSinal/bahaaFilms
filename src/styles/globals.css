@@ -1,0 +1,215 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  --background: #e6e6e6;
+  --foreground: #121212;
+  --card: #ffffff;
+  --card-foreground: #121212;
+  --popover: #ffffff;
+  --popover-foreground: #121212;
+  --primary: #505050;
+  --primary-foreground: #e6e6e6;
+  --secondary: #bebebe;
+  --secondary-foreground: #121212;
+  --muted: #bebebe;
+  --muted-foreground: #505050;
+  --accent: #505050;
+  --accent-foreground: #e6e6e6;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: #bebebe;
+  --input: #ffffff;
+  --input-background: #f3f3f3;
+  --switch-background: #bebebe;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #505050;
+  --chart-1: #121212;
+  --chart-2: #303030;
+  --chart-3: #505050;
+  --chart-4: #737373;
+  --chart-5: #979797;
+  --radius: 0.625rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #121212;
+  --sidebar-primary: #505050;
+  --sidebar-primary-foreground: #e6e6e6;
+  --sidebar-accent: #bebebe;
+  --sidebar-accent-foreground: #121212;
+  --sidebar-border: #bebebe;
+  --sidebar-ring: #505050;
+}
+
+.dark {
+  --background: #121212;
+  --foreground: #e6e6e6;
+  --card: #303030;
+  --card-foreground: #e6e6e6;
+  --popover: #303030;
+  --popover-foreground: #e6e6e6;
+  --primary: #bebebe;
+  --primary-foreground: #121212;
+  --secondary: #303030;
+  --secondary-foreground: #e6e6e6;
+  --muted: #505050;
+  --muted-foreground: #bebebe;
+  --accent: #505050;
+  --accent-foreground: #e6e6e6;
+  --destructive: #f43f5e;
+  --destructive-foreground: #121212;
+  --border: #505050;
+  --input: #303030;
+  --ring: #bebebe;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: #bebebe;
+  --chart-2: #979797;
+  --chart-3: #737373;
+  --chart-4: #505050;
+  --chart-5: #303030;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #e6e6e6;
+  --sidebar-primary: #bebebe;
+  --sidebar-primary-foreground: #121212;
+  --sidebar-accent: #303030;
+  --sidebar-accent-foreground: #e6e6e6;
+  --sidebar-border: #303030;
+  --sidebar-ring: #bebebe;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=' text-']), :not(:has([class^='text-'])))) {
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+.button-glow {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.button-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  z-index: 0;
+}
+
+.button-glow:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.button-glow > * {
+  position: relative;
+  z-index: 1;
+}

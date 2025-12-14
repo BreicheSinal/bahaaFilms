@@ -1,0 +1,80 @@
+/* Brand palette - neutral system */
+:root {
+  /* Base Colors */
+  --color-neutral-100: #e6e6e6;
+  --color-neutral-200: #bebebe;
+  --color-neutral-300: #979797;
+  --color-neutral-400: #737373;
+  --color-neutral-500: #505050;
+  --color-neutral-600: #303030;
+  --color-neutral-700: #121212;
+
+  /* Light theme colors (default) */
+  --bg-primary: var(--color-neutral-100);
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: var(--color-neutral-600);
+  --text-primary: var(--color-neutral-700);
+  --text-secondary: var(--color-neutral-500);
+  --text-tertiary: var(--color-neutral-400);
+  --border-color: var(--color-neutral-200);
+  --hover-color: var(--color-neutral-200);
+  --accent-color: var(--color-neutral-600);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  /* Spacing scale */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 0.75rem; /* 12px */
+  --spacing-base: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+  --spacing-2xl: 3rem; /* 48px */
+  --spacing-3xl: 4rem; /* 64px */
+  --spacing-4xl: 6rem; /* 96px */
+  --spacing-5xl: 8rem; /* 128px */
+
+  /* Border radius */
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-md: 0.5rem; /* 8px */
+  --radius-lg: 0.75rem; /* 12px */
+  --radius-xl: 1rem; /* 16px */
+  --radius-2xl: 1.5rem; /* 24px */
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-index scale */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 100;
+  --z-fixed: 200;
+  --z-modal: 1000;
+  --z-tooltip: 2000;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg-primary: var(--color-neutral-700);
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: var(--color-neutral-600);
+  --text-primary: var(--color-neutral-100);
+  --text-secondary: var(--color-neutral-200);
+  --text-tertiary: var(--color-neutral-300);
+  --border-color: var(--color-neutral-600);
+  --hover-color: var(--color-neutral-600);
+  --accent-color: var(--color-neutral-200);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
