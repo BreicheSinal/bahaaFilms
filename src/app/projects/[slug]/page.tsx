@@ -1,8 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Calendar, ExternalLink, Github } from 'lucide-react';
-import { getProjectBySlug, getProjects } from '@/data/projects';
+import { getProjectBySlug, getProjects, type Project } from '@/data/projects';
 import ProjectGallery from '@/components/projects/ProjectGallery/ProjectGallery';
 import ProjectCard from '@/components/projects/ProjectCard/ProjectCard';
 import { navigateTo } from '@/utils/router';
@@ -15,7 +16,53 @@ interface ProjectPageProps {
 }
 
 export default function ProjectPage({ params }: ProjectPageProps) {
-  const project = getProjectBySlug(params.slug);
+  const [project, setProject] = useState<Project | null>(null);
+  const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    getProjectBySlug(params.slug).then((res) => {
+      if (isMounted) {
+        setProject(res ?? null);
+        setLoading(false);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [params.slug]);
+
+  useEffect(() => {
+    if (!project) return;
+    let isMounted = true;
+    getProjects().then((all) => {
+      if (!isMounted) return;
+      const related = all
+        .filter(
+          (p) =>
+            p.slug !== project.slug &&
+            p.tags.some((tag) => project.tags.includes(tag))
+        )
+        .slice(0, 3);
+      setRelatedProjects(related);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [project]);
+
+  if (loading) {
+    return (
+      <div className={styles.project}>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>Loading project...</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!project) {
     return (
@@ -53,15 +100,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   };
 
   // Get related projects (same tags, exclude current)
-  const allProjects = getProjects();
-  const relatedProjects = allProjects
-    .filter(
-      (p) =>
-        p.slug !== project.slug &&
-        p.tags.some((tag) => project.tags.includes(tag))
-    )
-    .slice(0, 3);
-
   const headerVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {

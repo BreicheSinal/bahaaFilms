@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { Search, Filter } from 'lucide-react';
-import { getProjects, getProjectTags } from '@/data/projects';
+import { getProjects, getProjectTags, type Project } from '@/data/projects';
 import ProjectCard from '@/components/projects/ProjectCard/ProjectCard';
 import styles from './page.module.css';
 
@@ -12,10 +12,12 @@ export default function ProjectsPage() {
   const [selectedTag, setSelectedTag] = useState<string>('All');
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [tagSearch, setTagSearch] = useState('');
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
   const tagRef = useRef<HTMLDivElement | null>(null);
-
-  const allProjects = getProjects();
-  const allTags = getProjectTags();
+  const allProjects = projects;
+  const allTags = tags;
 
   const filteredProjects = useMemo(() => {
     return allProjects.filter((project) => {
@@ -43,6 +45,26 @@ export default function ProjectsPage() {
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    Promise.all([getProjects(), getProjectTags()])
+      .then(([projectData, tagData]) => {
+        if (!isMounted) return;
+        setProjects(projectData);
+        setTags(tagData);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      })
+      .catch((err) => {
+        console.warn('Failed to load projects from Firebase, using fallback', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const filteredTags = useMemo(
@@ -178,13 +200,23 @@ export default function ProjectsPage() {
             </div>
           </div>
 
-          <div className={styles.count}>
-            {filteredProjects.length} project
-            {filteredProjects.length === 1 ? '' : 's'} found
-          </div>
+          {!loading && (
+            <div className={styles.count}>
+              {filteredProjects.length} project
+              {filteredProjects.length === 1 ? '' : 's'} found
+            </div>
+          )}
         </motion.div>
 
-        {filteredProjects.length > 0 ? (
+        {loading ? (
+          <motion.div
+            className={styles.loading}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            Loading projects...
+          </motion.div>
+        ) : filteredProjects.length > 0 ? (
           <motion.div
             className={styles.grid}
             initial={{ opacity: 0 }}
@@ -218,5 +250,3 @@ export default function ProjectsPage() {
     </div>
   );
 }
-
-
