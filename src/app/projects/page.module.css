@@ -245,6 +245,12 @@
   text-align: center;
 }
 
+.loading {
+  text-align: center;
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  color: var(--text-secondary);
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
