@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { Project } from '@/data/projects';
 import styles from './ProjectGallery.module.css';

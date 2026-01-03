@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, type Variants } from "motion/react";
+import { motion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { getFeaturedProjects, type Project } from "@/data/projects";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
