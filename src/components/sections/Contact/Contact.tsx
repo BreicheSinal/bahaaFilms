@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import styles from './Contact.module.css';
 

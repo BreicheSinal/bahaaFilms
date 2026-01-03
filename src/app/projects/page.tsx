@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
-import { motion, type Variants } from "motion/react";
+import { motion, type Variants } from "framer-motion";
 import { Search, Filter } from "lucide-react";
 import { getProjects, getProjectTags, type Project } from "@/data/projects";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
@@ -135,7 +135,7 @@ export default function ProjectsPage() {
               <Search className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="Search projects by name, tech, or description"
+                placeholder="Search by name or description"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={styles.searchInput}

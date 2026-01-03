@@ -1,12 +1,16 @@
-import type { Metadata } from 'next';
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import Navbar from '@/components/layout/Navbar/Navbar';
-import Footer from '@/components/layout/Footer/Footer';
-import '@/styles/globals.css';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import Navbar from "@/components/layout/Navbar/Navbar";
+import Footer from "@/components/layout/Footer/Footer";
+import "@/styles/globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Portfolio - Digital Experiences',
-  description: 'A modern portfolio showcasing creative digital projects and design work.',
+  title: "Portfolio - Digital Experiences",
+  description:
+    "A modern portfolio showcasing creative digital projects and design work.",
 };
 
 export default function RootLayout({
@@ -16,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <ThemeProvider>
           <Navbar />
           <main>{children}</main>

@@ -1,7 +1,11 @@
+@import "./tokens.css";
+@import "./mixins.css";
+
 @layer base {
   * {
     border-color: var(--border);
     outline-color: var(--ring);
+    box-sizing: border-box;
   }
 
   body {
@@ -16,7 +20,7 @@
  * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
  */
 @layer base {
-  :where(:not(:has([class*=' text-']), :not(:has([class^='text-'])))) {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
     h1 {
       font-size: var(--text-2xl);
       font-weight: var(--font-weight-medium);
@@ -65,6 +69,10 @@ html {
   font-size: var(--font-size);
 }
 
+body {
+  margin: 0;
+}
+
 .button-glow {
   position: relative;
   overflow: hidden;
@@ -72,7 +80,7 @@ html {
 }
 
 .button-glow::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;

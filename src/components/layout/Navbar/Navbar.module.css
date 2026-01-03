@@ -11,7 +11,7 @@
   transition: all var(--transition-base);
 }
 
-[data-theme='dark'] .navbar {
+[data-theme="dark"] .navbar {
   background: rgba(18, 18, 18, 0.8);
 }
 
@@ -35,12 +35,12 @@
 }
 
 .dark .logo,
-[data-theme='dark'] .logo {
+[data-theme="dark"] .logo {
   color: #f5f5f5;
 }
 
 .dark .logo:hover,
-[data-theme='dark'] .logo:hover {
+[data-theme="dark"] .logo:hover {
   color: #ffffff;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -4px;
   left: 0;
@@ -88,7 +88,7 @@
   transition: width var(--transition-base);
 }
 
-[data-theme='dark'] .link::after {
+[data-theme="dark"] .link::after {
   background: var(--text-primary);
 }
 
@@ -121,8 +121,9 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
+  background: transparent;
   color: var(--text-primary);
-  transition: background-color var(--transition-base), transform var(--transition-base);
+  transition: transform var(--transition-base);
   border: none;
   cursor: pointer;
 }
@@ -133,8 +134,7 @@
 }
 
 .themeToggle:hover {
-  background: var(--hover-color);
-  transform: scale(1.05);
+  transform: none;
 }
 
 .themeToggle:active {
@@ -148,9 +148,9 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: var(--bg-secondary);
+  background: transparent;
   color: var(--text-primary);
-  transition: background-color var(--transition-base);
+  transition: none;
   border: none;
   cursor: pointer;
 }
@@ -167,7 +167,7 @@
 }
 
 .mobileMenuButton:hover {
-  background: var(--hover-color);
+  background: transparent;
 }
 
 .mobileMenu {
@@ -199,4 +199,23 @@
 .mobileLink:hover,
 .mobileLink.active {
   color: var(--text-primary);
+}
+
+.logo {
+  text-decoration: none;
+}
+
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.mobileLink {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
 }

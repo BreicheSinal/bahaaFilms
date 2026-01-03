@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Project } from '@/data/projects';
 import { navigateTo } from '@/utils/router';

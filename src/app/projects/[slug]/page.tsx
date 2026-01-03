@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants } from 'framer-motion';
 import { ArrowLeft, Calendar, ExternalLink, Github } from 'lucide-react';
 import { getProjectBySlug, getProjects, type Project } from '@/data/projects';
 import ProjectGallery from '@/components/projects/ProjectGallery/ProjectGallery';
