@@ -1,14 +1,29 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { motion, type Variants } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { getFeaturedProjects } from "@/data/projects";
+import { getFeaturedProjects, type Project } from "@/data/projects";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
 import { navigateTo } from "@/utils/router";
 import styles from "./Portfolio.module.css";
 
 export default function Portfolio() {
-  const featuredProjects = getFeaturedProjects();
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    getFeaturedProjects()
+      .then((data) => {
+        if (isMounted) setFeaturedProjects(data);
+      })
+      .catch((err) => {
+        console.warn("Falling back to local featured projects", err);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const headerVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -21,7 +36,7 @@ export default function Portfolio() {
         damping: 15,
       },
     },
-  };
+  } satisfies Variants;
 
   return (
     <section id="portfolio" className={styles.portfolio}>

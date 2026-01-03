@@ -9,7 +9,7 @@
   cursor: pointer;
 }
 
-:global([data-theme='dark']) .card {
+:global([data-theme="dark"]) .card {
   background: var(--bg-secondary);
 }
 
@@ -92,7 +92,7 @@
 .tag {
   font-size: 0.75rem;
   padding: var(--spacing-xs) var(--spacing-md);
-  background: var(--bg-tertiary);
+  background: var(--bg-primary);
   color: var(--text-tertiary);
   border-radius: var(--radius-full);
   border: 1px solid var(--border-color);
@@ -116,6 +116,7 @@
   line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import styles from "./Hero.module.css";
 
 export default function Hero() {
@@ -25,7 +25,7 @@ export default function Hero() {
         delayChildren: 0.3,
       },
     },
-  };
+  } satisfies Variants;
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -38,7 +38,7 @@ export default function Hero() {
         damping: 15,
       },
     },
-  };
+  } satisfies Variants;
 
   return (
     <section id="home" className={styles.hero}>

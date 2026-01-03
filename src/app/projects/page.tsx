@@ -1,34 +1,38 @@
-'use client';
+"use client";
 
-import { useState, useMemo, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
-import { Search, Filter } from 'lucide-react';
-import { getProjects, getProjectTags } from '@/data/projects';
-import ProjectCard from '@/components/projects/ProjectCard/ProjectCard';
-import styles from './page.module.css';
+import { useState, useMemo, useEffect, useRef } from "react";
+import { motion, type Variants } from "motion/react";
+import { Search, Filter } from "lucide-react";
+import { getProjects, getProjectTags, type Project } from "@/data/projects";
+import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
+import styles from "./page.module.css";
 
 export default function ProjectsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTag, setSelectedTag] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTag, setSelectedTag] = useState<string>("All");
   const [isTagOpen, setIsTagOpen] = useState(false);
-  const [tagSearch, setTagSearch] = useState('');
+  const [tagSearch, setTagSearch] = useState("");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
   const tagRef = useRef<HTMLDivElement | null>(null);
-
-  const allProjects = getProjects();
-  const allTags = getProjectTags();
+  const allProjects = projects;
+  const allTags = tags;
 
   const filteredProjects = useMemo(() => {
     return allProjects.filter((project) => {
       const matchesSearch =
-        searchQuery === '' ||
+        searchQuery === "" ||
         project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.shortDescription
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         project.tags.some((tag) =>
           tag.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
       const matchesTag =
-        selectedTag === 'All' || project.tags.includes(selectedTag);
+        selectedTag === "All" || project.tags.includes(selectedTag);
 
       return matchesSearch && matchesTag;
     });
@@ -38,11 +42,34 @@ export default function ProjectsPage() {
     const handleClickOutside = (event: MouseEvent) => {
       if (tagRef.current && !tagRef.current.contains(event.target as Node)) {
         setIsTagOpen(false);
-        setTagSearch('');
+        setTagSearch("");
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    Promise.all([getProjects(), getProjectTags()])
+      .then(([projectData, tagData]) => {
+        if (!isMounted) return;
+        setProjects(projectData);
+        setTags(tagData);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      })
+      .catch((err) => {
+        console.warn(
+          "Failed to load projects from Firebase, using fallback",
+          err
+        );
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const filteredTags = useMemo(
@@ -59,12 +86,12 @@ export default function ProjectsPage() {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 15,
       },
     },
-  };
+  } satisfies Variants;
 
   const filterVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -72,13 +99,13 @@ export default function ProjectsPage() {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 15,
         delay: 0.2,
       },
     },
-  };
+  } satisfies Variants;
 
   return (
     <div className={styles.projects}>
@@ -92,7 +119,8 @@ export default function ProjectsPage() {
           <div className={styles.subtitle}>Portfolio</div>
           <h1 className={styles.title}>All Projects</h1>
           <p className={styles.description}>
-            Browse through my complete collection of projects spanning various domains and technologies.
+            Browse through my complete collection of projects spanning various
+            domains and technologies.
           </p>
         </motion.div>
 
@@ -143,11 +171,11 @@ export default function ProjectsPage() {
                       </div>
                       <button
                         className={`${styles.tagOption} ${
-                          selectedTag === 'All' ? styles.activeOption : ''
+                          selectedTag === "All" ? styles.activeOption : ""
                         }`}
                         onClick={() => {
-                          setSelectedTag('All');
-                          setTagSearch('');
+                          setSelectedTag("All");
+                          setTagSearch("");
                           setIsTagOpen(false);
                         }}
                       >
@@ -157,11 +185,11 @@ export default function ProjectsPage() {
                         <button
                           key={tag}
                           className={`${styles.tagOption} ${
-                            selectedTag === tag ? styles.activeOption : ''
+                            selectedTag === tag ? styles.activeOption : ""
                           }`}
                           onClick={() => {
                             setSelectedTag(tag);
-                            setTagSearch('');
+                            setTagSearch("");
                             setIsTagOpen(false);
                           }}
                         >
@@ -178,13 +206,23 @@ export default function ProjectsPage() {
             </div>
           </div>
 
-          <div className={styles.count}>
-            {filteredProjects.length} project
-            {filteredProjects.length === 1 ? '' : 's'} found
-          </div>
+          {!loading && (
+            <div className={styles.count}>
+              {filteredProjects.length} project
+              {filteredProjects.length === 1 ? "" : "s"} found
+            </div>
+          )}
         </motion.div>
 
-        {filteredProjects.length > 0 ? (
+        {loading ? (
+          <motion.div
+            className={styles.loading}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            Loading projects...
+          </motion.div>
+        ) : filteredProjects.length > 0 ? (
           <motion.div
             className={styles.grid}
             initial={{ opacity: 0 }}
@@ -194,6 +232,15 @@ export default function ProjectsPage() {
             {filteredProjects.map((project, index) => (
               <ProjectCard key={project.slug} project={project} index={index} />
             ))}
+          </motion.div>
+        ) : allProjects.length === 0 ? (
+          <motion.div
+            className={styles.noResults}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <p>No projects yet.</p>
           </motion.div>
         ) : (
           <motion.div
@@ -205,8 +252,8 @@ export default function ProjectsPage() {
             <p>No projects found matching your criteria.</p>
             <button
               onClick={() => {
-                setSearchQuery('');
-                setSelectedTag('All');
+                setSearchQuery("");
+                setSelectedTag("All");
               }}
               className={styles.resetButton}
             >
@@ -218,5 +265,3 @@ export default function ProjectsPage() {
     </div>
   );
 }
-
-

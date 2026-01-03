@@ -8,6 +8,7 @@
   overflow: hidden;
   --hero-orb-strong: rgba(26, 26, 26, 0.55);
   --hero-orb-soft: rgba(48, 48, 48, 0.35);
+  --button-color: var(--accent-color);
 }
 
 .container {
@@ -86,13 +87,8 @@
 }
 
 .buttonPrimary {
-  background: var(--accent-color);
+  background: var(--button-color);
   color: var(--accent-foreground);
-}
-
-:global([data-theme="dark"]) .buttonPrimary {
-  background: var(--accent-color);
-  color: #ffffff;
 }
 
 .buttonPrimary:hover {

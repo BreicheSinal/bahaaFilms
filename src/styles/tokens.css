@@ -63,10 +63,52 @@
   --z-fixed: 200;
   --z-modal: 1000;
   --z-tooltip: 2000;
+
+  /* UI tokens mapped to core palette */
+  --font-size: 16px;
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  --card: var(--bg-secondary);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-secondary);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--accent-color);
+  --primary-foreground: var(--bg-primary);
+  --secondary: var(--bg-secondary);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--text-secondary);
+  --muted-foreground: var(--text-tertiary);
+  --accent: var(--accent-color);
+  --accent-foreground: var(--bg-primary);
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: var(--border-color);
+  --input: var(--bg-primary);
+  --input-background: var(--bg-secondary);
+  --switch-background: var(--border-color);
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: var(--accent-color);
+  --chart-1: var(--text-primary);
+  --chart-2: var(--text-secondary);
+  --chart-3: var(--text-tertiary);
+  --chart-4: var(--accent-color);
+  --chart-5: var(--hover-color);
+  --radius: var(--radius-lg);
+  --sidebar: var(--bg-secondary);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--accent-color);
+  --sidebar-primary-foreground: var(--bg-primary);
+  --sidebar-accent: var(--bg-tertiary);
+  --sidebar-accent-foreground: var(--text-secondary);
+  --sidebar-border: var(--border-color);
+  --sidebar-ring: var(--accent-color);
+  ---button-color: var(--accent-color);
 }
 
 /* Dark theme */
-[data-theme="dark"] {
+[data-theme="dark"],
+.dark {
   --bg-primary: var(--color-neutral-700);
   --bg-secondary: #1a1a1a;
   --bg-tertiary: var(--color-neutral-600);
@@ -77,4 +119,41 @@
   --hover-color: var(--color-neutral-600);
   --accent-color: var(--color-neutral-200);
   --shadow-color: rgba(0, 0, 0, 0.3);
+
+  /* UI tokens */
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  --card: var(--bg-secondary);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-secondary);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--accent-color);
+  --primary-foreground: var(--bg-primary);
+  --secondary: var(--bg-secondary);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--text-secondary);
+  --muted-foreground: var(--text-tertiary);
+  --accent: var(--accent-color);
+  --accent-foreground: var(--bg-primary);
+  --destructive: #f43f5e;
+  --destructive-foreground: #0f0f0f;
+  --border: var(--border-color);
+  --input: var(--bg-primary);
+  --input-background: var(--bg-secondary);
+  --switch-background: var(--border-color);
+  --ring: var(--accent-color);
+  --chart-1: var(--text-primary);
+  --chart-2: var(--text-secondary);
+  --chart-3: var(--text-tertiary);
+  --chart-4: var(--accent-color);
+  --chart-5: var(--hover-color);
+  --sidebar: var(--bg-secondary);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--accent-color);
+  --sidebar-primary-foreground: var(--bg-primary);
+  --sidebar-accent: var(--bg-tertiary);
+  --sidebar-accent-foreground: var(--text-secondary);
+  --sidebar-border: var(--border-color);
+  --sidebar-ring: var(--accent-color);
+  ---button-color-dark: var(--accent-color);
 }

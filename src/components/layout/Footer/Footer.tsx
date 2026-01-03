@@ -1,14 +1,16 @@
-import { Instagram, MessageCircle } from 'lucide-react';
-import styles from './Footer.module.css';
+import { Instagram, MessageCircle } from "lucide-react";
+import packageJson from "../../../package.json";
+import styles from "./Footer.module.css";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const appVersion = packageJson.version ?? "0.0.0";
 
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.copyright}>
-          © {currentYear} Bahaa Breich. All rights reserved.
+          v{appVersion} | © {currentYear} Bahaa Breich. All rights reserved.
         </div>
 
         <div className={styles.social}>

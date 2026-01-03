@@ -1,3 +1,13 @@
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  type Timestamp,
+} from 'firebase/firestore';
+import type { FirebaseStorage } from 'firebase/storage';
+import { getFirebaseServices, buildStorageUrl } from '@/lib/firebaseClient';
+
 export interface Project {
   slug: string;
   title: string;
@@ -19,130 +29,120 @@ export interface Project {
   featured: boolean;
 }
 
-export const projects: Project[] = [
-  {
-    slug: 'aurora-design-system',
-    title: 'Aurora Design System',
-    shortDescription: 'A comprehensive design system built for modern web applications with accessibility at its core.',
-    fullDescription: 'Aurora is a complete design system created to streamline development workflows and ensure consistent user experiences across multiple products. Built with React and TypeScript, it features over 50 customizable components, comprehensive documentation, and built-in accessibility features that meet WCAG 2.1 AA standards. The system includes a robust token architecture, allowing teams to maintain brand consistency while supporting multiple themes.',
-    tags: ['Design System', 'React', 'TypeScript', 'Accessibility'],
-    coverImage: 'https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=800&h=600&fit=crop',
-    media: [
-      { type: 'image', url: 'https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1545235617-7a424c1a60cc?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&h=800&fit=crop' },
-    ],
-    date: '2024-03-15',
-    links: {
-      github: 'https://github.com',
-      live: 'https://example.com',
-    },
-    featured: true,
-  },
-  {
-    slug: 'nexus-mobile-app',
-    title: 'Nexus Mobile App',
-    shortDescription: 'Cross-platform mobile application for seamless team collaboration and project management.',
-    fullDescription: 'Nexus revolutionizes team collaboration with an intuitive mobile-first approach. Built using React Native, the app provides real-time synchronization, offline support, and a beautiful interface that works flawlessly on both iOS and Android. Features include task management, team chat, file sharing, and advanced analytics. The app handles complex state management with Redux and implements end-to-end encryption for sensitive data.',
-    tags: ['Mobile', 'React Native', 'Real-time', 'UX'],
-    coverImage: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop',
-    media: [
-      { type: 'image', url: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?w=1200&h=800&fit=crop' },
-    ],
-    date: '2024-02-20',
-    links: {
-      live: 'https://example.com',
-    },
-    featured: true,
-  },
-  {
-    slug: 'quantum-analytics-dashboard',
-    title: 'Quantum Analytics Dashboard',
-    shortDescription: 'Advanced data visualization platform for enterprise analytics and business intelligence.',
-    fullDescription: 'Quantum Analytics is a sophisticated dashboard platform designed for enterprise-level data analysis. The application processes millions of data points in real-time, presenting insights through interactive charts, graphs, and custom visualizations. Built with Next.js and D3.js, it features advanced filtering, custom report generation, and AI-powered trend detection. The platform integrates with major data sources and provides role-based access control for team collaboration.',
-    tags: ['Analytics', 'Data Viz', 'Next.js', 'Enterprise'],
-    coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
-    media: [
-      { type: 'image', url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1543286386-713bdd548da4?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&h=800&fit=crop' },
-    ],
-    date: '2024-01-10',
-    links: {
-      github: 'https://github.com',
-      live: 'https://example.com',
-    },
-    featured: true,
-  },
-  {
-    slug: 'echo-sound-studio',
-    title: 'Echo Sound Studio',
-    shortDescription: 'Professional audio editing suite for creators and musicians.',
-    fullDescription: 'Echo Sound Studio brings professional-grade audio editing to the web. This progressive web app leverages the Web Audio API to provide real-time audio processing, multi-track editing, and a comprehensive suite of effects and plugins. Features include waveform visualization, spectral analysis, batch processing, and export to multiple formats. The interface is designed for both beginners and professionals, with customizable workspaces and keyboard shortcuts.',
-    tags: ['Audio', 'Web Audio API', 'PWA', 'Creative'],
-    coverImage: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop',
-    media: [
-      { type: 'image', url: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1619983081563-430f63602796?w=1200&h=800&fit=crop' },
-    ],
-    date: '2023-12-05',
-    featured: false,
-  },
-  {
-    slug: 'vortex-ecommerce',
-    title: 'Vortex E-commerce',
-    shortDescription: 'Next-generation shopping experience with AI-powered recommendations.',
-    fullDescription: 'Vortex redefines online shopping with intelligent product discovery and personalized experiences. The platform uses machine learning to understand customer preferences and provide relevant recommendations. Built on a modern JAMstack architecture with Next.js and headless CMS, it delivers lightning-fast page loads and SEO optimization. Features include advanced search, virtual try-on, augmented reality product previews, and seamless checkout flow.',
-    tags: ['E-commerce', 'AI/ML', 'Next.js', 'AR'],
-    coverImage: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop',
-    media: [
-      { type: 'image', url: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&h=800&fit=crop' },
-    ],
-    date: '2023-11-18',
-    links: {
-      live: 'https://example.com',
-    },
-    featured: false,
-  },
-  {
-    slug: 'zenith-fitness-tracker',
-    title: 'Zenith Fitness Tracker',
-    shortDescription: 'Smart fitness companion with personalized workout plans and health insights.',
-    fullDescription: 'Zenith Fitness Tracker helps users achieve their health goals with data-driven insights and personalized guidance. The app integrates with wearable devices, tracks workouts, monitors nutrition, and provides AI-generated workout plans tailored to individual fitness levels. Built with React and TypeScript, it features beautiful data visualizations, social challenges, and a supportive community platform. The app also includes meditation guides and sleep tracking for holistic wellness.',
-    tags: ['Health', 'Mobile', 'IoT', 'AI'],
-    coverImage: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&h=600&fit=crop',
-    media: [
-      { type: 'image', url: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1200&h=800&fit=crop' },
-      { type: 'image', url: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1200&h=800&fit=crop' },
-    ],
-    date: '2023-10-22',
-    featured: false,
-  },
-];
+type ProjectRow = {
+  slug: string;
+  title: string;
+  short_description: string;
+  full_description: string;
+  tags: string[] | null;
+  cover_image_path?: string | null;
+  cover_image_url?: string | null;
+  media?: Array<{
+    type: 'image' | 'video';
+    path?: string;
+    url?: string;
+    thumbnail?: string;
+  }>;
+  date?: string | Timestamp | null;
+  links?: {
+    github?: string;
+    live?: string;
+    behance?: string;
+  } | null;
+  featured?: boolean | null;
+};
 
-export function getProjects(): Project[] {
-  return projects;
+function normalizeDate(value?: string | Timestamp | null) {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  if (value instanceof Date) {
+    const iso = value.toISOString();
+    return iso.split('T')[0];
+  }
+  if (typeof (value as Timestamp).toDate === 'function') {
+    const iso = (value as Timestamp).toDate().toISOString();
+    return iso.split('T')[0];
+  }
+  return '';
 }
 
-export function getFeaturedProjects(): Project[] {
-  return projects.filter((project) => project.featured);
+async function mapRowToProject(
+  row: ProjectRow,
+  storage: FirebaseStorage | null
+): Promise<Project> {
+  const coverImage =
+    (await buildStorageUrl(storage, row.cover_image_path)) ||
+    row.cover_image_url ||
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=600&fit=crop';
+
+  const media =
+    row.media &&
+    (await Promise.all(
+      row.media.map(async (item) => ({
+        type: item.type,
+        url: (await buildStorageUrl(storage, item.path)) || item.url || '',
+        thumbnail: (await buildStorageUrl(storage, item.thumbnail)) || item.thumbnail,
+      }))
+    ));
+
+  return {
+    slug: row.slug,
+    title: row.title,
+    shortDescription: row.short_description,
+    fullDescription: row.full_description,
+    tags: row.tags || [],
+    coverImage,
+    media: media || [],
+    date: normalizeDate(row.date),
+    links: row.links || undefined,
+    featured: Boolean(row.featured),
+  };
 }
 
-export function getProjectBySlug(slug: string): Project | undefined {
-  return projects.find((project) => project.slug === slug);
+async function fetchFromFirestore(): Promise<Project[]> {
+  const services = getFirebaseServices();
+  if (!services) return [];
+
+  const { db, storage } = services;
+
+  try {
+    const snapshot = await getDocs(
+      query(collection(db, 'projects'), orderBy('date', 'desc'))
+    );
+
+    const rows: ProjectRow[] = snapshot.docs.map((doc) => {
+      const data = doc.data() as Omit<ProjectRow, 'slug'> & Partial<ProjectRow>;
+      return {
+        slug: (data.slug as string) || doc.id,
+        ...data,
+      };
+    });
+
+    return Promise.all(rows.map((row) => mapRowToProject(row, storage)));
+  } catch (error) {
+    console.warn('Firestore projects fallback to local data', error);
+    return [];
+  }
 }
 
-export function getProjectTags(): string[] {
+export async function getProjects(): Promise<Project[]> {
+  return fetchFromFirestore();
+}
+
+export async function getFeaturedProjects(): Promise<Project[]> {
+  const all = await fetchFromFirestore();
+  return all.filter((project) => project.featured);
+}
+
+export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
+  const all = await fetchFromFirestore();
+  return all.find((project) => project.slug === slug);
+}
+
+export async function getProjectTags(): Promise<string[]> {
+  const all = await fetchFromFirestore();
   const tagSet = new Set<string>();
-  projects.forEach((project) => {
+  all.forEach((project) => {
     project.tags.forEach((tag) => tagSet.add(tag));
   });
   return Array.from(tagSet).sort();

@@ -26,5 +26,7 @@ export function listenToRouteChange(listener: Listener) {
     popstateBound = true;
   }
 
-  return () => listeners.delete(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 }
