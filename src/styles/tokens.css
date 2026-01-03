@@ -103,6 +103,7 @@
   --sidebar-accent-foreground: var(--text-secondary);
   --sidebar-border: var(--border-color);
   --sidebar-ring: var(--accent-color);
+  ---button-color: var(--accent-color);
 }
 
 /* Dark theme */
@@ -154,4 +155,5 @@
   --sidebar-accent-foreground: var(--text-secondary);
   --sidebar-border: var(--border-color);
   --sidebar-ring: var(--accent-color);
+  ---button-color-dark: var(--accent-color);
 }

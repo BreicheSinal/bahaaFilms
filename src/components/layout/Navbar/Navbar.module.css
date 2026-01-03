@@ -121,7 +121,6 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  background: var(--bg-secondary);
   color: var(--text-primary);
   transition: background-color var(--transition-base), transform var(--transition-base);
   border: none;

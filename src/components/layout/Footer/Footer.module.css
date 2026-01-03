@@ -40,7 +40,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  background: var(--bg-tertiary);
+  background: var(--bg-primary);
   color: var(--text-secondary);
   transition: background-color var(--transition-base),
     color var(--transition-base), transform var(--transition-base);

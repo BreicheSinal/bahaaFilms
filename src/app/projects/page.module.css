@@ -90,10 +90,10 @@
   width: 100%;
   padding: var(--spacing-base) var(--spacing-lg) var(--spacing-base)
     var(--spacing-3xl);
-  background: var(--bg-tertiary);
+  background: var(--bg-primary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-size: 1rem;
   transition: border-color var(--transition-base),
     box-shadow var(--transition-base), transform var(--transition-base);
@@ -156,8 +156,8 @@
   padding: var(--spacing-base) var(--spacing-lg);
   border-radius: var(--radius-xl);
   border: 1px solid var(--border-color);
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
   font-size: 1rem;
   cursor: pointer;
   transition: border-color var(--transition-base),
