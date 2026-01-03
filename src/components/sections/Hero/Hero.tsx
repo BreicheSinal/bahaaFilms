@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "motion/react";
+import { motion, type Variants } from "framer-motion";
 import styles from "./Hero.module.css";
 
 export default function Hero() {
