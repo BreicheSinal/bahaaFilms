@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
 import { ArrowLeft, Calendar, ExternalLink, Github } from 'lucide-react';
 import { getProjectBySlug, getProjects, type Project } from '@/data/projects';
 import ProjectGallery from '@/components/projects/ProjectGallery/ProjectGallery';
@@ -111,7 +111,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         damping: 15,
       },
     },
-  };
+  } satisfies Variants;
 
   const imageVariants = {
     hidden: { opacity: 0, scale: 0.95 },
@@ -125,7 +125,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         delay: 0.2,
       },
     },
-  };
+  } satisfies Variants;
 
   const contentVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -139,7 +139,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         delay: 0.3,
       },
     },
-  };
+  } satisfies Variants;
 
   return (
     <div className={styles.project}>

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Project } from '@/data/projects';
 import { navigateTo } from '@/utils/router';
@@ -24,7 +24,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         delay: index * 0.1,
       },
     },
-  };
+  } satisfies Variants;
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
