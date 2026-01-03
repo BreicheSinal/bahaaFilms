@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
 import { CheckCircle2 } from 'lucide-react';
 import styles from './Contact.module.css';
 
@@ -114,7 +114,7 @@ export default function Contact() {
         damping: 15,
       },
     },
-  };
+  } satisfies Variants;
 
   const formVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -128,7 +128,7 @@ export default function Contact() {
         delay: 0.2,
       },
     },
-  };
+  } satisfies Variants;
 
   return (
     <section id="contact" className={styles.contact}>
