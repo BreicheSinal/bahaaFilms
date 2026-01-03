@@ -65,6 +65,7 @@
 
 .searchWrapper {
   position: relative;
+  width: 100%;
 }
 
 .searchRow {
@@ -88,6 +89,7 @@
 
 .searchInput {
   width: 100%;
+  max-width: none;
   padding: var(--spacing-base) var(--spacing-lg) var(--spacing-base)
     var(--spacing-3xl);
   background: var(--bg-primary);
@@ -234,7 +236,7 @@
 }
 
 .activeOption {
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
 }
 
