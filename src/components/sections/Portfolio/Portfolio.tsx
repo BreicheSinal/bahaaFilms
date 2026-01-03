@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { getFeaturedProjects, type Project } from "@/data/projects";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
@@ -36,7 +36,7 @@ export default function Portfolio() {
         damping: 15,
       },
     },
-  };
+  } satisfies Variants;
 
   return (
     <section id="portfolio" className={styles.portfolio}>
