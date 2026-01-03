@@ -1,6 +1,11 @@
-import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
-import { getFirestore, type Firestore } from 'firebase/firestore';
-import { getStorage, ref, getDownloadURL, type FirebaseStorage } from 'firebase/storage';
+import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
+import { getFirestore, type Firestore } from "firebase/firestore";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  type FirebaseStorage,
+} from "firebase/storage";
 
 type FirebaseServices = {
   app: FirebaseApp;
@@ -42,7 +47,7 @@ export async function buildStorageUrl(
     const fileRef = ref(storage, path);
     return await getDownloadURL(fileRef);
   } catch (error) {
-    console.warn('Falling back to raw storage path', error);
+    console.warn("Falling back to raw storage path", error);
     return path;
   }
 }
