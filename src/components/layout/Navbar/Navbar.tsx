@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
-import { Sun, Moon, Menu, X } from 'lucide-react';
-import { getCurrentPath, navigateTo } from '@/utils/router';
-import styles from './Navbar.module.css';
+import { useEffect, useRef, useState } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
+import { Sun, Moon, Menu, X } from "lucide-react";
+import { getCurrentPath, navigateTo } from "@/utils/router";
+import styles from "./Navbar.module.css";
 
 const NAV_ITEMS = [
-  { id: 'home', label: 'Home' },
-  { id: 'portfolio', label: 'Portfolio' },
-  { id: 'contact', label: 'Contact' },
+  { id: "home", label: "Home" },
+  { id: "portfolio", label: "Portfolio" },
+  { id: "contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState("home");
   const pendingSection = useRef<string | null>(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Navbar() {
         });
       },
       {
-        rootMargin: '-45% 0px -45% 0px',
+        rootMargin: "-45% 0px -45% 0px",
         threshold: 0,
       }
     );
@@ -51,7 +51,7 @@ export default function Navbar() {
           if (el) {
             const offset = 80;
             const pos = el.offsetTop - offset;
-            window.scrollTo({ top: pos, behavior: 'smooth' });
+            window.scrollTo({ top: pos, behavior: "smooth" });
             setActiveSection(target);
             pendingSection.current = null;
             clearInterval(interval);
@@ -63,20 +63,20 @@ export default function Navbar() {
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    const onHome = getCurrentPath() === '/';
+    const onHome = getCurrentPath() === "/";
 
     const performScroll = () => {
       const target = document.getElementById(sectionId);
       if (target) {
         const offset = 80; // navbar height
         const elementPosition = target.offsetTop - offset;
-        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+        window.scrollTo({ top: elementPosition, behavior: "smooth" });
         setActiveSection(sectionId);
         setMobileMenuOpen(false);
         pendingSection.current = null;
@@ -89,7 +89,7 @@ export default function Navbar() {
       performScroll();
     } else {
       pendingSection.current = sectionId;
-      navigateTo('/');
+      navigateTo("/");
     }
 
     if (pendingSection.current) {
@@ -116,7 +116,9 @@ export default function Navbar() {
               <li key={item.id}>
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className={`${styles.link} ${activeSection === item.id ? styles.active : ''}`}
+                  className={`${styles.link} ${
+                    activeSection === item.id ? styles.active : ""
+                  }`}
                 >
                   {item.label}
                 </button>
@@ -130,7 +132,7 @@ export default function Navbar() {
               className={styles.themeToggle}
               aria-label="Toggle theme"
             >
-              {theme === 'light' ? <Moon /> : <Sun />}
+              {theme === "light" ? <Moon /> : <Sun />}
             </button>
 
             <button
@@ -150,7 +152,9 @@ export default function Navbar() {
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`${styles.mobileLink} ${activeSection === item.id ? styles.active : ''}`}
+              className={`${styles.mobileLink} ${
+                activeSection === item.id ? styles.active : ""
+              }`}
             >
               {item.label}
             </button>
