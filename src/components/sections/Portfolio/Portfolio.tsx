@@ -1,29 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { getFeaturedProjects, type Project } from "@/data/projects";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
+import { fetchProjects } from "@/store/projectsSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import Loader from "@/components/ui/Loader/Loader";
 import { navigateTo } from "@/utils/router";
 import styles from "./Portfolio.module.css";
 
 export default function Portfolio() {
-  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+  const dispatch = useAppDispatch();
+  const { items: allProjects, loading } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
-    let isMounted = true;
-    getFeaturedProjects()
-      .then((data) => {
-        if (isMounted) setFeaturedProjects(data);
-      })
-      .catch((err) => {
-        console.warn("Falling back to local featured projects", err);
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+    if (!allProjects.length && !loading) {
+      dispatch(fetchProjects());
+    }
+  }, [allProjects.length, dispatch, loading]);
+
+  const featuredProjects = useMemo(
+    () => allProjects.filter((project) => project.featured),
+    [allProjects]
+  );
 
   const headerVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -57,11 +57,17 @@ export default function Portfolio() {
           </p>
         </motion.div>
 
-        <div className={styles.grid}>
-          {featuredProjects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} />
-          ))}
-        </div>
+        {loading && featuredProjects.length === 0 ? (
+          <div className={styles.loading}>
+            <Loader />
+          </div>
+        ) : (
+          <div className={styles.grid}>
+            {featuredProjects.map((project, index) => (
+              <ProjectCard key={project.slug} project={project} index={index} />
+            ))}
+          </div>
+        )}
 
         <motion.div
           className={styles.viewAll}

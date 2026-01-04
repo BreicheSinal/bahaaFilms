@@ -30,19 +30,21 @@ export interface Project {
 }
 
 type ProjectRow = {
-  slug: string;
-  title: string;
-  short_description: string;
-  full_description: string;
-  tags: string[] | null;
-  cover_image_path?: string | null;
-  cover_image_url?: string | null;
+  slug?: string;
+  title?: string;
+  shortDescription?: string;
+  fullDescription?: string;
+  tags?: string[] | null;
+  coverImage?: string | null;
   media?: Array<{
     type: 'image' | 'video';
-    path?: string;
     url?: string;
     thumbnail?: string;
-  }>;
+  }> | {
+    type: 'image' | 'video';
+    url?: string;
+    thumbnail?: string;
+  } | null;
   date?: string | Timestamp | null;
   links?: {
     github?: string;
@@ -68,31 +70,37 @@ function normalizeDate(value?: string | Timestamp | null) {
 
 async function mapRowToProject(
   row: ProjectRow,
-  storage: FirebaseStorage | null
+  storage: FirebaseStorage | null,
+  fallbackSlug: string
 ): Promise<Project> {
   const coverImage =
-    (await buildStorageUrl(storage, row.cover_image_path)) ||
-    row.cover_image_url ||
+    (await buildStorageUrl(storage, row.coverImage)) ||
+    row.coverImage ||
     'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=600&fit=crop';
 
-  const media =
-    row.media &&
-    (await Promise.all(
-      row.media.map(async (item) => ({
-        type: item.type,
-        url: (await buildStorageUrl(storage, item.path)) || item.url || '',
-        thumbnail: (await buildStorageUrl(storage, item.thumbnail)) || item.thumbnail,
-      }))
-    ));
+  const mediaItems = Array.isArray(row.media)
+    ? row.media
+    : row.media
+      ? [row.media]
+      : [];
+
+  const media = await Promise.all(
+    mediaItems.map(async (item) => ({
+      type: item.type,
+      url: (await buildStorageUrl(storage, item.url)) || item.url || '',
+      thumbnail:
+        (await buildStorageUrl(storage, item.thumbnail)) || item.thumbnail,
+    }))
+  );
 
   return {
-    slug: row.slug,
-    title: row.title,
-    shortDescription: row.short_description,
-    fullDescription: row.full_description,
+    slug: row.slug || fallbackSlug,
+    title: row.title || '',
+    shortDescription: row.shortDescription || '',
+    fullDescription: row.fullDescription || '',
     tags: row.tags || [],
     coverImage,
-    media: media || [],
+    media,
     date: normalizeDate(row.date),
     links: row.links || undefined,
     featured: Boolean(row.featured),
@@ -109,16 +117,18 @@ async function fetchFromFirestore(): Promise<Project[]> {
     const snapshot = await getDocs(
       query(collection(db, 'projects'), orderBy('date', 'desc'))
     );
+    console.log('Firestore projects snapshot size:', snapshot.size);
 
-    const rows: ProjectRow[] = snapshot.docs.map((doc) => {
-      const data = doc.data() as Omit<ProjectRow, 'slug'> & Partial<ProjectRow>;
-      return {
-        slug: (data.slug as string) || doc.id,
-        ...data,
-      };
-    });
+    const rows: Array<{ id: string; data: ProjectRow }> = snapshot.docs.map(
+      (doc) => ({
+        id: doc.id,
+        data: doc.data() as ProjectRow,
+      })
+    );
 
-    return Promise.all(rows.map((row) => mapRowToProject(row, storage)));
+    return Promise.all(
+      rows.map((row) => mapRowToProject(row.data, storage, row.id))
+    );
   } catch (error) {
     console.warn('Firestore projects fallback to local data', error);
     return [];

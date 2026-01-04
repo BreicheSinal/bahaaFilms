@@ -10,6 +10,13 @@
   padding: 0 var(--spacing-lg);
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-5xl) var(--spacing-xl);
+}
+
 .back {
   display: inline-flex;
   align-items: center;

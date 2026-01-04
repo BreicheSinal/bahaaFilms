@@ -3,21 +3,32 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Search, Filter } from "lucide-react";
-import { getProjects, getProjectTags, type Project } from "@/data/projects";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
+import Loader from "@/components/ui/Loader/Loader";
+import {
+  fetchProjects,
+  resetFilters,
+  setSearchQuery,
+  setSelectedTag,
+} from "@/store/projectsSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import styles from "./page.module.css";
 
 export default function ProjectsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTag, setSelectedTag] = useState<string>("All");
+  const dispatch = useAppDispatch();
+  const { items: allProjects, loading, searchQuery, selectedTag } = useAppSelector(
+    (state) => state.projects
+  );
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [tagSearch, setTagSearch] = useState("");
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
   const tagRef = useRef<HTMLDivElement | null>(null);
-  const allProjects = projects;
-  const allTags = tags;
+  const allTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    allProjects.forEach((project) => {
+      project.tags.forEach((tag) => tagSet.add(tag));
+    });
+    return Array.from(tagSet).sort();
+  }, [allProjects]);
 
   const filteredProjects = useMemo(() => {
     return allProjects.filter((project) => {
@@ -50,27 +61,8 @@ export default function ProjectsPage() {
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
-    Promise.all([getProjects(), getProjectTags()])
-      .then(([projectData, tagData]) => {
-        if (!isMounted) return;
-        setProjects(projectData);
-        setTags(tagData);
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
-      })
-      .catch((err) => {
-        console.warn(
-          "Failed to load projects from Firebase, using fallback",
-          err
-        );
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+    dispatch(fetchProjects());
+  }, [dispatch]);
 
   const filteredTags = useMemo(
     () =>
@@ -137,7 +129,7 @@ export default function ProjectsPage() {
                 type="text"
                 placeholder="Search by name or description"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => dispatch(setSearchQuery(e.target.value))}
                 className={styles.searchInput}
               />
             </div>
@@ -174,7 +166,7 @@ export default function ProjectsPage() {
                           selectedTag === "All" ? styles.activeOption : ""
                         }`}
                         onClick={() => {
-                          setSelectedTag("All");
+                          dispatch(setSelectedTag("All"));
                           setTagSearch("");
                           setIsTagOpen(false);
                         }}
@@ -188,7 +180,7 @@ export default function ProjectsPage() {
                             selectedTag === tag ? styles.activeOption : ""
                           }`}
                           onClick={() => {
-                            setSelectedTag(tag);
+                            dispatch(setSelectedTag(tag));
                             setTagSearch("");
                             setIsTagOpen(false);
                           }}
@@ -220,7 +212,7 @@ export default function ProjectsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            Loading projects...
+            <Loader />
           </motion.div>
         ) : filteredProjects.length > 0 ? (
           <motion.div
@@ -252,8 +244,7 @@ export default function ProjectsPage() {
             <p>No projects found matching your criteria.</p>
             <button
               onClick={() => {
-                setSearchQuery("");
-                setSelectedTag("All");
+                dispatch(resetFilters());
               }}
               className={styles.resetButton}
             >
