@@ -18,7 +18,6 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
   const isMobile =
     typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod|Android|Mobi/i.test(navigator.userAgent);
-  const showNativeControls = !isMobile;
 
   const getVideoType = (url?: string) => {
     if (!url) return undefined;
@@ -97,15 +96,6 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
     }
   };
 
-  const toggleVideoPlayback = (event: React.MouseEvent<HTMLVideoElement>) => {
-    event.stopPropagation();
-    const video = event.currentTarget;
-    if (video.paused) {
-      void video.play();
-    } else {
-      video.pause();
-    }
-  };
 
   return (
     <>
@@ -141,12 +131,9 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 >
                   <video
                     poster={item.thumbnail}
-                    controls={showNativeControls}
+                    controls={isMobile}
                     playsInline
                     preload="metadata"
-                    onClick={
-                      showNativeControls ? undefined : toggleVideoPlayback
-                    }
                   >
                     {renderVideoSources(item.url, item.sources)}
                   </video>
@@ -203,12 +190,11 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 autoPlay={!isIOS}
                 muted={!isIOS}
                 playsInline
-                controls={showNativeControls}
+                controls={isMobile}
                 preload="metadata"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
-                onClick={showNativeControls ? undefined : toggleVideoPlayback}
               >
                 {renderVideoSources(
                   media[lightboxIndex].url,
