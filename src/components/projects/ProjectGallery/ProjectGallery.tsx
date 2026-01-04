@@ -1,37 +1,55 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
-import { Project } from '@/data/projects';
-import styles from './ProjectGallery.module.css';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { Project } from "@/data/projects";
+import styles from "./ProjectGallery.module.css";
 
 interface ProjectGalleryProps {
-  media: Project['media'];
+  media: Project["media"];
 }
 
 export default function ProjectGallery({ media }: ProjectGalleryProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const isIOS =
-    typeof navigator !== 'undefined' &&
+    typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const getVideoType = (url?: string) => {
     if (!url) return undefined;
-    const cleanUrl = url.split('?')[0];
-    const extension = cleanUrl.split('.').pop()?.toLowerCase();
+    const cleanUrl = url.split("?")[0];
+    const extension = cleanUrl.split(".").pop()?.toLowerCase();
 
     switch (extension) {
-      case 'mp4':
-      case 'm4v':
-        return 'video/mp4';
-      case 'mov':
-        return 'video/quicktime';
-      case 'webm':
-        return 'video/webm';
+      case "mp4":
+      case "m4v":
+        return "video/mp4";
+      case "mov":
+        return "video/quicktime";
+      case "webm":
+        return "video/webm";
       default:
         return undefined;
     }
+  };
+
+  const renderVideoSources = (
+    url?: string,
+    sources?: Array<{ url: string; type?: string }>
+  ) => {
+    if (sources && sources.length) {
+      return sources.map((source) => (
+        <source
+          key={`${source.url}-${source.type ?? "auto"}`}
+          src={source.url}
+          type={source.type || getVideoType(source.url)}
+        />
+      ));
+    }
+
+    if (!url) return null;
+    return <source src={url} type={getVideoType(url)} />;
   };
 
   const openLightbox = (index: number) => {
@@ -54,6 +72,16 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
     }
   };
 
+  const toggleVideoPlayback = (event: React.MouseEvent<HTMLVideoElement>) => {
+    event.stopPropagation();
+    const video = event.currentTarget;
+    if (video.paused) {
+      void video.play();
+    } else {
+      video.pause();
+    }
+  };
+
   return (
     <>
       <div className={styles.gallery}>
@@ -61,29 +89,39 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
           {media.map((item, index) => (
             <motion.div
               key={index}
-              className={`${styles.item} ${index === 0 ? styles.large : ''}`}
+              className={`${styles.item} ${index === 0 ? styles.large : ""}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              {item.type === 'image' ? (
-                <div className={styles.imageWrapper} onClick={() => openLightbox(index)}>
-                  <img src={item.url} alt={`Gallery item ${index + 1}`} className={styles.image} />
+              {item.type === "image" ? (
+                <div
+                  className={styles.imageWrapper}
+                  onClick={() => openLightbox(index)}
+                >
+                  <img
+                    src={item.url}
+                    alt={`Gallery item ${index + 1}`}
+                    className={styles.image}
+                  />
                   <div className={styles.overlay}>
                     <Maximize2 />
                   </div>
                 </div>
               ) : (
-                <div className={styles.videoWrapper} onClick={() => openLightbox(index)}>
+                <div
+                  className={styles.videoWrapper}
+                  onClick={() => openLightbox(index)}
+                >
                   <video
                     poster={item.thumbnail}
                     controls
                     playsInline
                     preload="metadata"
-                    onClick={(event) => event.stopPropagation()}
+                    onClick={toggleVideoPlayback}
                   >
-                    <source src={item.url} type={getVideoType(item.url)} />
+                    {renderVideoSources(item.url, item.sources)}
                   </video>
                   <div className={styles.overlay}>
                     <Maximize2 />
@@ -131,7 +169,8 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
               </>
             )}
 
-            {media[lightboxIndex].type === 'video' ? (
+            {media[lightboxIndex].type === "video" ||
+            media[lightboxIndex].type === "video/mp4" ? (
               <motion.video
                 key={lightboxIndex}
                 poster={media[lightboxIndex].thumbnail}
@@ -143,12 +182,12 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
+                onClick={toggleVideoPlayback}
               >
-                <source
-                  src={media[lightboxIndex].url}
-                  type={getVideoType(media[lightboxIndex].url)}
-                />
+                {renderVideoSources(
+                  media[lightboxIndex].url,
+                  media[lightboxIndex].sources
+                )}
               </motion.video>
             ) : (
               <motion.img
