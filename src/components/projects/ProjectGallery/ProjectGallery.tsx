@@ -169,8 +169,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
               </>
             )}
 
-            {media[lightboxIndex].type === "video" ||
-            media[lightboxIndex].type === "video/mp4" ? (
+            {media[lightboxIndex].type === "video" ? (
               <motion.video
                 key={lightboxIndex}
                 poster={media[lightboxIndex].thumbnail}
