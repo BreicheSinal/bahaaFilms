@@ -40,7 +40,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
     const cleanUrl = url.split("?")[0];
     const extension = cleanUrl.split(".").pop()?.toLowerCase();
 
-    if (isIOS && (extension === "mp4" || extension === "m4v" || extension === "mov")) {
+    if (isIOS) {
       return "video/mp4";
     }
 
