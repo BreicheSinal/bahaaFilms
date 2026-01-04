@@ -15,6 +15,10 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
   const isIOS =
     typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isMobile =
+    typeof navigator !== "undefined" &&
+    /iPad|iPhone|iPod|Android|Mobi/i.test(navigator.userAgent);
+  const showNativeControls = !isMobile;
 
   const getVideoType = (url?: string) => {
     if (!url) return undefined;
@@ -73,6 +77,14 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
     setLightboxIndex(null);
   };
 
+  const handleLightboxClick = (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (event.target === event.currentTarget) {
+      closeLightbox();
+    }
+  };
+
   const nextImage = () => {
     if (lightboxIndex !== null) {
       setLightboxIndex((lightboxIndex + 1) % media.length);
@@ -129,10 +141,12 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 >
                   <video
                     poster={item.thumbnail}
-                    controls
+                    controls={showNativeControls}
                     playsInline
                     preload="metadata"
-                    onClick={toggleVideoPlayback}
+                    onClick={
+                      showNativeControls ? undefined : toggleVideoPlayback
+                    }
                   >
                     {renderVideoSources(item.url, item.sources)}
                   </video>
@@ -153,7 +167,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={closeLightbox}
+            onClick={handleLightboxClick}
           >
             <button className={styles.close} onClick={closeLightbox}>
               <X />
@@ -189,12 +203,12 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 autoPlay={!isIOS}
                 muted={!isIOS}
                 playsInline
-                controls
+                controls={showNativeControls}
                 preload="metadata"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
-                onClick={toggleVideoPlayback}
+                onClick={showNativeControls ? undefined : toggleVideoPlayback}
               >
                 {renderVideoSources(
                   media[lightboxIndex].url,
