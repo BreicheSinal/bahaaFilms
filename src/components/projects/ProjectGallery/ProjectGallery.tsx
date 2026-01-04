@@ -34,6 +34,19 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
     }
   };
 
+  const getSourceType = (url?: string, providedType?: string) => {
+    if (providedType) return providedType;
+    if (!url) return undefined;
+    const cleanUrl = url.split("?")[0];
+    const extension = cleanUrl.split(".").pop()?.toLowerCase();
+
+    if (isIOS && (extension === "mp4" || extension === "m4v" || extension === "mov")) {
+      return "video/mp4";
+    }
+
+    return getVideoType(url);
+  };
+
   const renderVideoSources = (
     url?: string,
     sources?: Array<{ url: string; type?: string }>
@@ -43,13 +56,13 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
         <source
           key={`${source.url}-${source.type ?? "auto"}`}
           src={source.url}
-          type={source.type || getVideoType(source.url)}
+          type={getSourceType(source.url, source.type)}
         />
       ));
     }
 
     if (!url) return null;
-    return <source src={url} type={getVideoType(url)} />;
+    return <source src={url} type={getSourceType(url)} />;
   };
 
   const openLightbox = (index: number) => {
