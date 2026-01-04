@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: "Portfolio - Digital Experiences",
   description:
     "A modern portfolio showcasing creative digital projects and design work.",
+  icons: {
+    icon: "/bh-logo.png",
+  },
 };
 
 export default function RootLayout({
