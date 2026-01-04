@@ -43,7 +43,7 @@ type ProjectRow = {
   coverImage?: string | null;
   media?:
     | Array<{
-        type: "image" | "video";
+        type: "image" | "video" | "video/mp4";
         url?: string;
         thumbnail?: string;
         sources?: Array<{
@@ -52,7 +52,7 @@ type ProjectRow = {
         }>;
       }>
     | {
-        type: "image" | "video";
+        type: "image" | "video" | "video/mp4";
         url?: string;
         thumbnail?: string;
         sources?: Array<{
@@ -103,7 +103,7 @@ async function mapRowToProject(
 
   const media = await Promise.all(
     mediaItems.map(async (item) => ({
-      type: item.type,
+      type: item.type === "video/mp4" ? "video" : item.type,
       url: (await buildStorageUrl(storage, item.url)) || item.url || "",
       thumbnail:
         (await buildStorageUrl(storage, item.thumbnail)) || item.thumbnail,
