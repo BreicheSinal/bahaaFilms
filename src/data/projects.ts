@@ -73,7 +73,7 @@ async function mapRowToProject(
   storage: FirebaseStorage | null,
   fallbackSlug: string
 ): Promise<Project> {
-  const coverImage =
+  const resolvedCoverImage =
     (await buildStorageUrl(storage, row.coverImage)) ||
     row.coverImage ||
     'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=600&fit=crop';
@@ -92,6 +92,23 @@ async function mapRowToProject(
         (await buildStorageUrl(storage, item.thumbnail)) || item.thumbnail,
     }))
   );
+
+  const getFileExtension = (url?: string) => {
+    if (!url) return '';
+    const cleanUrl = url.split('?')[0];
+    return cleanUrl.split('.').pop()?.toLowerCase() ?? '';
+  };
+
+  const isVideoUrl = (url?: string) => {
+    const extension = getFileExtension(url);
+    return ['mp4', 'm4v', 'mov', 'webm'].includes(extension);
+  };
+
+  const coverImage = isVideoUrl(resolvedCoverImage)
+    ? media.find((item) => item.type === 'image' && item.url)?.url ||
+      media.find((item) => item.type === 'video' && item.thumbnail)?.thumbnail ||
+      resolvedCoverImage
+    : resolvedCoverImage;
 
   return {
     slug: row.slug || fallbackSlug,
