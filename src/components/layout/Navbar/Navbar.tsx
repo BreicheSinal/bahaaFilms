@@ -114,7 +114,7 @@ export default function Navbar() {
     <header className={styles.navbar}>
       <div className={styles.container}>
         <a href="/" className={styles.logo}>
-          Bahaa Breich
+          Bahaa Films
         </a>
 
         <nav className={styles.nav}>
