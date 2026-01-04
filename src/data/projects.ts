@@ -117,7 +117,6 @@ async function fetchFromFirestore(): Promise<Project[]> {
     const snapshot = await getDocs(
       query(collection(db, 'projects'), orderBy('date', 'desc'))
     );
-    console.log('Firestore projects snapshot size:', snapshot.size);
 
     const rows: Array<{ id: string; data: ProjectRow }> = snapshot.docs.map(
       (doc) => ({
