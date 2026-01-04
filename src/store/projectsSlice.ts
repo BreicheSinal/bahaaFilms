@@ -45,7 +45,6 @@ const projectsSlice = createSlice({
       .addCase(fetchProjects.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        console.log("Redux projects loaded:", action.payload.length);
       })
       .addCase(fetchProjects.rejected, (state, action) => {
         state.loading = false;

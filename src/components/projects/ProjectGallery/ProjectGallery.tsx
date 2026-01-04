@@ -55,7 +55,14 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 </div>
               ) : (
                 <div className={styles.videoWrapper} onClick={() => openLightbox(index)}>
-                  <video src={item.url} poster={item.thumbnail} />
+                  <video
+                    src={item.url}
+                    poster={item.thumbnail}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    onClick={(event) => event.stopPropagation()}
+                  />
                   <div className={styles.overlay}>
                     <Maximize2 />
                   </div>
@@ -111,6 +118,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 muted
                 playsInline
                 controls
+                preload="metadata"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
