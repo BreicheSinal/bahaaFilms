@@ -54,8 +54,11 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                   </div>
                 </div>
               ) : (
-                <div className={styles.videoWrapper}>
-                  <video src={item.url} controls poster={item.thumbnail} />
+                <div className={styles.videoWrapper} onClick={() => openLightbox(index)}>
+                  <video src={item.url} poster={item.thumbnail} />
+                  <div className={styles.overlay}>
+                    <Maximize2 />
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -99,15 +102,31 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
               </>
             )}
 
-            <motion.img
-              key={lightboxIndex}
-              src={media[lightboxIndex].url}
-              alt={`Gallery item ${lightboxIndex + 1}`}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            />
+            {media[lightboxIndex].type === 'video' ? (
+              <motion.video
+                key={lightboxIndex}
+                src={media[lightboxIndex].url}
+                poster={media[lightboxIndex].thumbnail}
+                autoPlay
+                muted
+                playsInline
+                controls
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <motion.img
+                key={lightboxIndex}
+                src={media[lightboxIndex].url}
+                alt={`Gallery item ${lightboxIndex + 1}`}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            )}
           </motion.div>
         )}
       </AnimatePresence>

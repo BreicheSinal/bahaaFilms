@@ -47,6 +47,13 @@
   margin-bottom: var(--spacing-3xl);
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-4xl) var(--spacing-xl);
+}
+
 @media (min-width: 640px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);

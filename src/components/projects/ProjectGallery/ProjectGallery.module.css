@@ -45,14 +45,14 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  max-height: min(520px, 70vh);
   overflow: hidden;
 }
 
 .image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform var(--transition-base);
 }
 
@@ -83,7 +83,7 @@
 .videoWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  max-height: min(520px, 70vh);
   border-radius: var(--radius-xl);
   overflow: hidden;
   background: var(--bg-tertiary);
@@ -93,7 +93,8 @@
 .videoWrapper iframe {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  pointer-events: none;
 }
 
 .lightbox {

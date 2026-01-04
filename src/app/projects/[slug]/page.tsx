@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { ArrowLeft, Calendar, ExternalLink, Github } from 'lucide-react';
-import { getProjectBySlug, getProjects, type Project } from '@/data/projects';
 import ProjectGallery from '@/components/projects/ProjectGallery/ProjectGallery';
 import ProjectCard from '@/components/projects/ProjectCard/ProjectCard';
+import Loader from '@/components/ui/Loader/Loader';
+import { fetchProjects } from '@/store/projectsSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { navigateTo } from '@/utils/router';
 import styles from './page.module.css';
 
@@ -16,48 +18,34 @@ interface ProjectPageProps {
 }
 
 export default function ProjectPage({ params }: ProjectPageProps) {
-  const [project, setProject] = useState<Project | null>(null);
-  const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+  const { items: allProjects, loading } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
-    let isMounted = true;
-    getProjectBySlug(params.slug).then((res) => {
-      if (isMounted) {
-        setProject(res ?? null);
-        setLoading(false);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, [params.slug]);
+    if (!allProjects.length && !loading) {
+      dispatch(fetchProjects());
+    }
+  }, [allProjects.length, dispatch, loading]);
 
-  useEffect(() => {
-    if (!project) return;
-    let isMounted = true;
-    getProjects().then((all) => {
-      if (!isMounted) return;
-      const related = all
+  const project =
+    allProjects.find((item) => item.slug === params.slug) ?? null;
+
+  const relatedProjects = project
+    ? allProjects
         .filter(
-          (p) =>
-            p.slug !== project.slug &&
-            p.tags.some((tag) => project.tags.includes(tag))
+          (item) =>
+            item.slug !== project.slug &&
+            item.tags.some((tag) => project.tags.includes(tag))
         )
-        .slice(0, 3);
-      setRelatedProjects(related);
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, [project]);
+        .slice(0, 3)
+    : [];
 
   if (loading) {
     return (
       <div className={styles.project}>
         <div className={styles.container}>
-          <div className={styles.header}>
-            <h1 className={styles.title}>Loading project...</h1>
+          <div className={styles.loading}>
+            <Loader />
           </div>
         </div>
       </div>
@@ -182,6 +170,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           <h1 className={styles.title}>{project.title}</h1>
           <p className={styles.description}>{project.shortDescription}</p>
 
+          <ProjectGallery media={project.media} />
+
           {project.links && (
             <div className={styles.links}>
               {project.links.live && (
@@ -222,15 +212,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         </motion.div>
 
         <motion.div
-          className={styles.coverImage}
-          variants={imageVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <img src={project.coverImage} alt={project.title} />
-        </motion.div>
-
-        <motion.div
           className={styles.content}
           variants={contentVariants}
           initial="hidden"
@@ -241,8 +222,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             <p>{project.fullDescription}</p>
           </div>
         </motion.div>
-
-        <ProjectGallery media={project.media} />
 
         {relatedProjects.length > 0 && (
           <div className={styles.relatedProjects}>
