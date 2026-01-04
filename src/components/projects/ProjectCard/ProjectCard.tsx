@@ -13,39 +13,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
-  const getFileExtension = (url?: string) => {
-    if (!url) return "";
-    const cleanUrl = url.split("?")[0];
-    return cleanUrl.split(".").pop()?.toLowerCase() ?? "";
-  };
-
-  const isVideoUrl = (url?: string) => {
-    const extension = getFileExtension(url);
-    return ["mp4", "m4v", "mov", "webm"].includes(extension);
-  };
-
-  const resolveCoverImage = () => {
-    if (!isVideoUrl(project.coverImage)) return project.coverImage;
-    const firstImage = project.media.find(
-      (item) => item.type === "image" && item.url
-    );
-    if (firstImage) return firstImage.url;
-    const firstVideoWithThumb = project.media.find(
-      (item) =>
-        (item.type === "video" || item.type === "video/mp4") && item.thumbnail
-    );
-    return firstVideoWithThumb?.thumbnail || project.coverImage;
-  };
-
-  const coverVideo = isVideoUrl(project.coverImage) ? project.coverImage : "";
-  const coverImage = resolveCoverImage();
-  const coverVideoItem = project.media.find(
-    (item) =>
-      (item.type === "video" || item.type === "video/mp4") &&
-      (item.url === project.coverImage ||
-        item.sources?.some((source) => source.url === project.coverImage))
-  );
-  const coverVideoSources = coverVideoItem?.sources;
+  const coverImage = project.coverImage;
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -79,35 +47,11 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       onClick={() => navigateTo(`/projects/${project.slug}`)}
     >
       <div className={styles.imageWrapper}>
-        {coverVideo ? (
-          <video
-            className={styles.image}
-            poster={coverImage}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-          >
-            {coverVideoSources?.length ? (
-              coverVideoSources.map((source) => (
-                <source
-                  key={`${source.url}-${source.type ?? "auto"}`}
-                  src={source.url}
-                  type={source.type}
-                />
-              ))
-            ) : (
-              <source src={coverVideo} />
-            )}
-          </video>
-        ) : (
-          <ImageWithFallback
-            src={coverImage}
-            alt={project.title}
-            className={styles.image}
-          />
-        )}
+        <ImageWithFallback
+          src={coverImage}
+          alt={project.title}
+          className={styles.image}
+        />
         <div className={styles.overlay}>
           <div className={styles.viewProject}>
             <span>View Project</span>
