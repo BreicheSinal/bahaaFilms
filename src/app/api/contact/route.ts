@@ -2,6 +2,14 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
+    const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      return NextResponse.json(
+        { error: 'Missing Web3Forms access key' },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json();
     const { name, email, subject, message } = body;
 
@@ -22,22 +30,27 @@ export async function POST(request: Request) {
       );
     }
 
-    // Mock successful response
-    // In a real application, you would:
-    // 1. Send an email using a service like SendGrid, Resend, or Nodemailer
-    // 2. Store the message in a database
-    // 3. Send a notification to yourself
-
-    console.log('Contact form submission:', {
-      name,
-      email,
-      subject,
-      message,
-      timestamp: new Date().toISOString(),
+    const web3formsResponse = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        access_key: accessKey,
+        name,
+        email,
+        subject,
+        message,
+      }),
     });
 
-    // Simulate processing delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    const web3formsResult = await web3formsResponse.json();
+    if (!web3formsResponse.ok || web3formsResult?.success === false) {
+      return NextResponse.json(
+        { error: web3formsResult?.message || 'Failed to send message' },
+        { status: 502 }
+      );
+    }
 
     return NextResponse.json(
       {
