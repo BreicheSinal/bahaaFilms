@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { motion, type Variants } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { Project } from '@/data/projects';
-import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
-import { navigateTo } from '@/utils/router';
-import styles from './ProjectCard.module.css';
+import { motion, type Variants } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { Project } from "@/data/projects";
+import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
+import { navigateTo } from "@/utils/router";
+import styles from "./ProjectCard.module.css";
 
 interface ProjectCardProps {
   project: Project;
@@ -13,29 +13,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
-  const getFileExtension = (url?: string) => {
-    if (!url) return '';
-    const cleanUrl = url.split('?')[0];
-    return cleanUrl.split('.').pop()?.toLowerCase() ?? '';
-  };
-
-  const isVideoUrl = (url?: string) => {
-    const extension = getFileExtension(url);
-    return ['mp4', 'm4v', 'mov', 'webm'].includes(extension);
-  };
-
-  const resolveCoverImage = () => {
-    if (!isVideoUrl(project.coverImage)) return project.coverImage;
-    const firstImage = project.media.find((item) => item.type === 'image' && item.url);
-    if (firstImage) return firstImage.url;
-    const firstVideoWithThumb = project.media.find(
-      (item) => item.type === 'video' && item.thumbnail
-    );
-    return firstVideoWithThumb?.thumbnail || project.coverImage;
-  };
-
-  const coverVideo = isVideoUrl(project.coverImage) ? project.coverImage : '';
-  const coverImage = resolveCoverImage();
+  const coverImage = project.coverImage;
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -43,7 +21,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 15,
         delay: index * 0.1,
@@ -53,7 +31,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+    });
   };
 
   return (
@@ -61,29 +42,16 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '-100px' }}
+      viewport={{ once: true, margin: "-100px" }}
       className={styles.card}
       onClick={() => navigateTo(`/projects/${project.slug}`)}
     >
       <div className={styles.imageWrapper}>
-        {coverVideo ? (
-          <video
-            className={styles.image}
-            src={coverVideo}
-            poster={coverImage}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-          />
-        ) : (
-          <ImageWithFallback
-            src={coverImage}
-            alt={project.title}
-            className={styles.image}
-          />
-        )}
+        <ImageWithFallback
+          src={coverImage}
+          alt={project.title}
+          className={styles.image}
+        />
         <div className={styles.overlay}>
           <div className={styles.viewProject}>
             <span>View Project</span>
