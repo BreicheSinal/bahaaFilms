@@ -3,6 +3,7 @@
 import { motion, type Variants } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Project } from '@/data/projects';
+import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 import { navigateTo } from '@/utils/router';
 import styles from './ProjectCard.module.css';
 
@@ -12,6 +13,30 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
+  const getFileExtension = (url?: string) => {
+    if (!url) return '';
+    const cleanUrl = url.split('?')[0];
+    return cleanUrl.split('.').pop()?.toLowerCase() ?? '';
+  };
+
+  const isVideoUrl = (url?: string) => {
+    const extension = getFileExtension(url);
+    return ['mp4', 'm4v', 'mov', 'webm'].includes(extension);
+  };
+
+  const resolveCoverImage = () => {
+    if (!isVideoUrl(project.coverImage)) return project.coverImage;
+    const firstImage = project.media.find((item) => item.type === 'image' && item.url);
+    if (firstImage) return firstImage.url;
+    const firstVideoWithThumb = project.media.find(
+      (item) => item.type === 'video' && item.thumbnail
+    );
+    return firstVideoWithThumb?.thumbnail || project.coverImage;
+  };
+
+  const coverVideo = isVideoUrl(project.coverImage) ? project.coverImage : '';
+  const coverImage = resolveCoverImage();
+
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -41,11 +66,24 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       onClick={() => navigateTo(`/projects/${project.slug}`)}
     >
       <div className={styles.imageWrapper}>
-        <img
-          src={project.coverImage}
-          alt={project.title}
-          className={styles.image}
-        />
+        {coverVideo ? (
+          <video
+            className={styles.image}
+            src={coverVideo}
+            poster={coverImage}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
+        ) : (
+          <ImageWithFallback
+            src={coverImage}
+            alt={project.title}
+            className={styles.image}
+          />
+        )}
         <div className={styles.overlay}>
           <div className={styles.viewProject}>
             <span>View Project</span>

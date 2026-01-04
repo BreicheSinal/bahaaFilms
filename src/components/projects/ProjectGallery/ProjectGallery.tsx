@@ -12,6 +12,27 @@ interface ProjectGalleryProps {
 
 export default function ProjectGallery({ media }: ProjectGalleryProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const isIOS =
+    typeof navigator !== 'undefined' &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  const getVideoType = (url?: string) => {
+    if (!url) return undefined;
+    const cleanUrl = url.split('?')[0];
+    const extension = cleanUrl.split('.').pop()?.toLowerCase();
+
+    switch (extension) {
+      case 'mp4':
+      case 'm4v':
+        return 'video/mp4';
+      case 'mov':
+        return 'video/quicktime';
+      case 'webm':
+        return 'video/webm';
+      default:
+        return undefined;
+    }
+  };
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
@@ -56,13 +77,14 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
               ) : (
                 <div className={styles.videoWrapper} onClick={() => openLightbox(index)}>
                   <video
-                    src={item.url}
                     poster={item.thumbnail}
                     controls
                     playsInline
                     preload="metadata"
                     onClick={(event) => event.stopPropagation()}
-                  />
+                  >
+                    <source src={item.url} type={getVideoType(item.url)} />
+                  </video>
                   <div className={styles.overlay}>
                     <Maximize2 />
                   </div>
@@ -112,10 +134,9 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
             {media[lightboxIndex].type === 'video' ? (
               <motion.video
                 key={lightboxIndex}
-                src={media[lightboxIndex].url}
                 poster={media[lightboxIndex].thumbnail}
-                autoPlay
-                muted
+                autoPlay={!isIOS}
+                muted={!isIOS}
                 playsInline
                 controls
                 preload="metadata"
@@ -123,7 +144,12 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-              />
+              >
+                <source
+                  src={media[lightboxIndex].url}
+                  type={getVideoType(media[lightboxIndex].url)}
+                />
+              </motion.video>
             ) : (
               <motion.img
                 key={lightboxIndex}
