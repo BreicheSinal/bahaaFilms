@@ -64,6 +64,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
       ));
     }
 
+    
     if (!url) return null;
     return <source src={url} type={getSourceType(url)} />;
   };
