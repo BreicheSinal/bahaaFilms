@@ -8,7 +8,7 @@ import "@/styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Portfolio - Digital Experiences",
+  title: "Bahaa Films",
   description:
     "A modern portfolio showcasing creative digital projects and design work.",
   icons: {
