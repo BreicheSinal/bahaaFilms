@@ -130,7 +130,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                   <video
                     poster={item.thumbnail}
                     controls={showVideoControls}
-                    playsInline
+                    playsInline={!isIOS}
                     preload="metadata"
                   >
                     {renderVideoSources(item.url, item.sources)}
@@ -189,7 +189,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 poster={media[lightboxIndex].thumbnail}
                 autoPlay={!isIOS}
                 muted={!isIOS}
-                playsInline
+                playsInline={!isIOS}
                 controls={showVideoControls}
                 preload="metadata"
                 initial={{ scale: 0.8, opacity: 0 }}
