@@ -61,12 +61,21 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.tags}>
-          {project.tags.slice(0, 3).map((tag) => (
-            <span key={tag} className={styles.tag}>
-              {tag}
-            </span>
-          ))}
+        <div className={styles.tagsRow}>
+          {project.logo && (
+            <ImageWithFallback
+              src={project.logo}
+              alt={`${project.title} logo`}
+              className={styles.logo}
+            />
+          )}
+          <div className={styles.tags}>
+            {project.tags.slice(0, 3).map((tag) => (
+              <span key={tag} className={styles.tag}>
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
 
         <h3 className={styles.title}>{project.title}</h3>
