@@ -18,7 +18,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
   const isMobile =
     typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod|Android|Mobi/i.test(navigator.userAgent);
-  const showVideoControls = !isIOS;
+  const showVideoControls = isIOS;
 
   const getVideoType = (url?: string) => {
     if (!url) return undefined;
@@ -125,7 +125,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
               ) : (
                 <div
                   className={styles.videoWrapper}
-                  onClick={() => openLightbox(index)}
+                  onClick={isMobile ? undefined : () => openLightbox(index)}
                 >
                   <video
                     poster={item.thumbnail}
@@ -135,9 +135,11 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                   >
                     {renderVideoSources(item.url, item.sources)}
                   </video>
-                  <div className={styles.overlay}>
-                    <Maximize2 />
-                  </div>
+                  {!isMobile && (
+                    <div className={styles.overlay}>
+                      <Maximize2 />
+                    </div>
+                  )}
                 </div>
               )}
             </motion.div>
