@@ -18,6 +18,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
   const isMobile =
     typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod|Android|Mobi/i.test(navigator.userAgent);
+  const showVideoControls = !isIOS;
 
   const getVideoType = (url?: string) => {
     if (!url) return undefined;
@@ -41,13 +42,12 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
     if (providedType) return providedType;
     if (!url) return undefined;
     const cleanUrl = url.split("?")[0];
-    const extension = cleanUrl.split(".").pop()?.toLowerCase();
 
     if (isIOS) {
       return "video/mp4";
     }
 
-    return getVideoType(url);
+    return getVideoType(cleanUrl);
   };
 
   const renderVideoSources = (
@@ -76,9 +76,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
     setLightboxIndex(null);
   };
 
-  const handleLightboxClick = (
-    event: React.MouseEvent<HTMLDivElement>
-  ) => {
+  const handleLightboxClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       closeLightbox();
     }
@@ -95,7 +93,6 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
       setLightboxIndex((lightboxIndex - 1 + media.length) % media.length);
     }
   };
-
 
   return (
     <>
@@ -131,7 +128,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 >
                   <video
                     poster={item.thumbnail}
-                    controls={isMobile}
+                    controls={showVideoControls}
                     playsInline
                     preload="metadata"
                   >
@@ -190,7 +187,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
                 autoPlay={!isIOS}
                 muted={!isIOS}
                 playsInline
-                controls={isMobile}
+                controls={showVideoControls}
                 preload="metadata"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
