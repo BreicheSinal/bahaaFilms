@@ -18,7 +18,7 @@ export default function ProjectGallery({ media }: ProjectGalleryProps) {
   const isMobile =
     typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod|Android|Mobi/i.test(navigator.userAgent);
-  const showVideoControls = isIOS;
+  const showVideoControls = !isIOS;
 
   const getVideoType = (url?: string) => {
     if (!url) return undefined;
