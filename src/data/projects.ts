@@ -14,6 +14,7 @@ export interface Project {
   shortDescription: string;
   fullDescription: string;
   tags: string[];
+  logo?: string;
   coverImage: string;
   media: Array<{
     type: "image" | "video";
@@ -40,6 +41,7 @@ type ProjectRow = {
   shortDescription?: string;
   fullDescription?: string;
   tags?: string[] | null;
+  logo?: string | null;
   coverImage?: string | null;
   media?:
     | Array<{
@@ -94,6 +96,7 @@ async function mapRowToProject(
     (await buildStorageUrl(storage, row.coverImage)) ||
     row.coverImage ||
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=600&fit=crop";
+  const logo = (await buildStorageUrl(storage, row.logo)) || row.logo || undefined;
 
   const mediaItems = Array.isArray(row.media)
     ? row.media
@@ -145,6 +148,7 @@ async function mapRowToProject(
     shortDescription: row.shortDescription || "",
     fullDescription: row.fullDescription || "",
     tags: row.tags || [],
+    logo,
     coverImage,
     media,
     date: normalizeDate(row.date),
