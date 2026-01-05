@@ -62,13 +62,6 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
       <div className={styles.content}>
         <div className={styles.tagsRow}>
-          {project.logo && (
-            <ImageWithFallback
-              src={project.logo}
-              alt={`${project.title} logo`}
-              className={styles.logo}
-            />
-          )}
           <div className={styles.tags}>
             {project.tags.slice(0, 3).map((tag) => (
               <span key={tag} className={styles.tag}>
@@ -76,6 +69,15 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
               </span>
             ))}
           </div>
+          {project.logo ? (
+            <ImageWithFallback
+              src={project.logo}
+              alt={`${project.title} logo`}
+              className={styles.logo}
+            />
+          ) : (
+            <span className={styles.logoPlaceholder} aria-hidden="true" />
+          )}
         </div>
 
         <h3 className={styles.title}>{project.title}</h3>

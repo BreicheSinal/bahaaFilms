@@ -73,7 +73,7 @@
 }
 
 .content {
-  padding: var(--spacing-lg);
+  padding: 16px var(--spacing-lg) var(--spacing-lg);
 }
 
 @media (min-width: 768px) {
@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
+  min-height: 65px;
 }
 
 .tags {
@@ -105,18 +105,25 @@
 }
 
 .logo {
-  width: 28px;
-  height: 28px;
+  width: 65px;
+  height: 65px;
   object-fit: contain;
   border-radius: var(--radius-sm);
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  padding: 2px;
+  background: transparent;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.logoPlaceholder {
+  width: 65px;
+  height: 65px;
+  margin-left: auto;
   flex-shrink: 0;
 }
 
 .title {
   font-size: 1.25rem;
+  margin-top: 0;
   margin-bottom: var(--spacing-sm);
   color: var(--text-primary);
 }
