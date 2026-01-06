@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
 import { fetchProjects } from "@/store/projectsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Loader from "@/components/ui/Loader/Loader";
-import { navigateTo } from "@/utils/router";
 import styles from "./Portfolio.module.css";
 
 export default function Portfolio() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { items: allProjects, loading } = useAppSelector((state) => state.projects);
 
@@ -78,7 +79,7 @@ export default function Portfolio() {
         >
           <button
             className={`${styles.button} button-glow`}
-            onClick={() => navigateTo("/projects")}
+            onClick={() => router.push("/projects")}
           >
             <span>View All Projects</span>
             <ArrowRight />
