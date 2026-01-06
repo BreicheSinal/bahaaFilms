@@ -21,6 +21,7 @@ jobs:
           BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           REPO="${{ github.repository }}"
           # URL-encode branch names so spaces or special characters don't break the API call.
+          export BRANCH_NAME
           ENCODED_BRANCH="$(python - <<'PY'
           import urllib.parse, os
           print(urllib.parse.quote(os.environ["BRANCH_NAME"], safe=""))
