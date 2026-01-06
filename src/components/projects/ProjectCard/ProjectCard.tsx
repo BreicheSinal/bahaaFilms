@@ -2,9 +2,9 @@
 
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Project } from "@/data/projects";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
-import { navigateTo } from "@/utils/router";
 import styles from "./ProjectCard.module.css";
 
 interface ProjectCardProps {
@@ -13,6 +13,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
+  const router = useRouter();
   const coverImage = project.coverImage;
 
   const cardVariants = {
@@ -44,7 +45,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       className={styles.card}
-      onClick={() => navigateTo(`/projects/${project.slug}`)}
+      onClick={() => router.push(`/projects/${project.slug}`)}
     >
       <div className={styles.imageWrapper}>
         <ImageWithFallback

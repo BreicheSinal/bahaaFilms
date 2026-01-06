@@ -96,7 +96,8 @@ async function mapRowToProject(
     (await buildStorageUrl(storage, row.coverImage)) ||
     row.coverImage ||
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=600&fit=crop";
-  const logo = (await buildStorageUrl(storage, row.logo)) || row.logo || undefined;
+  const logo =
+    (await buildStorageUrl(storage, row.logo)) || row.logo || undefined;
 
   const mediaItems = Array.isArray(row.media)
     ? row.media
