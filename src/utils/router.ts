@@ -11,12 +11,6 @@ export function getCurrentPath() {
   return typeof window !== 'undefined' ? window.location.pathname : '/';
 }
 
-export function navigateTo(path: string) {
-  if (typeof window === 'undefined') return;
-  if (window.location.pathname === path) return;
-  window.location.assign(path);
-}
-
 export function listenToRouteChange(listener: Listener) {
   listeners.add(listener);
 

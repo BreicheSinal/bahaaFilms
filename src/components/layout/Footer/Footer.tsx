@@ -15,7 +15,7 @@ export default function Footer() {
 
         <div className={styles.social}>
           <a
-            href="https://instagram.com"
+            href="https://instagram.com/bahaafilms"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
@@ -24,7 +24,7 @@ export default function Footer() {
             <Instagram />
           </a>
           <a
-            href="https://wa.me/"
+            href="https://wa.me/qr/R3A6NAXYXD5SG1"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
