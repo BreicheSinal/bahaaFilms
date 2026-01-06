@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, type Variants } from 'framer-motion';
 import { ArrowLeft, Calendar, ExternalLink, Github } from 'lucide-react';
 import ProjectGallery from '@/components/projects/ProjectGallery/ProjectGallery';
@@ -8,7 +9,6 @@ import ProjectCard from '@/components/projects/ProjectCard/ProjectCard';
 import Loader from '@/components/ui/Loader/Loader';
 import { fetchProjects } from '@/store/projectsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { navigateTo } from '@/utils/router';
 import styles from './page.module.css';
 
 interface ProjectPageProps {
@@ -18,6 +18,7 @@ interface ProjectPageProps {
 }
 
 export default function ProjectPage({ params }: ProjectPageProps) {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { items: allProjects, loading } = useAppSelector((state) => state.projects);
 
@@ -66,7 +67,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               className={styles.link}
               onClick={(e) => {
                 e.preventDefault();
-                navigateTo('/projects');
+                router.push('/projects');
               }}
             >
               <ArrowLeft />
@@ -136,7 +137,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           href="/projects"
           onClick={(e) => {
             e.preventDefault();
-            navigateTo('/projects');
+            router.push('/projects');
           }}
           className={styles.back}
           initial={{ opacity: 0, x: -20 }}

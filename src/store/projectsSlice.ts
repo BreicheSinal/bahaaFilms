@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import { getProjects, type Project } from "@/data/projects";
 
 type ProjectsState = {
@@ -53,6 +57,7 @@ const projectsSlice = createSlice({
   },
 });
 
-export const { setSearchQuery, setSelectedTag, resetFilters } = projectsSlice.actions;
+export const { setSearchQuery, setSelectedTag, resetFilters } =
+  projectsSlice.actions;
 
 export default projectsSlice.reducer;

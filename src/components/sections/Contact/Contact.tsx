@@ -29,6 +29,8 @@ export default function Contact() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -64,24 +66,49 @@ export default function Contact() {
       return;
     }
 
+    if (!accessKey) {
+      setSubmitError('Missing Web3Forms access key');
+      return;
+    }
+
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          access_key: accessKey,
+          ...formData,
+        }),
       });
 
-      if (response.ok) {
-        setIsSuccess(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setErrors({});
+      const responseText = await response.text();
+      let result: Record<string, unknown> = {};
+      try {
+        result = responseText ? JSON.parse(responseText) : {};
+      } catch {
+        result = responseText ? { message: responseText } : {};
       }
+
+      if (!response.ok || result?.success === false) {
+        setSubmitError(
+          (result as { error?: string; message?: string })?.error ||
+            (result as { message?: string })?.message ||
+            'Failed to send message'
+        );
+        return;
+      }
+
+      setIsSuccess(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setErrors({});
     } catch (error) {
       console.error('Error submitting form:', error);
+      setSubmitError('Failed to send message');
     } finally {
       setIsSubmitting(false);
     }
@@ -100,6 +127,7 @@ export default function Contact() {
 
   const resetForm = () => {
     setIsSuccess(false);
+    setSubmitError(null);
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
@@ -166,6 +194,9 @@ export default function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className={styles.form}>
+              {submitError && (
+                <div className={styles.errorMessage}>{submitError}</div>
+              )}
               <div className={styles.formGroup}>
                 <label htmlFor="name" className={styles.label}>
                   Name
