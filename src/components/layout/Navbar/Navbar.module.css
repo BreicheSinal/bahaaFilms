@@ -27,25 +27,20 @@
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
   white-space: nowrap;
-  transition: color var(--transition-base);
+  transition: opacity var(--transition-base);
 }
 
-.dark .logo,
-[data-theme="dark"] .logo {
-  color: #f5f5f5;
-}
-
-.dark .logo:hover,
-[data-theme="dark"] .logo:hover {
-  color: #ffffff;
+.logoImage {
+  height: 90px;
+  width: auto;
+  display: block;
 }
 
 .logo:hover {
-  color: var(--accent-color);
+  opacity: 0.9;
 }
 
 .nav {
