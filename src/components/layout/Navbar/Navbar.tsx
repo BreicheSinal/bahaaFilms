@@ -121,7 +121,11 @@ export default function Navbar() {
             router.push("/");
           }}
         >
-          Bahaa Films
+          <img
+            src={theme === "dark" ? "/bh-logo-white.png" : "/bh-logo.png"}
+            alt="Bahaa Films"
+            className={styles.logoImage}
+          />
         </a>
 
         <nav className={styles.nav}>
