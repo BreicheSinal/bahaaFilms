@@ -61,8 +61,10 @@ export default function ProjectsPage() {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchProjects());
-  }, [dispatch]);
+    if (!allProjects.length && !loading) {
+      dispatch(fetchProjects());
+    }
+  }, [allProjects.length, dispatch, loading]);
 
   const filteredTags = useMemo(
     () =>

@@ -1,0 +1,33 @@
+name: Delete BP branches after merge
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  delete-branch:
+    if: >
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'BP')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          REPO="${{ github.repository }}"
+          # URL-encode branch names so spaces or special characters don't break the API call.
+          export BRANCH_NAME
+          ENCODED_BRANCH="$(python - <<'PY'
+          import urllib.parse, os
+          print(urllib.parse.quote(os.environ["BRANCH_NAME"], safe=""))
+          PY
+          )"
+          curl -X DELETE \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$REPO/git/refs/heads/$ENCODED_BRANCH"

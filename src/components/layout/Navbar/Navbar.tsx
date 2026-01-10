@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Sun, Moon, Menu, X } from "lucide-react";
-import { getCurrentPath, navigateTo } from "@/utils/router";
 import styles from "./Navbar.module.css";
 
 const NAV_ITEMS = [
@@ -19,6 +18,7 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const pendingSection = useRef<string | null>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -76,7 +76,7 @@ export default function Navbar() {
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    const onHome = getCurrentPath() === "/";
+    const onHome = pathname === "/";
 
     const performScroll = () => {
       const target = document.getElementById(sectionId);
@@ -96,7 +96,7 @@ export default function Navbar() {
       performScroll();
     } else {
       pendingSection.current = sectionId;
-      navigateTo("/");
+      router.push("/");
     }
 
     if (pendingSection.current) {
@@ -113,7 +113,14 @@ export default function Navbar() {
   return (
     <header className={styles.navbar}>
       <div className={styles.container}>
-        <a href="/" className={styles.logo}>
+        <a
+          href="/"
+          className={styles.logo}
+          onClick={(event) => {
+            event.preventDefault();
+            router.push("/");
+          }}
+        >
           Bahaa Films
         </a>
 

@@ -73,12 +73,14 @@
 }
 
 .content {
-  padding: 16px var(--spacing-lg) var(--spacing-lg);
+  padding: var(--spacing-lg);
+  padding-top: var(--spacing-sm);
 }
 
 @media (min-width: 768px) {
   .content {
     padding: var(--spacing-xl);
+    padding-top: var(--spacing-md);
   }
 }
 
@@ -108,22 +110,13 @@
   width: 65px;
   height: 65px;
   object-fit: contain;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  flex-shrink: 0;
-  margin-left: auto;
-}
-
-.logoPlaceholder {
-  width: 65px;
-  height: 65px;
   margin-left: auto;
   flex-shrink: 0;
 }
 
 .title {
   font-size: 1.25rem;
-  margin-top: 0;
+  margin-top: 0px;
   margin-bottom: var(--spacing-sm);
   color: var(--text-primary);
 }
