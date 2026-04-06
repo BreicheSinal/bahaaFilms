@@ -1,0 +1,309 @@
+{
+  "summary": {
+    "mode": "dry-run",
+    "startedAt": "2026-04-06T14:34:13.937Z",
+    "bucketName": "portfolio-aca72.firebasestorage.app",
+    "totalDocsScanned": 16,
+    "totalFieldsEligible": 32,
+    "skippedProjectsPrefix": 0,
+    "skippedLogoPrefix": 3,
+    "skippedEmptyOrInvalid": 29,
+    "missingSourceObjects": 0,
+    "plannedRewrites": 32,
+    "copiedObjects": 0,
+    "firestoreDocsUpdated": 0,
+    "verificationFailures": 0,
+    "endedAt": "2026-04-06T14:34:15.419Z",
+    "totalDocResults": 16
+  },
+  "results": [
+    {
+      "docId": "ballet-001",
+      "slug": "ballet-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/ballet-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Ballet/Ballet session.m4v",
+          "to": "projects/ballet-2/Ballet session.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "basket-001",
+      "slug": "basketball-game-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/basketball-game-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Basketball/Basketball Game.m4v",
+          "to": "projects/basketball-game-2/Basketball Game.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "bfa-001",
+      "slug": "bfa-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/bfa-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "BFA/BFA Training Session.m4v",
+          "to": "projects/bfa-2/BFA Training Session.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "bfa-002",
+      "slug": "bfa-girls-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/bfa-girls-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "BFA/BFA 2 (1).m4v",
+          "to": "projects/bfa-girls-2/BFA 2 (1).m4v"
+        }
+      ]
+    },
+    {
+      "docId": "bfa-003",
+      "slug": "bfa-boys-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/bfa-boys-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "BFA/BFA 3.m4v",
+          "to": "projects/bfa-boys-2/BFA 3.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "caps-001",
+      "slug": "caps-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/caps-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Caps/Caps Video ad.m4v",
+          "to": "projects/caps-2/Caps Video ad.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "dj-001",
+      "slug": "dj-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/dj-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "DJ/DJ.m4v",
+          "to": "projects/dj-2/DJ.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "drift-001",
+      "slug": "drift-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/drift-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Drifting/Drifting (1).m4v",
+          "to": "projects/drift-2/Drifting (1).m4v"
+        }
+      ]
+    },
+    {
+      "docId": "drift-002",
+      "slug": "drift01-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/drift01-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Drifting/Drifting 2 (1).m4v",
+          "to": "projects/drift01-2/Drifting 2 (1).m4v"
+        }
+      ]
+    },
+    {
+      "docId": "fitfusion-001",
+      "slug": "fitfusion-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/fitfusion-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "FitFusion/Fit Fusion.m4v",
+          "to": "projects/fitfusion-2/Fit Fusion.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "fitfusion-002",
+      "slug": "fitfusion-ad-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/fitfusion-ad-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "FitFusion/Protien Bar ad.m4v",
+          "to": "projects/fitfusion-ad-2/Protien Bar ad.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "gym-001",
+      "slug": "gym-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/gym-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Gym/Gym.m4v",
+          "to": "projects/gym-2/Gym.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "gym-002",
+      "slug": "gym-video-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/gym-video-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Gym/Workout.mov",
+          "to": "projects/gym-video-2/Workout.mov"
+        }
+      ]
+    },
+    {
+      "docId": "haircut-001",
+      "slug": "haircut-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/haircut-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Haircuts/Haircut.m4v",
+          "to": "projects/haircut-2/Haircut.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "haircut-002",
+      "slug": "haircut01-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/haircut01-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Haircuts/Haircut 2.m4v",
+          "to": "projects/haircut01-2/Haircut 2.m4v"
+        }
+      ]
+    },
+    {
+      "docId": "solar-001",
+      "slug": "solar-2",
+      "status": "updated",
+      "reason": "planned rewrites",
+      "changes": [
+        {
+          "field": "coverImagePath",
+          "from": "Logo/bh.jpeg",
+          "to": "CoverImage/solar-2/bh.jpeg"
+        },
+        {
+          "field": "media[0].storagePath",
+          "from": "Solar/Solar panels.m4v",
+          "to": "projects/solar-2/Solar panels.m4v"
+        }
+      ]
+    }
+  ]
+}

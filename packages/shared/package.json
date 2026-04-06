@@ -1,0 +1,25 @@
+{
+  "name": "@portfolio/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types/project.ts",
+    "./validators": "./src/validators/project.ts",
+    "./utils/slug": "./src/utils/slug.ts",
+    "./utils/date": "./src/utils/date.ts",
+    "./firestore/queries": "./src/firestore/queries.ts",
+    "./firestore/map": "./src/firestore/map.ts"
+  },
+  "dependencies": {
+    "firebase": "^11.0.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.2"
+  }
+}
