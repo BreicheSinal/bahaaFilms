@@ -34,6 +34,7 @@ export default function ProjectsManager({
     title: string;
   } | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const [iconLoading, setIconLoading] = useState<Record<string, boolean>>({});
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<"all" | "draft" | "published" | "featured">("all");
@@ -202,11 +203,23 @@ export default function ProjectsManager({
   };
 
   const logout = async () => {
-    await fetch("/api/auth/session", { method: "DELETE" });
-    if (auth) {
-      await signOut(auth);
+    if (loggingOut) return;
+
+    setLoggingOut(true);
+    setActionError(null);
+
+    try {
+      await fetch("/api/auth/session", { method: "DELETE" });
+      if (auth) {
+        await signOut(auth);
+      }
+      window.location.href = "/login";
+    } catch (err) {
+      setActionError(
+        err instanceof Error ? err.message : "Failed to logout",
+      );
+      setLoggingOut(false);
     }
-    window.location.href = "/login";
   };
 
   return (
@@ -220,8 +233,19 @@ export default function ProjectsManager({
           <Link href="/projects/new">
             <button>New Project</button>
           </Link>
-          <button className="button-secondary" onClick={logout}>
-            Logout
+          <button
+            className="button-secondary"
+            onClick={logout}
+            disabled={loggingOut}
+          >
+            {loggingOut ? (
+              <span className="button-loading-content">
+                <span className="button-spinner" aria-hidden="true" />
+                <span>Logging out</span>
+              </span>
+            ) : (
+              "Logout"
+            )}
           </button>
         </div>
       </section>

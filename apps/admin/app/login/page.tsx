@@ -41,11 +41,10 @@ export default function LoginPage() {
         throw new Error(payload.error || "Unable to create session");
       }
 
-      router.push("/projects");
+      router.replace("/projects");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
-    } finally {
       setLoading(false);
     }
   };
