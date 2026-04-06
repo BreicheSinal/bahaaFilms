@@ -18,7 +18,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="admin-shell">
+            <div className="admin-shell-content">{children}</div>
+            <footer className="admin-attribution">
+              Developed by{" "}
+              <a
+                href="https://invixlab.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                InvixLab
+              </a>
+            </footer>
+          </div>
+        </Providers>
       </body>
     </html>
   );

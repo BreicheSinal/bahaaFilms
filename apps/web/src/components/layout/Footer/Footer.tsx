@@ -1,5 +1,4 @@
-import { Instagram, MessageCircle } from "lucide-react";
-import packageJson from "../../../../package.json";
+﻿import { Instagram, MessageCircle } from "lucide-react";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -9,7 +8,18 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.copyright}>
-          © {currentYear} Bahaa Breich. All rights reserved.
+          <span>&copy; {currentYear} Bahaa Breich. All rights reserved.</span>
+          <span>
+            Developed by{" "}
+            <a
+              href="https://invixlab.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.creditLink}
+            >
+              InvixLab
+            </a>
+          </span>
         </div>
 
         <div className={styles.social}>
