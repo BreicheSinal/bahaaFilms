@@ -25,6 +25,14 @@
 .copyright {
   font-size: 0.875rem;
   color: var(--text-tertiary);
+  display: grid;
+  gap: 4px;
+}
+
+.creditLink {
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .social {
