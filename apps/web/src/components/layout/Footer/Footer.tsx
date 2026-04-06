@@ -1,6 +1,9 @@
 import { Instagram, MessageCircle } from "lucide-react";
 import styles from "./Footer.module.css";
 
+/**
+ * Renders the site footer with copyright and social links.
+ */
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 

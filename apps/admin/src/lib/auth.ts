@@ -4,6 +4,9 @@ import { getAdminAuth } from "@/lib/firebaseAdmin";
 
 const SESSION_COOKIE = "admin_session";
 
+/**
+ * Resolves the current admin user from the session cookie, if valid.
+ */
 export async function getAdminFromSessionCookie() {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;
@@ -22,12 +25,18 @@ export async function getAdminFromSessionCookie() {
   }
 }
 
+/**
+ * Ensures the current request is authenticated as an admin page session.
+ */
 export async function requireAdminPageSession() {
   const admin = await getAdminFromSessionCookie();
   if (!admin) redirect("/login");
   return admin;
 }
 
+/**
+ * Verifies an ID token and enforces the admin custom claim.
+ */
 export async function verifyAdminIdToken(idToken: string) {
   const decoded = await getAdminAuth().verifyIdToken(idToken, true);
   if (!decoded.admin) {
@@ -36,6 +45,9 @@ export async function verifyAdminIdToken(idToken: string) {
   return decoded;
 }
 
+/**
+ * Resolves an admin token from Authorization header or session cookie.
+ */
 export async function requireAdminApiToken() {
   const headerStore = await headers();
   const authorization = headerStore.get("authorization");
