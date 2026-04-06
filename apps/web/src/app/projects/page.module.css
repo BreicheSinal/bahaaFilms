@@ -52,7 +52,6 @@
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-2xl);
-  box-shadow: 0 20px 50px var(--shadow-color);
 }
 
 @media (min-width: 900px) {
@@ -97,14 +96,12 @@
   border-radius: var(--radius-xl);
   color: var(--text-secondary);
   font-size: 1rem;
-  transition: border-color var(--transition-base),
-    box-shadow var(--transition-base), transform var(--transition-base);
+  transition: border-color var(--transition-base), transform var(--transition-base);
 }
 
 .searchInput:focus {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(48, 48, 48, 0.1);
   transform: translateY(-1px);
 }
 
@@ -162,8 +159,7 @@
   color: var(--text-secondary);
   font-size: 1rem;
   cursor: pointer;
-  transition: border-color var(--transition-base),
-    box-shadow var(--transition-base), transform var(--transition-base);
+  transition: border-color var(--transition-base), transform var(--transition-base);
 }
 
 .selectTrigger:hover {
@@ -173,7 +169,6 @@
 .selectTrigger:focus-visible {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(48, 48, 48, 0.12);
 }
 
 .selectChevron {
@@ -189,13 +184,31 @@
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  box-shadow: 0 16px 40px var(--shadow-color);
   max-height: 240px;
   overflow-y: auto;
   padding: var(--spacing-xs);
   display: grid;
   gap: var(--spacing-xs);
   z-index: var(--z-dropdown);
+  scrollbar-width: thin;
+  scrollbar-color: #8f8f8f transparent;
+}
+
+.tagList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tagList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tagList::-webkit-scrollbar-thumb {
+  background: #8f8f8f;
+  border-radius: 999px;
+}
+
+.tagList::-webkit-scrollbar-thumb:hover {
+  background: #7a7a7a;
 }
 
 .tagSearch {
@@ -214,7 +227,6 @@
 .tagSearch input:focus {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(48, 48, 48, 0.12);
 }
 
 .tagOption {

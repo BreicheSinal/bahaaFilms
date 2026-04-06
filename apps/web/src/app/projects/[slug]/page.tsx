@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { motion, type Variants } from 'framer-motion';
-import { ArrowLeft, Calendar, ExternalLink, Github } from 'lucide-react';
+import { ArrowLeft, Calendar, ExternalLink, Facebook, Instagram } from 'lucide-react';
 import ProjectGallery from '@/components/projects/ProjectGallery/ProjectGallery';
 import ProjectCard from '@/components/projects/ProjectCard/ProjectCard';
 import Loader from '@/components/ui/Loader/Loader';
@@ -11,14 +11,9 @@ import { fetchProjects } from '@/store/projectsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import styles from './page.module.css';
 
-interface ProjectPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function ProjectPage({ params }: ProjectPageProps) {
+export default function ProjectPage() {
   const router = useRouter();
+  const params = useParams<{ slug: string }>();
   const dispatch = useAppDispatch();
   const { items: allProjects, loading } = useAppSelector((state) => state.projects);
 
@@ -175,26 +170,26 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
           {project.links && (
             <div className={styles.links}>
-              {project.links.live && (
+              {project.links.facebook && (
                 <a
-                  href={project.links.live}
+                  href={project.links.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.link}
                 >
-                  <ExternalLink />
-                  <span>View Live</span>
+                  <Facebook />
+                  <span>View Facebook</span>
                 </a>
               )}
-              {project.links.github && (
+              {project.links.instagram && (
                 <a
-                  href={project.links.github}
+                  href={project.links.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`${styles.link} ${styles.secondary}`}
                 >
-                  <Github />
-                  <span>View Code</span>
+                  <Instagram />
+                  <span>View Instagram</span>
                 </a>
               )}
               {project.links.behance && (

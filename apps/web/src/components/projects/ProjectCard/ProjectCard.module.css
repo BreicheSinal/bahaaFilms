@@ -4,8 +4,7 @@
   overflow: hidden;
   background: color-mix(in srgb, var(--bg-secondary) 75%, #ffffff 25%);
   border: 1px solid var(--border-color);
-  transition: transform var(--transition-base),
-    box-shadow var(--transition-base);
+  transition: transform var(--transition-base);
   cursor: pointer;
 }
 
@@ -15,7 +14,6 @@
 
 .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px var(--shadow-color);
 }
 
 .card:hover .image {

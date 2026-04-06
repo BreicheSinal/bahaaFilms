@@ -1,30 +1,97 @@
+# Portfolio Monorepo
 
-  # Modern Next.js Portfolio Website
+This repository is now a workspace monorepo with two Next.js apps:
 
-  A modern portfolio site built with Next.js, featuring a hero landing, featured work, a full projects archive, and a contact form.
+- `apps/web`: public portfolio website (`www` or apex domain)
+- `apps/admin`: admin dashboard (`admin.<domain>`)
+- `packages/shared`: shared project schema/types/validators/helpers
 
-  ## Developer View
+## Architecture
 
-  This project uses the Next.js App Router under `src/app` with two routes: the homepage (`/`) and a projects area (`/projects` with individual project pages at `/projects/[slug]`). UI is composed from reusable sections and layout components in `src/components`, styled with CSS Modules. Animations are handled with Framer Motion, and icons come from Lucide.
+- Firestore collection: `projects/{projectId}`
+- Slug reservation: `projectSlugs/{slug}`
+- Storage assets: `projects/**`
+- Public web reads only `published` + `hidden == false` projects
+- Admin writes happen through server API routes (validated with zod)
+- Admin access requires Firebase Auth custom claim: `admin: true`
 
-  Project data is loaded via Firebase Firestore and Firebase Storage. The data layer lives in `src/data/projects.ts`, which fetches and normalizes project records. Redux Toolkit in `src/store` manages project state, search, and tag filtering. The contact form posts to Web3Forms and uses client-side validation.
+## Local Development
 
-  Local setup:
-  - Run `npm i` to install dependencies.
-  - Run `npm run dev` to start the development server.
+1. Install dependencies:
 
-  Environment variables:
-  ```
-  NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-  NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-  NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-  NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=your_web3forms_key
-  ```
+```bash
+npm install
+```
 
-  ## Client View
+2. Create env files:
+- `apps/web/.env.local` from `apps/web/.env.example`
+- `apps/admin/.env.local` from `apps/admin/.env.example`
 
-  Visitors land on a hero section that introduces the creator and provides quick CTAs to view the portfolio or get in touch. The featured portfolio showcases selected projects, and a dedicated projects page lets clients browse the full archive with search and tag filters. Each project detail page includes media galleries, dates, tags, and optional links to live work or source code. The contact section provides a validated form with a clear success state so clients can confidently submit inquiries.
-  
+3. Run apps:
+
+```bash
+npm run dev:web
+npm run dev:admin
+```
+
+- Web app: http://localhost:3000
+- Admin app: http://localhost:3001
+
+## Deployment (Vercel)
+
+Create two Vercel projects from the same repo:
+
+1. Web project
+- Root directory: `apps/web`
+- Domain: `www.yourdomain.com` (or apex)
+
+2. Admin project
+- Root directory: `apps/admin`
+- Domain: `admin.yourdomain.com`
+
+Both projects use the same Firebase backend.
+
+## Firestore Model (Normalized)
+
+Each `projects/{projectId}` document uses:
+
+- `slug`, `title`, `shortDescription`, `fullDescription`, `tags[]`
+- `status` (`draft | published`), `featured`, `hidden`
+- `sortOrder`, `publishedAt`, `createdAt`, `updatedAt`
+- `coverImagePath`, `logoPath`
+- `media[]` with `{ type, storagePath, thumbnailPath?, sources? }`
+- `links` (`github`, `live`, `behance`)
+
+## Rules and Migration
+
+- Firestore rules: `firestore.rules`
+- Storage rules: `storage.rules`
+- Firebase config: `firebase.json`
+
+Migration script:
+
+```bash
+npm run migrate:projects          # dry-run
+npm run migrate:projects -- --apply
+```
+
+Admin claim helper:
+
+```bash
+# grant admin
+node --env-file=.env scripts/admin-claim.mjs --email you@example.com --action grant
+
+# check current claims
+node --env-file=.env scripts/admin-claim.mjs --email you@example.com --action status
+
+# revoke admin
+node --env-file=.env scripts/admin-claim.mjs --email you@example.com --action revoke
+```
+
+## Tests
+
+Shared package unit tests:
+
+```bash
+npm run test --workspace @portfolio/shared
+```
