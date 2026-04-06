@@ -209,7 +209,19 @@ export default function ProjectsManager({
     setActionError(null);
 
     try {
-      await fetch("/api/auth/session", { method: "DELETE" });
+      const response = await fetch("/api/auth/session", { method: "DELETE" });
+      if (!response.ok) {
+        let errorMessage = "Failed to clear server session";
+        try {
+          const payload = await response.json();
+          if (payload?.error && typeof payload.error === "string") {
+            errorMessage = payload.error;
+          }
+        } catch {
+          // Response body may be empty or non-JSON; keep generic error message.
+        }
+        throw new Error(errorMessage);
+      }
       if (auth) {
         await signOut(auth);
       }
