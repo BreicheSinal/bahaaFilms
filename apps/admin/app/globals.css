@@ -37,7 +37,7 @@ body {
 
 body {
   color-scheme: light;
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: var(--font-inter), "Segoe UI", sans-serif;
   color: var(--text-primary);
   background:
     radial-gradient(
