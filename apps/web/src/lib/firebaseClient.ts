@@ -26,6 +26,16 @@ function hasFirebaseConfig() {
   return Object.values(firebaseConfig).every(Boolean);
 }
 
+function isAbsoluteUrl(path: string): boolean {
+  return /^https?:\/\//i.test(path);
+}
+
+function buildFirebaseMediaUrl(path: string): string | undefined {
+  const bucket = firebaseConfig.storageBucket;
+  if (!bucket) return undefined;
+  return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(path)}?alt=media`;
+}
+
 export function getFirebaseServices(): FirebaseServices | null {
   if (!hasFirebaseConfig()) return null;
 
@@ -41,13 +51,15 @@ export async function buildStorageUrl(
   path?: string | null
 ): Promise<string | undefined> {
   if (!path) return undefined;
+  if (isAbsoluteUrl(path) || path.startsWith("/")) return path;
+
   if (!storage) return path;
 
   try {
     const fileRef = ref(storage, path);
     return await getDownloadURL(fileRef);
   } catch (error) {
-    console.warn("Falling back to raw storage path", error);
-    return path;
+    console.warn("Falling back to Firebase media URL", error);
+    return buildFirebaseMediaUrl(path) || path;
   }
 }

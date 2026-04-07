@@ -8,13 +8,24 @@ export async function mapProjectDocForPublic(
   resolvePath: Resolver
 ) {
   const mediaResolved = await Promise.all(
-    (doc.media || []).map(async (item) => ({
-      type: item.type,
-      url: (await resolvePath(item.storagePath)) || item.storagePath,
-      thumbnail:
-        (await resolvePath(item.thumbnailPath)) || item.thumbnailPath || undefined,
-      sources: item.sources?.map((source: ProjectMediaSource) => source),
-    }))
+    (doc.media || []).map(async (item) => {
+      const resolvedSources = item.sources
+        ? await Promise.all(
+            item.sources.map(async (source: ProjectMediaSource) => ({
+              ...source,
+              url: (await resolvePath(source.url)) || source.url,
+            }))
+          )
+        : undefined;
+
+      return {
+        type: item.type,
+        url: (await resolvePath(item.storagePath)) || item.storagePath,
+        thumbnail:
+          (await resolvePath(item.thumbnailPath)) || item.thumbnailPath || undefined,
+        sources: resolvedSources,
+      };
+    })
   );
 
   return {
