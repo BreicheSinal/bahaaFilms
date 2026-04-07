@@ -98,6 +98,41 @@ type LegacyProjectRow = {
   status?: "draft" | "published" | null;
 };
 
+function isAbsoluteUrl(value: string): boolean {
+  return /^https?:\/\//i.test(value);
+}
+
+function hasKnownStoragePrefix(path: string): boolean {
+  return (
+    path.toLowerCase().startsWith("projects/") ||
+    path.startsWith("CoverImage/") ||
+    path.startsWith("Logo/")
+  );
+}
+
+function normalizeLegacyMediaPath(path?: string): string {
+  const value = (path || "").trim();
+  if (!value) return "";
+  if (isAbsoluteUrl(value) || value.startsWith("/")) return value;
+  if (hasKnownStoragePrefix(value)) return value;
+  return `projects/${value.replace(/^\/+/, "")}`;
+}
+
+function normalizeLegacySourceUrl(
+  sourceUrl: string | undefined,
+  fallbackStoragePath: string
+): string {
+  const value = (sourceUrl || "").trim();
+  if (!value) return "";
+  if (isAbsoluteUrl(value) || value.startsWith("/") || hasKnownStoragePrefix(value)) {
+    return value;
+  }
+
+  // Legacy docs sometimes keep a stale folder here (e.g. "Solar/...").
+  // Prefer the canonical media storagePath for source playback.
+  return fallbackStoragePath || normalizeLegacyMediaPath(value);
+}
+
 function normalizeDateTime(value?: string | Timestamp | Date | null): string {
   if (!value) return new Date().toISOString();
   if (typeof value === "string") {
@@ -119,17 +154,25 @@ function buildDocFromRow(row: LegacyProjectRow, fallbackSlug: string): ProjectDo
     : row.media
     ? [row.media]
     : []
-  ).map((item) => ({
-    type: item.type === "video/mp4" ? "video" : item.type,
-    storagePath: item.storagePath || item.url || "",
-    thumbnailPath: item.thumbnailPath || item.thumbnail || undefined,
-    sources: item.sources
-      ?.filter((source) => Boolean(source.url))
-      .map((source) => ({
-        url: source.url || "",
-        type: source.type,
-      })),
-  }));
+  ).map((item) => {
+    const normalizedStoragePath = normalizeLegacyMediaPath(
+      item.storagePath || item.url || ""
+    );
+
+    return {
+      type: item.type === "video/mp4" ? "video" : item.type,
+      storagePath: normalizedStoragePath,
+      thumbnailPath:
+        normalizeLegacyMediaPath(item.thumbnailPath || item.thumbnail || undefined) ||
+        undefined,
+      sources: item.sources
+        ?.filter((source) => Boolean(source.url))
+        .map((source) => ({
+          url: normalizeLegacySourceUrl(source.url || "", normalizedStoragePath),
+          type: source.type,
+        })),
+    };
+  });
 
   const createdAt = normalizeDateTime(row.createdAt || row.date);
   const updatedAt = normalizeDateTime(row.updatedAt || row.date);
