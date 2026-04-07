@@ -201,6 +201,38 @@ a {
   font-weight: 600;
 }
 
+.password-field-wrap {
+  position: relative;
+}
+
+.password-field-wrap input {
+  padding-right: 42px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.password-toggle:hover {
+  background: #f3f3f3;
+  color: var(--text-primary);
+}
+
+.password-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
 .muted {
   margin: 6px 0 0;
   color: var(--text-secondary);
