@@ -1,0 +1,133 @@
+{
+  "summary": {
+    "mode": "dry-run",
+    "startedAt": "2026-04-07T12:50:34.783Z",
+    "bucketName": "portfolio-aca72.firebasestorage.app",
+    "totalDocsScanned": 16,
+    "totalFieldsEligible": 0,
+    "skippedProjectsPrefix": 16,
+    "skippedLogoPrefix": 3,
+    "skippedEmptyOrInvalid": 29,
+    "missingSourceObjects": 0,
+    "plannedRewrites": 0,
+    "copiedObjects": 0,
+    "firestoreDocsUpdated": 0,
+    "verificationFailures": 0,
+    "endedAt": "2026-04-07T12:50:36.074Z",
+    "totalDocResults": 16
+  },
+  "results": [
+    {
+      "docId": "ballet-001",
+      "slug": "ballet-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "basket-001",
+      "slug": "basketball-game-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "bfa-001",
+      "slug": "bfa-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "bfa-002",
+      "slug": "bfa-girls-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "bfa-003",
+      "slug": "bfa-boys-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "caps-001",
+      "slug": "caps-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "dj-001",
+      "slug": "dj-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "drift-001",
+      "slug": "drift-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "drift-002",
+      "slug": "drift01-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "fitfusion-001",
+      "slug": "fitfusion-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "fitfusion-002",
+      "slug": "fitfusion-ad-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "gym-001",
+      "slug": "gym-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "gym-002",
+      "slug": "gym-video-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "haircut-001",
+      "slug": "haircut-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "haircut-002",
+      "slug": "haircut01-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    },
+    {
+      "docId": "solar-001",
+      "slug": "solar-2",
+      "status": "skipped",
+      "reason": "no eligible legacy paths",
+      "changes": []
+    }
+  ]
+}
