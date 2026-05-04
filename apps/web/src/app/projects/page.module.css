@@ -271,12 +271,8 @@
 }
 
 .activeOption {
-  background-color: color-mix(
-    in srgb,
-    var(--surface-hero) 82%,
-    transparent 18%
-  );
-  color: var(--text-primary);
+  background-color: var(--accent-color);
+  color: var(--accent-foreground);
 }
 
 .emptyTags {

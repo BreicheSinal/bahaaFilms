@@ -81,9 +81,10 @@
   color: var(--text-primary);
 }
 
-.link.active {
-  color: var(--text-primary);
-  background: color-mix(in srgb, var(--bg-primary) 86%, transparent 14%);
+.link.active,
+.active {
+  color: var(--accent-foreground);
+  background: var(--accent-color);
 }
 
 .actions {
@@ -172,7 +173,8 @@
   color: var(--text-primary);
 }
 
-.mobileLink.active {
-  color: var(--text-primary);
-  background: color-mix(in srgb, var(--surface-hero) 82%, transparent 18%);
+.mobileLink.active,
+.mobileMenu .active {
+  color: var(--accent-foreground);
+  background: var(--accent-color);
 }
