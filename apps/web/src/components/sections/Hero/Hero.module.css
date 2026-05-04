@@ -1,94 +1,147 @@
 .hero {
-  min-height: 100vh;
+  position: relative;
+  min-height: 100svh;
+  padding-top: 80px;
+  overflow: clip;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-top: 80px;
-  position: relative;
-  overflow: hidden;
-  --hero-orb-strong: rgba(26, 26, 26, 0.55);
-  --hero-orb-soft: rgba(48, 48, 48, 0.35);
-  --button-color: var(--accent-color);
+  background: var(--surface-contact);
+}
+
+.mediaLayer {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-contact);
+}
+
+:global([data-theme="dark"]) .mediaLayer {
+  background: var(--surface-contact);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      112deg,
+      color-mix(in srgb, var(--text-tertiary) 42%, transparent 58%) 0px,
+      color-mix(in srgb, var(--text-tertiary) 42%, transparent 58%) 1px,
+      transparent 1px,
+      transparent 44px
+    ),
+    repeating-linear-gradient(
+      22deg,
+      color-mix(in srgb, var(--text-tertiary) 28%, transparent 72%) 0px,
+      color-mix(in srgb, var(--text-tertiary) 28%, transparent 72%) 1px,
+      transparent 1px,
+      transparent 58px
+    ),
+    radial-gradient(
+      90% 120% at 120% -10%,
+      transparent 0%,
+      transparent 67%,
+      color-mix(in srgb, var(--text-secondary) 24%, transparent 76%) 68%,
+      transparent 69%
+    ),
+    radial-gradient(
+      100% 120% at -10% 112%,
+      transparent 0%,
+      transparent 61%,
+      color-mix(in srgb, var(--text-secondary) 18%, transparent 82%) 62%,
+      transparent 63%
+    );
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  opacity: 0.5;
+}
+
+:global([data-theme="dark"]) .overlay {
+  background-image:
+    repeating-linear-gradient(
+      112deg,
+      color-mix(in srgb, var(--border-color) 50%, transparent 50%) 0px,
+      color-mix(in srgb, var(--border-color) 50%, transparent 50%) 1px,
+      transparent 1px,
+      transparent 44px
+    ),
+    repeating-linear-gradient(
+      22deg,
+      color-mix(in srgb, var(--border-color) 34%, transparent 66%) 0px,
+      color-mix(in srgb, var(--border-color) 34%, transparent 66%) 1px,
+      transparent 1px,
+      transparent 58px
+    ),
+    radial-gradient(
+      90% 120% at 120% -10%,
+      transparent 0%,
+      transparent 67%,
+      color-mix(in srgb, var(--border-color) 24%, transparent 76%) 68%,
+      transparent 69%
+    ),
+    radial-gradient(
+      100% 120% at -10% 112%,
+      transparent 0%,
+      transparent 61%,
+      color-mix(in srgb, var(--border-color) 18%, transparent 82%) 62%,
+      transparent 63%
+    );
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  opacity: 0.48;
 }
 
 .container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: var(--spacing-4xl) var(--spacing-lg);
-  text-align: center;
   position: relative;
   z-index: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: clamp(2rem, 7vh, 4rem) var(--spacing-lg) clamp(2.6rem, 8vh, 5rem);
 }
 
-.subtitle {
-  display: inline-block;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-tertiary);
+.brand {
+  font-size: clamp(2.1rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 0.95;
+  color: var(--text-primary);
   margin-bottom: var(--spacing-lg);
-}
-
-@media (min-width: 768px) {
-  .subtitle {
-    font-size: 1rem;
-  }
 }
 
 .title {
-  margin-bottom: var(--spacing-lg);
-  background: linear-gradient(
-    135deg,
-    var(--text-primary) 0%,
-    var(--text-secondary) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin: 0;
+  max-width: 16ch;
+  color: var(--text-primary);
+  font-size: clamp(1.6rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.08;
 }
 
 .description {
-  max-width: 600px;
-  margin: 0 auto var(--spacing-2xl);
-  font-size: 1.125rem;
+  margin-top: var(--spacing-lg);
+  max-width: 48ch;
   color: var(--text-secondary);
-}
-
-@media (min-width: 768px) {
-  .description {
-    font-size: 1.25rem;
-  }
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.6;
 }
 
 .cta {
+  margin-top: var(--spacing-2xl);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-base);
   flex-wrap: wrap;
 }
 
 .button {
-  padding: var(--spacing-base) var(--spacing-xl);
-  font-size: 1rem;
-  border-radius: var(--radius-xl);
-  transition: all var(--transition-base);
-  position: relative;
-  overflow: hidden;
-  border: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.9rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-}
-
-@media (min-width: 768px) {
-  .button {
-    padding: var(--spacing-lg) var(--spacing-2xl);
-    font-size: 1.125rem;
-  }
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base), color var(--transition-base);
 }
 
 .buttonPrimary {
-  background: var(--button-color);
-  color: var(--accent-foreground);
+  background: var(--text-primary);
+  color: var(--bg-primary);
 }
 
 .buttonPrimary:hover {
@@ -98,58 +151,27 @@
 
 .buttonSecondary {
   background: transparent;
+  border: 1px solid var(--text-primary);
   color: var(--text-primary);
-  border: 2px solid var(--border-color);
 }
 
 .buttonSecondary:hover {
-  border-color: var(--accent-color);
-  color: var(--accent-color);
   transform: translateY(-2px);
 }
 
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-}
+@media (max-width: 768px) {
+  .container {
+    padding-top: clamp(1.4rem, 5vh, 2.2rem);
+    padding-bottom: clamp(2rem, 6vh, 3.2rem);
+  }
 
-.background::before,
-.background::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-}
+  .cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-.background::before {
-  top: -200px;
-  right: -200px;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(
-    circle,
-    var(--hero-orb-strong) 0%,
-    transparent 65%
-  );
-}
-
-.background::after {
-  bottom: -120px;
-  left: -120px;
-  width: 540px;
-  height: 540px;
-  background: radial-gradient(
-    circle,
-    var(--hero-orb-strong) 0%,
-    transparent 65%
-  );
-}
-
-:global([data-theme="dark"]) .hero {
-  --hero-orb-strong: rgba(190, 190, 190, 0.2);
-  --hero-orb-soft: rgba(115, 115, 115, 0.16);
+  .button {
+    width: 100%;
+    text-align: center;
+  }
 }
