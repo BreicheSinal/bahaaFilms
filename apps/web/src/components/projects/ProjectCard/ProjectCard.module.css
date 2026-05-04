@@ -1,27 +1,9 @@
 .card {
   position: relative;
-  border-radius: var(--radius-xl);
   overflow: hidden;
-  background: color-mix(in srgb, var(--bg-secondary) 75%, #ffffff 25%);
-  border: 1px solid var(--border-color);
-  transition: transform var(--transition-base);
+  background: transparent;
+  border: 0;
   cursor: pointer;
-}
-
-:global([data-theme="dark"]) .card {
-  background: var(--bg-secondary);
-}
-
-.card:hover {
-  transform: translateY(-8px);
-}
-
-.card:hover .image {
-  transform: scale(1.05);
-}
-
-.card:hover .overlay {
-  opacity: 1;
 }
 
 .imageWrapper {
@@ -29,40 +11,41 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: var(--bg-tertiary);
+  border-radius: 1rem;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-base);
+  transition: transform var(--transition-slow);
 }
 
 .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 9, 6, 0.85), rgba(12, 9, 6, 0.05));
   opacity: 0;
-  transition: opacity var(--transition-base);
   display: flex;
   align-items: flex-end;
   padding: var(--spacing-lg);
+  transition: opacity var(--transition-base);
+}
+
+.card:hover .overlay {
+  opacity: 1;
+}
+
+.card:hover .image {
+  transform: scale(1.04);
 }
 
 .viewProject {
-  color: white;
-  font-size: 0.875rem;
-  display: flex;
+  color: #f7efe5;
+  font-size: 0.88rem;
+  display: inline-flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 0.45rem;
 }
 
 .viewProject svg {
@@ -71,22 +54,14 @@
 }
 
 .content {
-  padding: var(--spacing-lg);
-  padding-top: var(--spacing-sm);
-}
-
-@media (min-width: 768px) {
-  .content {
-    padding: var(--spacing-xl);
-    padding-top: var(--spacing-md);
-  }
+  padding: var(--spacing-lg) var(--spacing-sm) 0;
 }
 
 .tagsRow {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  min-height: 65px;
+  min-height: 64px;
 }
 
 .tags {
@@ -96,37 +71,30 @@
 }
 
 .tag {
-  font-size: 0.75rem;
-  padding: var(--spacing-xs) var(--spacing-md);
-  background: var(--bg-primary);
-  color: var(--text-tertiary);
-  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
   border: 1px solid var(--border-color);
+  color: var(--text-tertiary);
 }
 
 .logo {
-  width: 65px;
-  height: 65px;
+  width: 58px;
+  height: 58px;
   object-fit: contain;
   margin-left: auto;
   flex-shrink: 0;
 }
 
 .title {
-  font-size: 1.25rem;
-  margin-top: 0px;
-  margin-bottom: var(--spacing-sm);
-  color: var(--text-primary);
-}
-
-@media (min-width: 768px) {
-  .title {
-    font-size: 1.5rem;
-  }
+  margin: 0;
+  font-size: 1.32rem;
+  line-height: 1.2;
 }
 
 .description {
-  font-size: 0.875rem;
+  margin-top: var(--spacing-sm);
+  font-size: 0.95rem;
   color: var(--text-secondary);
   line-height: 1.6;
   display: -webkit-box;
@@ -136,22 +104,13 @@
   overflow: hidden;
 }
 
-@media (min-width: 768px) {
-  .description {
-    font-size: 1rem;
-  }
-}
-
 .meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
   border-top: 1px solid var(--border-color);
 }
 
 .date {
-  font-size: 0.875rem;
+  font-size: 0.84rem;
   color: var(--text-tertiary);
 }
