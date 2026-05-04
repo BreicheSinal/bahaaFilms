@@ -1,62 +1,55 @@
-/* Brand palette - neutral system */
 :root {
-  /* Base Colors */
-  --color-neutral-100: #e6e6e6;
-  --color-neutral-200: #bebebe;
-  --color-neutral-300: #979797;
-  --color-neutral-400: #737373;
-  --color-neutral-500: #505050;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e6e6e6;
+  --color-neutral-300: #bebebe;
+  --color-neutral-400: #979797;
+  --color-neutral-500: #737373;
   --color-neutral-600: #303030;
   --color-neutral-700: #121212;
 
-  /* Light theme colors (default) */
-  --bg-primary: var(--color-neutral-100);
-  --bg-secondary: #f5f5f5;
-  --bg-tertiary: var(--color-neutral-600);
-  --text-primary: var(--color-neutral-700);
-  --text-secondary: var(--color-neutral-500);
-  --text-tertiary: var(--color-neutral-400);
-  --border-color: var(--color-neutral-200);
-  --hover-color: var(--color-neutral-200);
-  --accent-color: var(--color-neutral-600);
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #ebebeb;
+  --bg-tertiary: #dcdcdc;
+  --surface-hero: #eeeeee;
+  --surface-portfolio: #e2e2e2;
+  --surface-contact: #ededed;
+  --surface-footer: #d9d9d9;
+  --text-primary: #121212;
+  --text-secondary: #303030;
+  --text-tertiary: #737373;
+  --border-color: #cfcfcf;
+  --hover-color: #dcdcdc;
+  --accent-color: #121212;
   --shadow-color: rgba(0, 0, 0, 0.1);
 
-  /* Spacing scale */
-  --spacing-xs: 0.25rem; /* 4px */
-  --spacing-sm: 0.5rem; /* 8px */
-  --spacing-md: 0.75rem; /* 12px */
-  --spacing-base: 1rem; /* 16px */
-  --spacing-lg: 1.5rem; /* 24px */
-  --spacing-xl: 2rem; /* 32px */
-  --spacing-2xl: 3rem; /* 48px */
-  --spacing-3xl: 4rem; /* 64px */
-  --spacing-4xl: 6rem; /* 96px */
-  --spacing-5xl: 8rem; /* 128px */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-base: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --spacing-4xl: 6rem;
+  --spacing-5xl: 8rem;
 
-  /* Border radius */
-  --radius-sm: 0.25rem; /* 4px */
-  --radius-md: 0.5rem; /* 8px */
-  --radius-lg: 0.75rem; /* 12px */
-  --radius-xl: 1rem; /* 16px */
-  --radius-2xl: 1.5rem; /* 24px */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
-  /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Z-index scale */
   --z-base: 1;
   --z-dropdown: 10;
   --z-sticky: 100;
@@ -64,7 +57,6 @@
   --z-modal: 1000;
   --z-tooltip: 2000;
 
-  /* UI tokens mapped to core palette */
   --font-size: 16px;
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
@@ -73,13 +65,13 @@
   --popover: var(--bg-secondary);
   --popover-foreground: var(--text-primary);
   --primary: var(--accent-color);
-  --primary-foreground: var(--bg-primary);
+  --primary-foreground: #ffffff;
   --secondary: var(--bg-secondary);
   --secondary-foreground: var(--text-primary);
   --muted: var(--text-secondary);
   --muted-foreground: var(--text-tertiary);
   --accent: var(--accent-color);
-  --accent-foreground: var(--bg-primary);
+  --accent-foreground: #ffffff;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
   --border: var(--border-color);
@@ -98,29 +90,30 @@
   --sidebar: var(--bg-secondary);
   --sidebar-foreground: var(--text-primary);
   --sidebar-primary: var(--accent-color);
-  --sidebar-primary-foreground: var(--bg-primary);
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: var(--bg-tertiary);
   --sidebar-accent-foreground: var(--text-secondary);
   --sidebar-border: var(--border-color);
   --sidebar-ring: var(--accent-color);
-  ---button-color: var(--accent-color);
 }
 
-/* Dark theme */
 [data-theme="dark"],
 .dark {
-  --bg-primary: var(--color-neutral-700);
+  --bg-primary: #121212;
   --bg-secondary: #1a1a1a;
-  --bg-tertiary: var(--color-neutral-600);
-  --text-primary: var(--color-neutral-100);
-  --text-secondary: var(--color-neutral-200);
-  --text-tertiary: var(--color-neutral-300);
-  --border-color: var(--color-neutral-600);
-  --hover-color: var(--color-neutral-600);
-  --accent-color: var(--color-neutral-200);
-  --shadow-color: rgba(0, 0, 0, 0.3);
+  --bg-tertiary: #303030;
+  --surface-hero: #181818;
+  --surface-portfolio: #101010;
+  --surface-contact: #1b1b1b;
+  --surface-footer: #0d0d0d;
+  --text-primary: #e6e6e6;
+  --text-secondary: #bebebe;
+  --text-tertiary: #979797;
+  --border-color: #303030;
+  --hover-color: #2a2a2a;
+  --accent-color: #e6e6e6;
+  --shadow-color: rgba(0, 0, 0, 0.35);
 
-  /* UI tokens */
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
   --card: var(--bg-secondary);
@@ -128,13 +121,13 @@
   --popover: var(--bg-secondary);
   --popover-foreground: var(--text-primary);
   --primary: var(--accent-color);
-  --primary-foreground: var(--bg-primary);
+  --primary-foreground: #121212;
   --secondary: var(--bg-secondary);
   --secondary-foreground: var(--text-primary);
   --muted: var(--text-secondary);
   --muted-foreground: var(--text-tertiary);
   --accent: var(--accent-color);
-  --accent-foreground: var(--bg-primary);
+  --accent-foreground: #121212;
   --destructive: #f43f5e;
   --destructive-foreground: #0f0f0f;
   --border: var(--border-color);
@@ -150,10 +143,9 @@
   --sidebar: var(--bg-secondary);
   --sidebar-foreground: var(--text-primary);
   --sidebar-primary: var(--accent-color);
-  --sidebar-primary-foreground: var(--bg-primary);
+  --sidebar-primary-foreground: #121212;
   --sidebar-accent: var(--bg-tertiary);
   --sidebar-accent-foreground: var(--text-secondary);
   --sidebar-border: var(--border-color);
   --sidebar-ring: var(--accent-color);
-  ---button-color-dark: var(--accent-color);
 }
