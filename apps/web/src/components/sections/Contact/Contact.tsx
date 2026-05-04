@@ -35,9 +35,7 @@ export default function Contact() {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
 
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
@@ -45,9 +43,7 @@ export default function Contact() {
       newErrors.email = 'Please enter a valid email';
     }
 
-    if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
-    }
+    if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
 
     if (!formData.message.trim()) {
       newErrors.message = 'Message is required';
@@ -61,10 +57,7 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     if (!accessKey) {
       setSubmitError('Missing Web3Forms access key');
@@ -77,13 +70,8 @@ export default function Contact() {
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: accessKey,
-          ...formData,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_key: accessKey, ...formData }),
       });
 
       const responseText = await response.text();
@@ -114,12 +102,9 @@ export default function Contact() {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -136,11 +121,7 @@ export default function Contact() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 15,
-      },
+      transition: { type: 'spring', stiffness: 100, damping: 15 },
     },
   } satisfies Variants;
 
@@ -149,12 +130,7 @@ export default function Contact() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 15,
-        delay: 0.2,
-      },
+      transition: { type: 'spring', stiffness: 100, damping: 15, delay: 0.15 },
     },
   } satisfies Variants;
 
@@ -168,25 +144,33 @@ export default function Contact() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <div className={styles.subtitle}>Get In Touch</div>
-          <h2 className={styles.title}>Let's Work Together</h2>
+          <div className={styles.subtitle}>Contact</div>
+          <h2 className={styles.title}>Plan your next visual story.</h2>
           <p className={styles.description}>
-            Have a project in mind? I'd love to hear from you. Send me a message and I'll respond as soon as possible.
+            Share your date, location, and the mood you want to capture. I will
+            reply with availability, direction, and a clear production plan.
           </p>
         </motion.div>
 
         <motion.div
+          className={styles.grid}
           variants={formVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
+          <aside className={styles.panel}>
+            <p>Available for weddings, portraits, and commercial shoots.</p>
+            <p>Based in Lebanon, travel-ready for regional projects.</p>
+            <p>Fast turnaround previews and final edits included.</p>
+          </aside>
+
           {isSuccess ? (
             <div className={styles.form}>
               <div className={styles.success}>
                 <CheckCircle2 />
-                <h3>Message Sent Successfully!</h3>
-                <p>Thank you for reaching out. I'll get back to you soon.</p>
+                <h3>Message Sent</h3>
+                <p>Thanks for reaching out. I will reply soon.</p>
                 <button onClick={resetForm} className={`${styles.resetButton} button-glow`}>
                   Send Another Message
                 </button>
@@ -194,85 +178,32 @@ export default function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className={styles.form}>
-              {submitError && (
-                <div className={styles.errorMessage}>{submitError}</div>
-              )}
+              {submitError && <div className={styles.errorMessage}>{submitError}</div>}
               <div className={styles.formGroup}>
-                <label htmlFor="name" className={styles.label}>
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={`${styles.input} ${errors.name ? styles.error : ''}`}
-                  placeholder="Your name"
-                />
-                {errors.name && (
-                  <div className={styles.errorMessage}>{errors.name}</div>
-                )}
+                <label htmlFor="name" className={styles.label}>Name</label>
+                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className={`${styles.input} ${errors.name ? styles.error : ''}`} placeholder="Your name" />
+                {errors.name && <div className={styles.errorMessage}>{errors.name}</div>}
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="email" className={styles.label}>
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={`${styles.input} ${errors.email ? styles.error : ''}`}
-                  placeholder="your.email@example.com"
-                />
-                {errors.email && (
-                  <div className={styles.errorMessage}>{errors.email}</div>
-                )}
+                <label htmlFor="email" className={styles.label}>Email</label>
+                <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className={`${styles.input} ${errors.email ? styles.error : ''}`} placeholder="your.email@example.com" />
+                {errors.email && <div className={styles.errorMessage}>{errors.email}</div>}
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="subject" className={styles.label}>
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`${styles.input} ${errors.subject ? styles.error : ''}`}
-                  placeholder="How can I help?"
-                />
-                {errors.subject && (
-                  <div className={styles.errorMessage}>{errors.subject}</div>
-                )}
+                <label htmlFor="subject" className={styles.label}>Subject</label>
+                <input type="text" id="subject" name="subject" value={formData.subject} onChange={handleChange} className={`${styles.input} ${errors.subject ? styles.error : ''}`} placeholder="What are you planning?" />
+                {errors.subject && <div className={styles.errorMessage}>{errors.subject}</div>}
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="message" className={styles.label}>
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className={`${styles.textarea} ${errors.message ? styles.error : ''}`}
-                  placeholder="Tell me about your project..."
-                />
-                {errors.message && (
-                  <div className={styles.errorMessage}>{errors.message}</div>
-                )}
+                <label htmlFor="message" className={styles.label}>Message</label>
+                <textarea id="message" name="message" value={formData.message} onChange={handleChange} className={`${styles.textarea} ${errors.message ? styles.error : ''}`} placeholder="Tell me about your project timeline and style." />
+                {errors.message && <div className={styles.errorMessage}>{errors.message}</div>}
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`${styles.submit} button-glow`}
-              >
+              <button type="submit" disabled={isSubmitting} className={`${styles.submit} button-glow`}>
                 <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
               </button>
             </form>
