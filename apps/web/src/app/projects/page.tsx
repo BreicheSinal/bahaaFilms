@@ -113,8 +113,8 @@ export default function ProjectsPage() {
           <div className={styles.subtitle}>Portfolio</div>
           <h1 className={styles.title}>All Projects</h1>
           <p className={styles.description}>
-            Browse through my complete collection of projects spanning various
-            domains and technologies.
+            A full archive of films and photography projects, organized by
+            story type, visual mood, and production direction.
           </p>
         </motion.div>
 
@@ -151,7 +151,7 @@ export default function ProjectsPage() {
                     aria-expanded={isTagOpen}
                   >
                     <span>{selectedTag}</span>
-                    <span className={styles.selectChevron}>v</span>
+                    <span className={styles.selectChevron}>▾</span>
                   </button>
                   {isTagOpen && (
                     <div className={styles.tagList} role="listbox">

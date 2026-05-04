@@ -1,7 +1,8 @@
 .projects {
   min-height: 100vh;
-  padding-top: 140px;
-  padding-bottom: var(--spacing-5xl);
+  padding-top: 120px;
+  padding-bottom: var(--spacing-4xl);
+  background: var(--surface-portfolio);
 }
 
 .container {
@@ -11,8 +12,9 @@
 }
 
 .header {
-  text-align: center;
-  margin-bottom: var(--spacing-4xl);
+  text-align: left;
+  margin-bottom: var(--spacing-lg);
+  max-width: 760px;
 }
 
 .subtitle {
@@ -31,40 +33,45 @@
 }
 
 .title {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.08;
   margin-bottom: var(--spacing-lg);
   color: var(--text-primary);
 }
 
 .description {
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 58ch;
+  margin: 0;
   color: var(--text-secondary);
+  line-height: 1.65;
 }
 
 .filters {
-  margin-bottom: var(--spacing-3xl);
+  margin-bottom: var(--spacing-xl);
 }
 
 .filterBar {
   display: grid;
-  gap: var(--spacing-md);
-  padding: var(--spacing-lg);
-  background: var(--bg-secondary);
+  gap: var(--spacing-lg);
+  padding: clamp(1rem, 1.8vw, 1.4rem);
+  background: color-mix(in srgb, var(--surface-contact) 86%, transparent 14%);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-2xl);
+  border-radius: 22px;
 }
 
 @media (min-width: 900px) {
   .filterBar {
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
     align-items: center;
-    gap: var(--spacing-lg);
+    gap: clamp(0.9rem, 1.8vw, 1.5rem);
   }
 }
 
 .searchWrapper {
   position: relative;
   width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .searchRow {
@@ -76,27 +83,33 @@
 
 .searchIcon {
   position: absolute;
-  left: var(--spacing-base);
+  left: 1.05rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   color: var(--text-secondary);
   pointer-events: none;
   z-index: 1;
+  opacity: 0.9;
 }
 
 .searchInput {
   width: 100%;
   max-width: none;
-  padding: var(--spacing-base) var(--spacing-lg) var(--spacing-base)
-    var(--spacing-3xl);
+  min-height: 3.5rem;
+  padding: 0.9rem 1.05rem 0.9rem 3rem;
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
-  color: var(--text-secondary);
+  border-radius: 999px;
+  color: var(--text-primary);
   font-size: 1rem;
-  transition: border-color var(--transition-base), transform var(--transition-base);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
 }
 
 .searchInput:focus {
@@ -111,7 +124,7 @@
 
 .tagFilters {
   display: grid;
-  gap: var(--spacing-xs);
+  gap: 0.5rem;
 }
 
 @media (min-width: 1024px) {
@@ -124,15 +137,18 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-sm);
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .filterLabel svg {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
+  opacity: 0.85;
 }
 
 .selectWrapper {
@@ -144,7 +160,7 @@
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 0.85rem;
 }
 
 .selectTrigger {
@@ -152,14 +168,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-base) var(--spacing-lg);
-  border-radius: var(--radius-xl);
+  min-height: 3.5rem;
+  padding: 0.9rem 1.05rem;
+  border-radius: 999px;
   border: 1px solid var(--border-color);
   background: var(--bg-primary);
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-size: 1rem;
   cursor: pointer;
-  transition: border-color var(--transition-base), transform var(--transition-base);
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
 }
 
 .selectTrigger:hover {
@@ -172,8 +192,9 @@
 }
 
 .selectChevron {
-  color: var(--text-tertiary);
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1;
 }
 
 .tagList {
@@ -181,15 +202,16 @@
   top: calc(100% + var(--spacing-sm));
   left: 0;
   right: 0;
-  background: var(--bg-secondary);
+  background: color-mix(in srgb, var(--surface-contact) 90%, transparent 10%);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
+  border-radius: 18px;
   max-height: 240px;
   overflow-y: auto;
   padding: var(--spacing-xs);
   display: grid;
   gap: var(--spacing-xs);
   z-index: var(--z-dropdown);
+  box-shadow: 0 16px 36px -26px rgba(0, 0, 0, 0.45);
   scrollbar-width: thin;
   scrollbar-color: #8f8f8f transparent;
 }
@@ -238,7 +260,8 @@
   color: var(--text-primary);
   border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: background-color var(--transition-base),
+  transition:
+    background-color var(--transition-base),
     transform var(--transition-base);
 }
 
@@ -248,7 +271,11 @@
 }
 
 .activeOption {
-  background-color: var(--bg-primary);
+  background-color: color-mix(
+    in srgb,
+    var(--surface-hero) 82%,
+    transparent 18%
+  );
   color: var(--text-primary);
 }
 
@@ -270,7 +297,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-xl);
-  margin-bottom: var(--spacing-3xl);
+  margin-bottom: var(--spacing-xl);
 }
 
 @media (min-width: 640px) {
@@ -287,7 +314,7 @@
 
 .empty {
   text-align: center;
-  padding: var(--spacing-5xl) var(--spacing-xl);
+  padding: var(--spacing-4xl) var(--spacing-xl);
 }
 
 .empty svg {
@@ -308,15 +335,42 @@
 
 .count {
   display: flex;
-  justify-content: flex-end;
-  color: var(--text-tertiary);
-  font-size: 0.9rem;
+  justify-content: flex-start;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   margin-top: var(--spacing-md);
+}
+
+@media (max-width: 900px) {
+  .filterBar {
+    gap: var(--spacing-base);
+    border-radius: 18px;
+  }
+
+  .selectTriggerRow {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .searchInput,
+  .selectTrigger {
+    min-height: 3.2rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .tagFilters {
+    padding-left: var(--spacing-lg);
+    border-left: 1px solid var(--border-color);
+  }
 }
 
 .noResults {
   text-align: center;
-  padding: var(--spacing-4xl) var(--spacing-xl);
+  padding: var(--spacing-3xl) var(--spacing-xl);
   background: color-mix(in srgb, var(--bg-secondary) 80%, #ffffff 20%);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-2xl);
