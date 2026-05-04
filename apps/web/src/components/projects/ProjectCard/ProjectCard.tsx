@@ -4,7 +4,6 @@ import { motion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Project } from "@/data/projects";
-import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import styles from "./ProjectCard.module.css";
 
 interface ProjectCardProps {
@@ -48,10 +47,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       onClick={() => router.push(`/projects/${project.slug}`)}
     >
       <div className={styles.imageWrapper}>
-        <ImageWithFallback
+        <img
           src={coverImage}
           alt={project.title}
           className={styles.image}
+          loading="lazy"
+          decoding="async"
         />
         <div className={styles.overlay}>
           <div className={styles.viewProject}>
@@ -71,10 +72,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             ))}
           </div>
           {project.logo && (
-            <ImageWithFallback
+            <img
               src={project.logo}
               alt={`${project.title} logo`}
               className={styles.logo}
+              loading="lazy"
+              decoding="async"
             />
           )}
         </div>
