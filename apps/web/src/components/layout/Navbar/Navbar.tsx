@@ -7,9 +7,9 @@ import { Sun, Moon, Menu, X } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 const NAV_ITEMS = [
-  { id: "home", label: "Home" },
-  { id: "portfolio", label: "Portfolio" },
-  { id: "contact", label: "Contact" },
+  { id: "home", label: "Home", mode: "section" as const },
+  { id: "portfolio", label: "Portfolio", mode: "route" as const, href: "/projects" },
+  { id: "contact", label: "Contact", mode: "section" as const },
 ];
 
 export default function Navbar() {
@@ -40,7 +40,7 @@ export default function Navbar() {
       }
     );
 
-    NAV_ITEMS.forEach((item) => {
+    NAV_ITEMS.filter((item) => item.mode === "section").forEach((item) => {
       const el = document.getElementById(item.id);
       if (el) observer.observe(el);
     });
@@ -56,7 +56,7 @@ export default function Navbar() {
         const interval = setInterval(() => {
           const el = document.getElementById(target);
           if (el) {
-            const offset = 80;
+            const offset = 72;
             const pos = el.offsetTop - offset;
             window.scrollTo({ top: pos, behavior: "smooth" });
             setActiveSection(target);
@@ -81,7 +81,7 @@ export default function Navbar() {
     const performScroll = () => {
       const target = document.getElementById(sectionId);
       if (target) {
-        const offset = 80; // navbar height
+        const offset = 72; // navbar height
         const elementPosition = target.offsetTop - offset;
         window.scrollTo({ top: elementPosition, behavior: "smooth" });
         setActiveSection(sectionId);
@@ -110,6 +110,23 @@ export default function Navbar() {
     }
   };
 
+  const handleNavItemClick = (item: (typeof NAV_ITEMS)[number]) => {
+    if (item.mode === "route" && item.href) {
+      setMobileMenuOpen(false);
+      router.push(item.href);
+      return;
+    }
+
+    scrollToSection(item.id);
+  };
+
+  const isItemActive = (item: (typeof NAV_ITEMS)[number]) => {
+    if (item.mode === "route" && item.href) {
+      return pathname.startsWith(item.href);
+    }
+    return pathname === "/" && activeSection === item.id;
+  };
+
   return (
     <header className={styles.navbar}>
       <div className={styles.container}>
@@ -133,9 +150,9 @@ export default function Navbar() {
             {NAV_ITEMS.map((item) => (
               <li key={item.id}>
                 <button
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={() => handleNavItemClick(item)}
                   className={`${styles.link} ${
-                    activeSection === item.id ? styles.active : ""
+                    isItemActive(item) ? styles.active : ""
                   }`}
                 >
                   {item.label}
@@ -169,9 +186,9 @@ export default function Navbar() {
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}
-              onClick={() => scrollToSection(item.id)}
+              onClick={() => handleNavItemClick(item)}
               className={`${styles.mobileLink} ${
-                activeSection === item.id ? styles.active : ""
+                isItemActive(item) ? styles.active : ""
               }`}
             >
               {item.label}
