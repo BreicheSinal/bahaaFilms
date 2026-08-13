@@ -1,13 +1,13 @@
 .clients {
   overflow: hidden;
   padding: var(--spacing-4xl) 0;
-  background: #dce2e7;
+  background: #dedede;
   color: var(--text-primary);
 }
 
 :global([data-theme="dark"]) .clients,
 :global(.dark) .clients {
-  background: #161b20;
+  background: #161616;
 }
 
 .container {
