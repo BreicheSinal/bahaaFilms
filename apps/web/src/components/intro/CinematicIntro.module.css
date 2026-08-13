@@ -64,8 +64,7 @@
 .format { position: absolute; bottom: 0; left: 0; color: rgba(245, 243, 239, 0.56); }
 
 .greeting,
-.logo,
-.burst {
+.logo {
   grid-area: 1 / 1;
   margin: 0;
 }
@@ -78,50 +77,6 @@
 }
 
 .logo { width: min(21rem, 62vw); height: auto; }
-
-.burst {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: min(32rem, 76vw);
-  height: clamp(4rem, 12vw, 8rem);
-  overflow: hidden;
-  filter: blur(6px);
-  opacity: 1;
-}
-
-.burst::before {
-  content: "";
-  position: absolute;
-  inset: 4% -14%;
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.46) 28%, transparent 72%);
-}
-
-.burst span {
-  position: absolute;
-  color: #fff;
-  font-size: clamp(2.5rem, 8vw, 6.5rem);
-  font-weight: 600;
-  letter-spacing: -0.08em;
-  white-space: nowrap;
-  transform: translateX(calc((var(--index, 0) - 6) * 3.5%));
-  mix-blend-mode: screen;
-  text-shadow: 0 0 18px rgba(255, 255, 255, 0.65);
-}
-
-.burst span:nth-child(1) { transform: translateX(-22%); }
-.burst span:nth-child(2) { transform: translateX(-17%); }
-.burst span:nth-child(3) { transform: translateX(-12%); }
-.burst span:nth-child(4) { transform: translateX(-7%); }
-.burst span:nth-child(5) { transform: translateX(-2%); }
-.burst span:nth-child(6) { transform: translateX(3%); }
-.burst span:nth-child(7) { transform: translateX(8%); }
-.burst span:nth-child(8) { transform: translateX(13%); }
-.burst span:nth-child(9) { transform: translateX(18%); }
-.burst span:nth-child(10) { transform: translateX(23%); }
-.burst span:nth-child(11) { transform: translateX(28%); }
-.burst span:nth-child(12) { transform: translateX(33%); }
 
 @keyframes aperture { 0% { transform: scale(1.42) rotate(-9deg); } 74% { transform: scale(1.04) rotate(0deg); } 100% { transform: scale(1) rotate(0deg); } }
 @keyframes grain { 0% { transform: translate(0, 0); } 25% { transform: translate(2%, -3%); } 50% { transform: translate(-3%, 1%); } 75% { transform: translate(4%, 3%); } 100% { transform: translate(-1%, -4%); } }

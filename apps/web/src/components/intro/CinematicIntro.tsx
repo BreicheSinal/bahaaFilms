@@ -6,7 +6,6 @@ import { useGetProjectsQuery } from "@/store/projectsApi";
 import { shouldRevealIntro } from "./introReadiness";
 import { getIntroExitTransition } from "./introTransition";
 import { getGreetingDelay } from "./greetingPacing";
-import { getIntroSequencePhase } from "./introSequence";
 import styles from "./CinematicIntro.module.css";
 
 const GREETINGS = ["Bonjour", "Hola", "Ciao", "Hallo", "Marhaba", "こんにちは"];
@@ -22,26 +21,15 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
   const { isLoading, isSuccess, isError } = useGetProjectsQuery();
   const [greetingStep, setGreetingStep] = useState(0);
   const [showLogo, setShowLogo] = useState(false);
-  const [sequencePhase, setSequencePhase] = useState<"greetings" | "burst">("greetings");
   const startTime = useRef(Date.now());
   const completed = useRef(false);
   const isBurst = greetingStep >= GREETINGS.length;
-  const greetingTransitionDuration = isBurst ? 0.015 : 0.1;
+  const greetingTransitionDuration = isBurst ? 0.01 : 0.1;
 
   const complete = useCallback(() => {
     if (completed.current) return;
     completed.current = true;
     setShowLogo(true);
-  }, []);
-
-  useEffect(() => {
-    const burstAtMs = MIN_DURATION_MS - 500;
-    const timer = window.setTimeout(() => {
-      if (getIntroSequencePhase(burstAtMs, MIN_DURATION_MS) === "burst") {
-        setSequencePhase("burst");
-      }
-    }, burstAtMs);
-    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -100,7 +88,7 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
       </div>
 
       <AnimatePresence mode="sync" initial={false}>
-        {!showLogo && sequencePhase === "greetings" ? (
+        {!showLogo ? (
           <motion.p
             key={greetingStep}
             className={styles.greeting}
@@ -111,20 +99,6 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
           >
             {GREETINGS[greetingStep % GREETINGS.length]}
           </motion.p>
-        ) : !showLogo ? (
-          <motion.div
-            key="greeting-burst"
-            className={styles.burst}
-            initial={{ opacity: 0, scaleX: 0.55 }}
-            animate={{ opacity: 1, scaleX: 1 }}
-            exit={{ opacity: 0, scaleX: 1.35 }}
-            transition={{ duration: 0.12, ease: "linear" }}
-            aria-hidden="true"
-          >
-            {GREETINGS.concat(GREETINGS).map((greeting, index) => (
-              <span key={`${greeting}-${index}`}>{greeting}</span>
-            ))}
-          </motion.div>
         ) : (
           <motion.img
             key="bahaa-films-logo"
