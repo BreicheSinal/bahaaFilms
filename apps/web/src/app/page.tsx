@@ -7,22 +7,21 @@ import Portfolio from '@/components/sections/Portfolio/Portfolio';
 import Clients from '@/components/sections/Clients/Clients';
 import Contact from '@/components/sections/Contact/Contact';
 import CinematicIntro from "@/components/intro/CinematicIntro";
-import { shouldPreviewIntro } from "@/components/intro/introPreview";
+import { shouldShowIntro } from "@/components/intro/introPreview";
 
 const INTRO_SESSION_KEY = "bahaa-films-intro-seen";
 
 export default function Home() {
-  const [introVisible, setIntroVisible] = useState(true);
-  const [isScrollLocked, setIsScrollLocked] = useState(true);
+  const [introVisible, setIntroVisible] = useState<boolean | null>(null);
+  const [isScrollLocked, setIsScrollLocked] = useState(false);
 
   useLayoutEffect(() => {
-    if (shouldPreviewIntro(window.location.search)) {
-      return;
-    }
+    const hasSeenIntro = window.sessionStorage.getItem(INTRO_SESSION_KEY) === "true";
+    const showIntro = shouldShowIntro(window.location.search, hasSeenIntro);
 
-    if (window.sessionStorage.getItem(INTRO_SESSION_KEY) === "true") {
-      setIntroVisible(false);
-      setIsScrollLocked(false);
+    setIntroVisible(showIntro);
+    if (showIntro) {
+      setIsScrollLocked(true);
     }
   }, []);
 
@@ -47,7 +46,7 @@ export default function Home() {
   return (
     <>
       <AnimatePresence onExitComplete={completeIntroExit}>
-        {introVisible && <CinematicIntro onExit={beginIntroExit} />}
+        {introVisible === true && <CinematicIntro onExit={beginIntroExit} />}
       </AnimatePresence>
       <Hero />
       <Clients />
