@@ -86,10 +86,19 @@
   transition: transform var(--transition-base), filter var(--transition-base);
 }
 
+.client:first-child .logo {
+  transform: translateX(7%);
+}
+
 .client:hover .logo,
 .client:focus-visible .logo {
   filter: brightness(1.1);
   transform: scale(1.04);
+}
+
+.client:first-child:hover .logo,
+.client:first-child:focus-visible .logo {
+  transform: translateX(7%) scale(1.04);
 }
 
 .loading {
