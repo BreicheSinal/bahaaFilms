@@ -63,17 +63,9 @@
 .timecode { color: rgba(245, 243, 239, 0.56); }
 .format { position: absolute; bottom: 0; left: 0; color: rgba(245, 243, 239, 0.56); }
 
-.greeting,
 .logo {
   grid-area: 1 / 1;
   margin: 0;
-}
-
-.greeting {
-  font-size: clamp(3.5rem, 12vw, 11rem);
-  font-weight: 500;
-  letter-spacing: -0.075em;
-  line-height: 0.85;
 }
 
 .logo { width: min(21rem, 62vw); height: auto; }
