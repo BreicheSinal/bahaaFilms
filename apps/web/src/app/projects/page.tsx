@@ -22,6 +22,7 @@ export default function ProjectsPage() {
   );
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [tagSearch, setTagSearch] = useState("");
+  const [clientLogo, setClientLogo] = useState<string | null>(null);
   const tagRef = useRef<HTMLDivElement | null>(null);
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -44,10 +45,11 @@ export default function ProjectsPage() {
         );
 
       const matchesTag = matchesSelectedTag(project.tags, selectedTag);
+      const matchesClient = !clientLogo || project.logo === clientLogo;
 
-      return matchesSearch && matchesTag;
+      return matchesSearch && matchesTag && matchesClient;
     });
-  }, [allProjects, searchQuery, selectedTag]);
+  }, [allProjects, clientLogo, searchQuery, selectedTag]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -67,10 +69,13 @@ export default function ProjectsPage() {
   }, [allProjects.length, dispatch, loading]);
 
   useEffect(() => {
-    const tag = new URLSearchParams(window.location.search).get("tag");
+    const params = new URLSearchParams(window.location.search);
+    const tag = params.get("tag");
+    const client = params.get("client");
     if (tag) {
       dispatch(setSelectedTag(tag));
     }
+    setClientLogo(client);
   }, [dispatch]);
 
   const filteredTags = useMemo(

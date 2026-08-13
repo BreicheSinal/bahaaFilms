@@ -66,7 +66,13 @@ describe("selectUniqueClients", () => {
 
   it("creates a projects URL with the client's first tag selected", () => {
     expect(
-      getClientProjectsHref(project({ slug: "acme", tags: ["Commercial Work", "Film"] }))
-    ).toBe("/projects?tag=Commercial%20Work");
+      getClientProjectsHref(
+        project({
+          slug: "acme",
+          tags: ["Commercial Work", "Film"],
+          logo: "https://bucket/acme.png",
+        })
+      )
+    ).toBe("/projects?tag=Commercial%20Work&client=https%3A%2F%2Fbucket%2Facme.png");
   });
 });
