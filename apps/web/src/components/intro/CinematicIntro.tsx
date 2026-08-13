@@ -6,12 +6,10 @@ import { useGetProjectsQuery } from "@/store/projectsApi";
 import { shouldRevealIntro } from "./introReadiness";
 import { getIntroExitTransition } from "./introTransition";
 import { getGreetingDelay } from "./greetingPacing";
+import { INTRO_TIMING } from "./introTiming";
 import styles from "./CinematicIntro.module.css";
 
 const GREETINGS = ["Bonjour", "Hola", "Ciao", "Hallo", "Marhaba", "こんにちは"];
-const MIN_DURATION_MS = 4600;
-const MAX_DURATION_MS = 7000;
-const LOGO_HOLD_MS = 2000;
 
 type CinematicIntroProps = {
   onExit: () => void;
@@ -36,14 +34,19 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
     const isRequestSettled = isSuccess || isError || !isLoading;
     const elapsedMs = Date.now() - startTime.current;
 
-    if (shouldRevealIntro({ elapsedMs, isRequestSettled, minDurationMs: MIN_DURATION_MS, maxDurationMs: MAX_DURATION_MS })) {
+    if (shouldRevealIntro({
+      elapsedMs,
+      isRequestSettled,
+      minDurationMs: INTRO_TIMING.minDurationMs,
+      maxDurationMs: INTRO_TIMING.maxDurationMs,
+    })) {
       complete();
       return;
     }
 
     const nextCheckMs = Math.min(
-      Math.max(MIN_DURATION_MS - elapsedMs, 0),
-      Math.max(MAX_DURATION_MS - elapsedMs, 0)
+      Math.max(INTRO_TIMING.minDurationMs - elapsedMs, 0),
+      Math.max(INTRO_TIMING.maxDurationMs - elapsedMs, 0)
     );
     const timer = window.setTimeout(complete, nextCheckMs || 1);
     return () => window.clearTimeout(timer);
@@ -53,14 +56,14 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
     if (showLogo) return;
     const timer = window.setTimeout(
       () => setGreetingStep((current) => current + 1),
-      greetingStep === 0 ? 420 : getGreetingDelay(greetingStep)
+      getGreetingDelay(greetingStep)
     );
     return () => window.clearTimeout(timer);
   }, [greetingStep, showLogo]);
 
   useEffect(() => {
     if (!showLogo) return;
-    const timer = window.setTimeout(onExit, LOGO_HOLD_MS);
+    const timer = window.setTimeout(onExit, INTRO_TIMING.logoHoldMs);
     return () => window.clearTimeout(timer);
   }, [onExit, showLogo]);
 
