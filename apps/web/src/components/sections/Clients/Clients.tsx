@@ -3,7 +3,10 @@
 import { useEffect, useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
 import Loader from "@/components/ui/Loader/Loader";
-import { selectUniqueClients } from "@/components/sections/Clients/clientProjects";
+import {
+  getClientProjectsHref,
+  selectUniqueClients,
+} from "@/components/sections/Clients/clientProjects";
 import { fetchProjects } from "@/store/projectsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import styles from "./Clients.module.css";
@@ -59,9 +62,9 @@ export default function Clients() {
               {clients.map((project, index) => (
                 <motion.a
                   key={project.id}
-                  href={`/projects/${project.slug}`}
+                  href={getClientProjectsHref(project)}
                   className={styles.client}
-                  aria-label={`View ${project.title} project`}
+                  aria-label={`View ${project.title} projects`}
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}

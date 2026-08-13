@@ -18,3 +18,8 @@ export function selectUniqueClients(projects: Project[]): Project[] {
     return true;
   });
 }
+
+export function getClientProjectsHref(project: Project): string {
+  const tag = project.tags[0]?.trim();
+  return tag ? `/projects?tag=${encodeURIComponent(tag)}` : "/projects";
+}

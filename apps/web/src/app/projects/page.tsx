@@ -66,6 +66,13 @@ export default function ProjectsPage() {
     }
   }, [allProjects.length, dispatch, loading]);
 
+  useEffect(() => {
+    const tag = new URLSearchParams(window.location.search).get("tag");
+    if (tag) {
+      dispatch(setSelectedTag(tag));
+    }
+  }, [dispatch]);
+
   const filteredTags = useMemo(
     () =>
       allTags.filter((tag) =>
