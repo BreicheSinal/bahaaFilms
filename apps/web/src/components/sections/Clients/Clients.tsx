@@ -7,7 +7,7 @@ import {
   getClientProjectsHref,
   selectUniqueClients,
 } from "@/components/sections/Clients/clientProjects";
-import { fetchProjects } from "@/store/projectsSlice";
+import { fetchProjects, setSelectedTag } from "@/store/projectsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import styles from "./Clients.module.css";
 
@@ -65,6 +65,10 @@ export default function Clients() {
                   href={getClientProjectsHref(project)}
                   className={styles.client}
                   aria-label={`View ${project.title} projects`}
+                  onClick={() => {
+                    const tag = project.tags[0]?.trim();
+                    if (tag) dispatch(setSelectedTag(tag));
+                  }}
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}

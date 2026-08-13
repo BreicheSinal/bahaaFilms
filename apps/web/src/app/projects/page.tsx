@@ -12,6 +12,7 @@ import {
   setSelectedTag,
 } from "@/store/projectsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { matchesSelectedTag } from "@/lib/projectFilters";
 import styles from "./page.module.css";
 
 export default function ProjectsPage() {
@@ -42,8 +43,7 @@ export default function ProjectsPage() {
           tag.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-      const matchesTag =
-        selectedTag === "All" || project.tags.includes(selectedTag);
+      const matchesTag = matchesSelectedTag(project.tags, selectedTag);
 
       return matchesSearch && matchesTag;
     });
