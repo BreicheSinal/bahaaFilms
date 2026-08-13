@@ -1,18 +1,45 @@
 "use client";
 
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
-import { useRef } from "react";
+import { AnimatePresence, motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Hero.module.css";
 import { useRouter } from "next/navigation";
+import { fetchProjects } from "@/store/projectsSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { selectHeroSlides } from "./heroSlides";
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement | null>(null);
+  const dispatch = useAppDispatch();
+  const { items: projects, loading } = useAppSelector((state) => state.projects);
+  const [activeSlide, setActiveSlide] = useState(0);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
 
   const router = useRouter();
+  const slides = useMemo(() => selectHeroSlides(projects), [projects]);
+
+  useEffect(() => {
+    if (!projects.length && !loading) {
+      dispatch(fetchProjects());
+    }
+  }, [dispatch, loading, projects.length]);
+
+  useEffect(() => {
+    setActiveSlide(0);
+  }, [slides.length]);
+
+  useEffect(() => {
+    if (slides.length < 2) return;
+
+    const interval = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % slides.length);
+    }, 5000);
+
+    return () => window.clearInterval(interval);
+  }, [slides.length]);
 
   const mediaY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.3, 0.65]);
@@ -55,7 +82,21 @@ export default function Hero() {
 
   return (
     <section id="home" className={styles.hero} ref={heroRef}>
-      <motion.div className={styles.mediaLayer} style={{ y: mediaY }} />
+      <motion.div className={styles.mediaLayer} style={{ y: mediaY }}>
+        <AnimatePresence initial={false}>
+          {slides[activeSlide] && (
+            <motion.div
+              key={slides[activeSlide]}
+              className={styles.slide}
+              style={{ backgroundImage: `url("${slides[activeSlide]}")` }}
+              initial={{ opacity: 0, scale: 1.04 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.1, ease: "easeOut" }}
+            />
+          )}
+        </AnimatePresence>
+      </motion.div>
       <motion.div
         className={styles.overlay}
         style={{ opacity: overlayOpacity }}

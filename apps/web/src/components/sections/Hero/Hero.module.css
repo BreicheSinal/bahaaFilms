@@ -14,78 +14,20 @@
   background: var(--surface-contact);
 }
 
-:global([data-theme="dark"]) .mediaLayer {
-  background: var(--surface-contact);
+.slide {
+  position: absolute;
+  inset: -3%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background-image:
-    repeating-linear-gradient(
-      112deg,
-      color-mix(in srgb, var(--text-tertiary) 42%, transparent 58%) 0px,
-      color-mix(in srgb, var(--text-tertiary) 42%, transparent 58%) 1px,
-      transparent 1px,
-      transparent 44px
-    ),
-    repeating-linear-gradient(
-      22deg,
-      color-mix(in srgb, var(--text-tertiary) 28%, transparent 72%) 0px,
-      color-mix(in srgb, var(--text-tertiary) 28%, transparent 72%) 1px,
-      transparent 1px,
-      transparent 58px
-    ),
-    radial-gradient(
-      90% 120% at 120% -10%,
-      transparent 0%,
-      transparent 67%,
-      color-mix(in srgb, var(--text-secondary) 24%, transparent 76%) 68%,
-      transparent 69%
-    ),
-    radial-gradient(
-      100% 120% at -10% 112%,
-      transparent 0%,
-      transparent 61%,
-      color-mix(in srgb, var(--text-secondary) 18%, transparent 82%) 62%,
-      transparent 63%
-    );
-  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
-  opacity: 0.5;
-}
-
-:global([data-theme="dark"]) .overlay {
-  background-image:
-    repeating-linear-gradient(
-      112deg,
-      color-mix(in srgb, var(--border-color) 50%, transparent 50%) 0px,
-      color-mix(in srgb, var(--border-color) 50%, transparent 50%) 1px,
-      transparent 1px,
-      transparent 44px
-    ),
-    repeating-linear-gradient(
-      22deg,
-      color-mix(in srgb, var(--border-color) 34%, transparent 66%) 0px,
-      color-mix(in srgb, var(--border-color) 34%, transparent 66%) 1px,
-      transparent 1px,
-      transparent 58px
-    ),
-    radial-gradient(
-      90% 120% at 120% -10%,
-      transparent 0%,
-      transparent 67%,
-      color-mix(in srgb, var(--border-color) 24%, transparent 76%) 68%,
-      transparent 69%
-    ),
-    radial-gradient(
-      100% 120% at -10% 112%,
-      transparent 0%,
-      transparent 61%,
-      color-mix(in srgb, var(--border-color) 18%, transparent 82%) 62%,
-      transparent 63%
-    );
-  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
-  opacity: 0.48;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.54) 46%, rgba(0, 0, 0, 0.22) 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.34), transparent 58%);
 }
 
 .container {
@@ -101,14 +43,14 @@
   font-size: clamp(2.1rem, 5vw, 4rem);
   font-weight: 800;
   line-height: 0.95;
-  color: var(--text-primary);
+  color: #fff;
   margin-bottom: var(--spacing-lg);
 }
 
 .title {
   margin: 0;
   max-width: 16ch;
-  color: var(--text-primary);
+  color: #fff;
   font-size: clamp(1.6rem, 3.5vw, 3rem);
   font-weight: 700;
   line-height: 1.08;
@@ -117,7 +59,7 @@
 .description {
   margin-top: var(--spacing-lg);
   max-width: 48ch;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.8);
   font-size: clamp(1rem, 1.5vw, 1.18rem);
   line-height: 1.6;
 }
@@ -140,8 +82,8 @@
 }
 
 .buttonPrimary {
-  background: var(--text-primary);
-  color: var(--bg-primary);
+  background: #fff;
+  color: #111;
 }
 
 .buttonPrimary:hover {
@@ -151,8 +93,8 @@
 
 .buttonSecondary {
   background: transparent;
-  border: 1px solid var(--text-primary);
-  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  color: #fff;
 }
 
 .buttonSecondary:hover {
