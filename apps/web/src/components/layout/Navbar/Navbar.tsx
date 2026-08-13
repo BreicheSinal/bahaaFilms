@@ -165,7 +165,9 @@ export default function Navbar() {
             <button
               onClick={toggleTheme}
               className={styles.themeToggle}
-              aria-label="Toggle theme"
+              aria-label="Dark mode enabled"
+              aria-pressed="true"
+              disabled
             >
               {theme === "light" ? <Moon /> : <Sun />}
             </button>
