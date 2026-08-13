@@ -10,6 +10,6 @@ describe("getGreetingDelay", () => {
 
   it("speeds up only toward the end of the sequence", () => {
     expect(getGreetingDelay(5)).toBe(300);
-    expect(getGreetingDelay(6)).toBe(100);
+    expect(getGreetingDelay(6)).toBe(55);
   });
 });

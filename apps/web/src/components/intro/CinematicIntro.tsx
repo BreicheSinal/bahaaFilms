@@ -11,7 +11,7 @@ import styles from "./CinematicIntro.module.css";
 const GREETINGS = ["Bonjour", "Hola", "Ciao", "Hallo", "Marhaba", "こんにちは"];
 const MIN_DURATION_MS = 4600;
 const MAX_DURATION_MS = 7000;
-const LOGO_HOLD_MS = 1350;
+const LOGO_HOLD_MS = 2000;
 
 type CinematicIntroProps = {
   onExit: () => void;
