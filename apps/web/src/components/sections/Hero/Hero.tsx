@@ -1,6 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion, useScroll, useTransform, type Variants } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Hero.module.css";
 import { useRouter } from "next/navigation";
@@ -105,11 +111,11 @@ export default function Hero() {
         </motion.div>
 
         <motion.h1 variants={itemVariants} className={styles.title}>
-          Cinematic photography and films built around real moments.
+          Cinematic videography and films built around real moments.
         </motion.h1>
 
         <motion.p variants={itemVariants} className={styles.description}>
-          Wedding stories, commercial visuals, and portrait sessions shaped with
+          Commercial visuals, portrait sessions and wedding stories shaped with
           direction, light, and patient editing.
         </motion.p>
 
