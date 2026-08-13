@@ -23,6 +23,8 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
   const [showLogo, setShowLogo] = useState(false);
   const startTime = useRef(Date.now());
   const completed = useRef(false);
+  const isBurst = greetingStep >= GREETINGS.length;
+  const greetingTransitionDuration = isBurst ? 0.015 : 0.1;
 
   const complete = useCallback(() => {
     if (completed.current) return;
@@ -93,7 +95,7 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
             initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -14, filter: "blur(5px)" }}
-            transition={{ duration: 0.1, ease: "easeOut" }}
+            transition={{ duration: greetingTransitionDuration, ease: "linear" }}
           >
             {GREETINGS[greetingStep % GREETINGS.length]}
           </motion.p>
