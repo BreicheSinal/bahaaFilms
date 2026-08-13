@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { Suspense, useState, useMemo, useEffect, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Search, Filter } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
 import Loader from "@/components/ui/Loader/Loader";
 import {
@@ -16,7 +17,16 @@ import { matchesSelectedTag } from "@/lib/projectFilters";
 import styles from "./page.module.css";
 
 export default function ProjectsPage() {
+  return (
+    <Suspense fallback={<div className={styles.projects}><Loader /></div>}>
+      <ProjectsPageContent />
+    </Suspense>
+  );
+}
+
+function ProjectsPageContent() {
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
   const { items: allProjects, loading, searchQuery, selectedTag } = useAppSelector(
     (state) => state.projects
   );
@@ -69,14 +79,13 @@ export default function ProjectsPage() {
   }, [allProjects.length, dispatch, loading]);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const tag = params.get("tag");
-    const client = params.get("client");
+    const tag = searchParams.get("tag");
+    const client = searchParams.get("client");
     if (tag) {
       dispatch(setSelectedTag(tag));
     }
     setClientLogo(client);
-  }, [dispatch]);
+  }, [dispatch, searchParams]);
 
   const filteredTags = useMemo(
     () =>
