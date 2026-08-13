@@ -1,16 +1,25 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Hero from '@/components/sections/Hero/Hero';
 import Portfolio from '@/components/sections/Portfolio/Portfolio';
 import Clients from '@/components/sections/Clients/Clients';
 import Contact from '@/components/sections/Contact/Contact';
 import CinematicIntro from "@/components/intro/CinematicIntro";
 
+const INTRO_SESSION_KEY = "bahaa-films-intro-seen";
+
 export default function Home() {
   const [introVisible, setIntroVisible] = useState(true);
   const [isScrollLocked, setIsScrollLocked] = useState(true);
+
+  useLayoutEffect(() => {
+    if (window.sessionStorage.getItem(INTRO_SESSION_KEY) === "true") {
+      setIntroVisible(false);
+      setIsScrollLocked(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (!isScrollLocked) return;
@@ -26,6 +35,7 @@ export default function Home() {
   };
 
   const completeIntroExit = () => {
+    window.sessionStorage.setItem(INTRO_SESSION_KEY, "true");
     setIsScrollLocked(false);
   };
 
