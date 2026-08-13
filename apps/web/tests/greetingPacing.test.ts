@@ -9,7 +9,7 @@ describe("getGreetingDelay", () => {
   });
 
   it("speeds up only toward the end of the sequence", () => {
-    expect(getGreetingDelay(5)).toBe(360);
-    expect(getGreetingDelay(6)).toBe(220);
+    expect(getGreetingDelay(5)).toBe(450);
+    expect(getGreetingDelay(6)).toBe(350);
   });
 });
