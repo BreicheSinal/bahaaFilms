@@ -7,6 +7,7 @@ import Portfolio from '@/components/sections/Portfolio/Portfolio';
 import Clients from '@/components/sections/Clients/Clients';
 import Contact from '@/components/sections/Contact/Contact';
 import CinematicIntro from "@/components/intro/CinematicIntro";
+import { shouldPreviewIntro } from "@/components/intro/introPreview";
 
 const INTRO_SESSION_KEY = "bahaa-films-intro-seen";
 
@@ -15,6 +16,10 @@ export default function Home() {
   const [isScrollLocked, setIsScrollLocked] = useState(true);
 
   useLayoutEffect(() => {
+    if (shouldPreviewIntro(window.location.search)) {
+      return;
+    }
+
     if (window.sessionStorage.getItem(INTRO_SESSION_KEY) === "true") {
       setIntroVisible(false);
       setIsScrollLocked(false);
