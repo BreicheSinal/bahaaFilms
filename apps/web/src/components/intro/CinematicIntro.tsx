@@ -9,9 +9,9 @@ import { getGreetingDelay } from "./greetingPacing";
 import styles from "./CinematicIntro.module.css";
 
 const GREETINGS = ["Hello", "Bonjour", "Hola", "Ciao", "Hallo", "Marhaba", "こんにちは"];
-const MIN_DURATION_MS = 5600;
+const MIN_DURATION_MS = 4600;
 const MAX_DURATION_MS = 7000;
-const LOGO_HOLD_MS = 1400;
+const LOGO_HOLD_MS = 1000;
 
 type CinematicIntroProps = {
   onExit: () => void;
