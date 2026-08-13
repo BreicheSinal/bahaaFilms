@@ -87,8 +87,8 @@
   width: min(32rem, 76vw);
   height: clamp(4rem, 12vw, 8rem);
   overflow: hidden;
-  filter: blur(9px);
-  opacity: 0.92;
+  filter: blur(6px);
+  opacity: 1;
 }
 
 .burst::before {
@@ -107,6 +107,7 @@
   white-space: nowrap;
   transform: translateX(calc((var(--index, 0) - 6) * 3.5%));
   mix-blend-mode: screen;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.65);
 }
 
 .burst span:nth-child(1) { transform: translateX(-22%); }

@@ -99,12 +99,12 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
         <span className={styles.format}>PHOTO / FILM</span>
       </div>
 
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="sync" initial={false}>
         {!showLogo && sequencePhase === "greetings" ? (
           <motion.p
             key={greetingStep}
             className={styles.greeting}
-            initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
+            initial={{ opacity: greetingStep === 0 ? 1 : 0, y: greetingStep === 0 ? 0 : 18, filter: greetingStep === 0 ? "blur(0px)" : "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -14, filter: "blur(5px)" }}
             transition={{ duration: greetingTransitionDuration, ease: "linear" }}
