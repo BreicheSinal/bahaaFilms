@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useGetProjectsQuery } from "@/store/projectsApi";
 import { shouldRevealIntro } from "./introReadiness";
@@ -10,7 +10,6 @@ import styles from "./CinematicIntro.module.css";
 
 const GREETINGS = ["Hello", "Bonjour", "Hola", "Ciao", "Hallo", "Marhaba", "こんにちは"];
 const MIN_DURATION_MS = 5600;
-const REDUCED_MIN_DURATION_MS = 350;
 const MAX_DURATION_MS = 7000;
 const LOGO_HOLD_MS = 1400;
 
@@ -19,7 +18,6 @@ type CinematicIntroProps = {
 };
 
 export default function CinematicIntro({ onExit }: CinematicIntroProps) {
-  const reduceMotion = useReducedMotion();
   const { isLoading, isSuccess, isError } = useGetProjectsQuery();
   const [greetingIndex, setGreetingIndex] = useState(0);
   const [showLogo, setShowLogo] = useState(false);
@@ -33,44 +31,43 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
   }, []);
 
   useEffect(() => {
-    const minDurationMs = reduceMotion ? REDUCED_MIN_DURATION_MS : MIN_DURATION_MS;
     const isRequestSettled = isSuccess || isError || !isLoading;
     const elapsedMs = Date.now() - startTime.current;
 
-    if (shouldRevealIntro({ elapsedMs, isRequestSettled, minDurationMs, maxDurationMs: MAX_DURATION_MS })) {
+    if (shouldRevealIntro({ elapsedMs, isRequestSettled, minDurationMs: MIN_DURATION_MS, maxDurationMs: MAX_DURATION_MS })) {
       complete();
       return;
     }
 
     const nextCheckMs = Math.min(
-      Math.max(minDurationMs - elapsedMs, 0),
+      Math.max(MIN_DURATION_MS - elapsedMs, 0),
       Math.max(MAX_DURATION_MS - elapsedMs, 0)
     );
     const timer = window.setTimeout(complete, nextCheckMs || 1);
     return () => window.clearTimeout(timer);
-  }, [complete, isError, isLoading, isSuccess, reduceMotion]);
+  }, [complete, isError, isLoading, isSuccess]);
 
   useEffect(() => {
-    if (reduceMotion || showLogo) return;
+    if (showLogo) return;
     const timer = window.setTimeout(
       () => setGreetingIndex((current) => (current + 1) % GREETINGS.length),
       getGreetingDelay(greetingIndex)
     );
     return () => window.clearTimeout(timer);
-  }, [greetingIndex, reduceMotion, showLogo]);
+  }, [greetingIndex, showLogo]);
 
   useEffect(() => {
     if (!showLogo) return;
-    const timer = window.setTimeout(onExit, reduceMotion ? 80 : LOGO_HOLD_MS);
+    const timer = window.setTimeout(onExit, LOGO_HOLD_MS);
     return () => window.clearTimeout(timer);
-  }, [onExit, reduceMotion, showLogo]);
+  }, [onExit, showLogo]);
 
   return (
     <motion.div
       className={styles.intro}
       initial={{ opacity: 1 }}
-      exit={getIntroExitTransition(Boolean(reduceMotion))}
-      transition={{ duration: getIntroExitTransition(Boolean(reduceMotion)).duration, ease: [0.65, 0, 0.35, 1] }}
+      exit={getIntroExitTransition(false)}
+      transition={{ duration: getIntroExitTransition(false).duration, ease: [0.65, 0, 0.35, 1] }}
       role="status"
       aria-label="Loading Bahaa Films"
     >
@@ -96,7 +93,7 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
             initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -14, filter: "blur(5px)" }}
-            transition={{ duration: reduceMotion ? 0 : 0.1, ease: "easeOut" }}
+            transition={{ duration: 0.1, ease: "easeOut" }}
           >
             {GREETINGS[greetingIndex]}
           </motion.p>
@@ -108,7 +105,7 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
             alt="Bahaa Films"
             initial={{ opacity: 0, scale: 0.9, filter: "blur(8px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           />
         )}
       </AnimatePresence>
