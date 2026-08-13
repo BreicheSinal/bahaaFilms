@@ -2,10 +2,9 @@
 
 import { useEffect, useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
-import { useRouter } from "next/navigation";
 import Loader from "@/components/ui/Loader/Loader";
 import { selectUniqueClients } from "@/components/sections/Clients/clientProjects";
-import { fetchProjects, setSelectedClient } from "@/store/projectsSlice";
+import { fetchProjects } from "@/store/projectsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import styles from "./Clients.module.css";
 
@@ -20,7 +19,6 @@ const headerVariants = {
 
 export default function Clients() {
   const dispatch = useAppDispatch();
-  const router = useRouter();
   const { items: projects, loading } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
@@ -59,21 +57,9 @@ export default function Clients() {
           <div className={styles.rail} aria-label="Client logos">
             <div className={styles.track}>
               {clients.map((project, index) => (
-                <motion.a
+                <motion.div
                   key={project.id}
-                  href="/projects"
                   className={styles.client}
-                  aria-label={`View ${project.title} projects`}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    dispatch(
-                      setSelectedClient({
-                        title: project.title,
-                        logo: project.logo!,
-                      })
-                    );
-                    router.push("/projects");
-                  }}
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
@@ -81,12 +67,12 @@ export default function Clients() {
                 >
                   <img
                     src={project.logo!}
-                    alt=""
+                    alt={`${project.title} logo`}
                     className={styles.logo}
                     loading="lazy"
                     decoding="async"
                   />
-                </motion.a>
+                </motion.div>
               ))}
             </div>
           </div>

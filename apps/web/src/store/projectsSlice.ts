@@ -11,7 +11,6 @@ type ProjectsState = {
   error: string | null;
   searchQuery: string;
   selectedTag: string;
-  selectedClientLogo: string | null;
 };
 
 const initialState: ProjectsState = {
@@ -20,7 +19,6 @@ const initialState: ProjectsState = {
   error: null,
   searchQuery: "",
   selectedTag: "All",
-  selectedClientLogo: null,
 };
 
 export const fetchProjects = createAsyncThunk("projects/fetch", async () => {
@@ -36,16 +34,10 @@ const projectsSlice = createSlice({
     },
     setSelectedTag(state, action: PayloadAction<string>) {
       state.selectedTag = action.payload;
-      state.selectedClientLogo = null;
-    },
-    setSelectedClient(state, action: PayloadAction<{ title: string; logo: string }>) {
-      state.selectedTag = action.payload.title;
-      state.selectedClientLogo = action.payload.logo;
     },
     resetFilters(state) {
       state.searchQuery = "";
       state.selectedTag = "All";
-      state.selectedClientLogo = null;
     },
   },
   extraReducers: (builder) => {
@@ -65,7 +57,7 @@ const projectsSlice = createSlice({
   },
 });
 
-export const { setSearchQuery, setSelectedTag, setSelectedClient, resetFilters } =
+export const { setSearchQuery, setSelectedTag, resetFilters } =
   projectsSlice.actions;
 
 export default projectsSlice.reducer;

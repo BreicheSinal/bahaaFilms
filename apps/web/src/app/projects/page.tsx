@@ -17,7 +17,7 @@ import styles from "./page.module.css";
 
 export default function ProjectsPage() {
   const dispatch = useAppDispatch();
-  const { items: allProjects, loading, searchQuery, selectedTag, selectedClientLogo } = useAppSelector(
+  const { items: allProjects, loading, searchQuery, selectedTag } = useAppSelector(
     (state) => state.projects
   );
   const [isTagOpen, setIsTagOpen] = useState(false);
@@ -43,12 +43,11 @@ export default function ProjectsPage() {
           tag.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-      const matchesTag = selectedClientLogo || matchesSelectedTag(project.tags, selectedTag);
-      const matchesClient = !selectedClientLogo || project.logo === selectedClientLogo;
+      const matchesTag = matchesSelectedTag(project.tags, selectedTag);
 
-      return matchesSearch && matchesTag && matchesClient;
+      return matchesSearch && matchesTag;
     });
-  }, [allProjects, searchQuery, selectedClientLogo, selectedTag]);
+  }, [allProjects, searchQuery, selectedTag]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
