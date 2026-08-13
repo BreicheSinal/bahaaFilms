@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import { useRef } from "react";
 import styles from "./Hero.module.css";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement | null>(null);
@@ -10,6 +11,8 @@ export default function Hero() {
     target: heroRef,
     offset: ["start start", "end start"],
   });
+
+  const router = useRouter();
 
   const mediaY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.3, 0.65]);
@@ -53,7 +56,10 @@ export default function Hero() {
   return (
     <section id="home" className={styles.hero} ref={heroRef}>
       <motion.div className={styles.mediaLayer} style={{ y: mediaY }} />
-      <motion.div className={styles.overlay} style={{ opacity: overlayOpacity }} />
+      <motion.div
+        className={styles.overlay}
+        style={{ opacity: overlayOpacity }}
+      />
 
       <motion.div
         className={styles.container}
@@ -76,7 +82,7 @@ export default function Hero() {
 
         <motion.div variants={itemVariants} className={styles.cta}>
           <button
-            onClick={() => scrollToSection("portfolio")}
+            onClick={() => router.push("/projects")}
             className={`${styles.button} ${styles.buttonPrimary} button-glow`}
           >
             <span>Explore Work</span>

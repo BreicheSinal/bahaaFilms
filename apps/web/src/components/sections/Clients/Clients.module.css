@@ -13,7 +13,8 @@
 
 .header {
   max-width: 620px;
-  margin-bottom: var(--spacing-2xl);
+  margin: 0 auto var(--spacing-2xl);
+  text-align: center;
 }
 
 .eyebrow {
@@ -35,14 +36,16 @@
 
 .rail {
   overflow: hidden;
-  margin: 0 calc(var(--spacing-lg) * -1);
-  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  padding: var(--spacing-sm) 0;
 }
 
 .track {
   display: flex;
-  width: max-content;
-  animation: slide-left 28s linear infinite;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  min-height: 102px;
+  animation: slide-left 8s ease-in-out infinite alternate;
 }
 
 .rail:hover .track,
@@ -50,16 +53,10 @@
   animation-play-state: paused;
 }
 
-.group {
-  display: flex;
-  gap: var(--spacing-sm);
-  padding-right: var(--spacing-sm);
-}
-
 .client {
   display: grid;
-  width: 62px;
-  height: 62px;
+  width: 82px;
+  height: 82px;
   place-items: center;
   padding: 0.7rem;
   border: 1px solid var(--border-color);
@@ -107,14 +104,22 @@
     padding: var(--spacing-3xl) 0;
   }
 
-  .rail {
-    margin: 0 calc(var(--spacing-lg) * -1);
+  .track {
+    gap: var(--spacing-sm);
+    justify-content: flex-start;
+    width: max-content;
+    min-width: 100%;
+    padding: 0 var(--spacing-lg);
   }
 }
 
 @keyframes slide-left {
+  from {
+    transform: translateX(3%);
+  }
+
   to {
-    transform: translateX(-50%);
+    transform: translateX(-3%);
   }
 }
 

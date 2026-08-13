@@ -51,4 +51,13 @@ describe("selectUniqueClients", () => {
 
     expect(clients.map(({ id }) => id)).toEqual(["2"]);
   });
+
+  it("keeps one client when separate projects share the same logo", () => {
+    const clients = selectUniqueClients([
+      project({ id: "1", title: "First client", logo: "https://bucket/shared-logo.png" }),
+      project({ id: "2", title: "Second client", logo: "https://bucket/shared-logo.png" }),
+    ]);
+
+    expect(clients.map(({ id }) => id)).toEqual(["1"]);
+  });
 });

@@ -56,35 +56,26 @@ export default function Clients() {
         ) : (
           <div className={styles.rail} aria-label="Client logos">
             <div className={styles.track}>
-              <div className={styles.group}>
-                {clients.map((project, index) => (
-                  <motion.a
-                    key={project.id}
-                    href={`/projects/${project.slug}`}
-                    className={styles.client}
-                    aria-label={`View ${project.title} project`}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{ duration: 0.35, delay: Math.min(index * 0.06, 0.3) }}
-                  >
-                    <img
-                      src={project.logo!}
-                      alt=""
-                      className={styles.logo}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </motion.a>
-                ))}
-              </div>
-              <div className={styles.group} aria-hidden="true">
-                {clients.map((project) => (
-                  <span key={`${project.id}-duplicate`} className={styles.client}>
-                    <img src={project.logo!} alt="" className={styles.logo} />
-                  </span>
-                ))}
-              </div>
+              {clients.map((project, index) => (
+                <motion.a
+                  key={project.id}
+                  href={`/projects/${project.slug}`}
+                  className={styles.client}
+                  aria-label={`View ${project.title} project`}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.35, delay: Math.min(index * 0.06, 0.3) }}
+                >
+                  <img
+                    src={project.logo!}
+                    alt=""
+                    className={styles.logo}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </motion.a>
+              ))}
             </div>
           </div>
         )}
