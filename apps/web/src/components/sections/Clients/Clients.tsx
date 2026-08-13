@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
 import Loader from "@/components/ui/Loader/Loader";
 import { selectUniqueClients } from "@/components/sections/Clients/clientProjects";
 import { fetchProjects } from "@/store/projectsSlice";
@@ -46,11 +45,8 @@ export default function Clients() {
         >
           <p className={styles.eyebrow}>Clients</p>
           <h2 id="clients-title" className={styles.title}>
-            Selected collaborators
+            Trusted by great people
           </h2>
-          <p className={styles.description}>
-            Brands and people I have had the pleasure to create with.
-          </p>
         </motion.header>
 
         {loading && clients.length === 0 ? (
@@ -78,13 +74,7 @@ export default function Clients() {
                     decoding="async"
                   />
                 </span>
-                <span className={styles.meta}>
-                  <span className={styles.name}>{project.title}</span>
-                  <span className={styles.detail}>{project.shortDescription}</span>
-                  <span className={styles.visit}>
-                    View project <ArrowUpRight aria-hidden="true" />
-                  </span>
-                </span>
+                <span className={styles.name}>{project.title}</span>
               </motion.a>
             ))}
           </div>
