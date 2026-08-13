@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useGetProjectsQuery } from "@/store/projectsApi";
 import { shouldRevealIntro } from "./introReadiness";
+import { getIntroExitTransition } from "./introTransition";
 import styles from "./CinematicIntro.module.css";
 
 const GREETINGS = ["Hello", "Bonjour", "Hola", "Ciao", "Hallo", "Marhaba", "こんにちは"];
@@ -13,10 +14,10 @@ const MAX_DURATION_MS = 7000;
 const LOGO_HOLD_MS = 620;
 
 type CinematicIntroProps = {
-  onComplete: () => void;
+  onExit: () => void;
 };
 
-export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
+export default function CinematicIntro({ onExit }: CinematicIntroProps) {
   const reduceMotion = useReducedMotion();
   const { isLoading, isSuccess, isError } = useGetProjectsQuery();
   const [greetingIndex, setGreetingIndex] = useState(0);
@@ -60,16 +61,16 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
 
   useEffect(() => {
     if (!showLogo) return;
-    const timer = window.setTimeout(onComplete, reduceMotion ? 80 : LOGO_HOLD_MS);
+    const timer = window.setTimeout(onExit, reduceMotion ? 80 : LOGO_HOLD_MS);
     return () => window.clearTimeout(timer);
-  }, [onComplete, reduceMotion, showLogo]);
+  }, [onExit, reduceMotion, showLogo]);
 
   return (
     <motion.div
       className={styles.intro}
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: reduceMotion ? 0.12 : 0.45, ease: "easeInOut" }}
+      exit={getIntroExitTransition(Boolean(reduceMotion))}
+      transition={{ duration: getIntroExitTransition(Boolean(reduceMotion)).duration, ease: [0.65, 0, 0.35, 1] }}
       role="status"
       aria-label="Loading Bahaa Films"
     >
