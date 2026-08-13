@@ -6,20 +6,21 @@ import { Search, Filter } from "lucide-react";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
 import Loader from "@/components/ui/Loader/Loader";
 import {
-  fetchProjects,
   resetFilters,
   setSearchQuery,
   setSelectedTag,
 } from "@/store/projectsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useGetProjectsQuery } from "@/store/projectsApi";
 import { matchesSelectedTag } from "@/lib/projectFilters";
 import styles from "./page.module.css";
 
 export default function ProjectsPage() {
   const dispatch = useAppDispatch();
-  const { items: allProjects, loading, searchQuery, selectedTag } = useAppSelector(
+  const { searchQuery, selectedTag } = useAppSelector(
     (state) => state.projects
   );
+  const { data: allProjects = [], isLoading: loading } = useGetProjectsQuery();
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [tagSearch, setTagSearch] = useState("");
   const tagRef = useRef<HTMLDivElement | null>(null);
@@ -59,12 +60,6 @@ export default function ProjectsPage() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  useEffect(() => {
-    if (!allProjects.length && !loading) {
-      dispatch(fetchProjects());
-    }
-  }, [allProjects.length, dispatch, loading]);
 
   const filteredTags = useMemo(
     () =>

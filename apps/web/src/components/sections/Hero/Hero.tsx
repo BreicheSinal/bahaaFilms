@@ -4,14 +4,12 @@ import { AnimatePresence, motion, useScroll, useTransform, type Variants } from 
 import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Hero.module.css";
 import { useRouter } from "next/navigation";
-import { fetchProjects } from "@/store/projectsSlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useGetProjectsQuery } from "@/store/projectsApi";
 import { selectHeroSlides } from "./heroSlides";
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement | null>(null);
-  const dispatch = useAppDispatch();
-  const { items: projects, loading } = useAppSelector((state) => state.projects);
+  const { data: projects = [] } = useGetProjectsQuery();
   const [activeSlide, setActiveSlide] = useState(0);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -20,12 +18,6 @@ export default function Hero() {
 
   const router = useRouter();
   const slides = useMemo(() => selectHeroSlides(projects), [projects]);
-
-  useEffect(() => {
-    if (!projects.length && !loading) {
-      dispatch(fetchProjects());
-    }
-  }, [dispatch, loading, projects.length]);
 
   useEffect(() => {
     setActiveSlide(0);

@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
 import Loader from "@/components/ui/Loader/Loader";
 import { selectUniqueClients } from "@/components/sections/Clients/clientProjects";
-import { fetchProjects } from "@/store/projectsSlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useGetProjectsQuery } from "@/store/projectsApi";
 import styles from "./Clients.module.css";
 
 const headerVariants = {
@@ -18,14 +17,7 @@ const headerVariants = {
 } satisfies Variants;
 
 export default function Clients() {
-  const dispatch = useAppDispatch();
-  const { items: projects, loading } = useAppSelector((state) => state.projects);
-
-  useEffect(() => {
-    if (!projects.length && !loading) {
-      dispatch(fetchProjects());
-    }
-  }, [dispatch, loading, projects.length]);
+  const { data: projects = [], isLoading: loading } = useGetProjectsQuery();
 
   const clients = useMemo(() => selectUniqueClients(projects), [projects]);
 

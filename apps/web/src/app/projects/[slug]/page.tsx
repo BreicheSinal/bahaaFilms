@@ -7,21 +7,13 @@ import { ArrowLeft, Calendar, ExternalLink, Facebook, Instagram } from 'lucide-r
 import ProjectGallery from '@/components/projects/ProjectGallery/ProjectGallery';
 import ProjectCard from '@/components/projects/ProjectCard/ProjectCard';
 import Loader from '@/components/ui/Loader/Loader';
-import { fetchProjects } from '@/store/projectsSlice';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useGetProjectsQuery } from '@/store/projectsApi';
 import styles from './page.module.css';
 
 export default function ProjectPage() {
   const router = useRouter();
   const params = useParams<{ slug: string }>();
-  const dispatch = useAppDispatch();
-  const { items: allProjects, loading } = useAppSelector((state) => state.projects);
-
-  useEffect(() => {
-    if (!allProjects.length && !loading) {
-      dispatch(fetchProjects());
-    }
-  }, [allProjects.length, dispatch, loading]);
+  const { data: allProjects = [], isLoading: loading } = useGetProjectsQuery();
 
   const project =
     allProjects.find((item) => item.slug === params.slug) ?? null;

@@ -1,29 +1,14 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  type PayloadAction,
-} from "@reduxjs/toolkit";
-import { getProjects, type Project } from "@/data/projects";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 type ProjectsState = {
-  items: Project[];
-  loading: boolean;
-  error: string | null;
   searchQuery: string;
   selectedTag: string;
 };
 
 const initialState: ProjectsState = {
-  items: [],
-  loading: false,
-  error: null,
   searchQuery: "",
   selectedTag: "All",
 };
-
-export const fetchProjects = createAsyncThunk("projects/fetch", async () => {
-  return getProjects();
-});
 
 const projectsSlice = createSlice({
   name: "projects",
@@ -39,21 +24,6 @@ const projectsSlice = createSlice({
       state.searchQuery = "";
       state.selectedTag = "All";
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchProjects.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchProjects.fulfilled, (state, action) => {
-        state.loading = false;
-        state.items = action.payload;
-      })
-      .addCase(fetchProjects.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to load projects";
-      });
   },
 });
 
