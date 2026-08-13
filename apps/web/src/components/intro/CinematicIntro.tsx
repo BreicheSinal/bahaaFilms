@@ -5,10 +5,11 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from "re
 import { useGetProjectsQuery } from "@/store/projectsApi";
 import { shouldRevealIntro } from "./introReadiness";
 import { getIntroExitTransition } from "./introTransition";
+import { getGreetingDelay } from "./greetingPacing";
 import styles from "./CinematicIntro.module.css";
 
 const GREETINGS = ["Hello", "Bonjour", "Hola", "Ciao", "Hallo", "Marhaba", "こんにちは"];
-const MIN_DURATION_MS = 2600;
+const MIN_DURATION_MS = 3600;
 const REDUCED_MIN_DURATION_MS = 350;
 const MAX_DURATION_MS = 7000;
 const LOGO_HOLD_MS = 620;
@@ -51,10 +52,9 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
 
   useEffect(() => {
     if (reduceMotion || showLogo) return;
-    const delay = greetingIndex < 3 ? 390 : greetingIndex < 5 ? 220 : 110;
     const timer = window.setTimeout(
       () => setGreetingIndex((current) => (current + 1) % GREETINGS.length),
-      delay
+      getGreetingDelay(greetingIndex)
     );
     return () => window.clearTimeout(timer);
   }, [greetingIndex, reduceMotion, showLogo]);
@@ -96,7 +96,7 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
             initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -14, filter: "blur(5px)" }}
-            transition={{ duration: reduceMotion ? 0 : 0.17, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : 0.1, ease: "easeOut" }}
           >
             {GREETINGS[greetingIndex]}
           </motion.p>
