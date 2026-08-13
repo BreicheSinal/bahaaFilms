@@ -50,12 +50,6 @@
   justify-content: center;
   gap: var(--spacing-md);
   min-height: 102px;
-  animation: slide-left 8s ease-in-out infinite alternate;
-}
-
-.rail:hover .track,
-.rail:focus-within .track {
-  animation-play-state: paused;
 }
 
 .client {
@@ -118,24 +112,10 @@
   }
 }
 
-@keyframes slide-left {
-  from {
-    transform: translateX(3%);
-  }
-
-  to {
-    transform: translateX(-3%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .client,
   .logo {
     transition: none;
-  }
-
-  .track {
-    animation: none;
   }
 
   .client:hover,
