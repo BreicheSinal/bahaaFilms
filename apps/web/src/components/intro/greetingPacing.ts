@@ -1,5 +1,5 @@
-const GREETING_DELAYS = [850, 760, 680, 580, 470, 450, 350];
+const GREETING_DELAYS = [800, 700, 600, 500, 400, 300];
 
 export function getGreetingDelay(index: number) {
-  return GREETING_DELAYS[index] ?? GREETING_DELAYS[GREETING_DELAYS.length - 1];
+  return GREETING_DELAYS[index] ?? 180;
 }

@@ -19,7 +19,7 @@ type CinematicIntroProps = {
 
 export default function CinematicIntro({ onExit }: CinematicIntroProps) {
   const { isLoading, isSuccess, isError } = useGetProjectsQuery();
-  const [greetingIndex, setGreetingIndex] = useState(0);
+  const [greetingStep, setGreetingStep] = useState(0);
   const [showLogo, setShowLogo] = useState(false);
   const startTime = useRef(Date.now());
   const completed = useRef(false);
@@ -50,11 +50,11 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
   useEffect(() => {
     if (showLogo) return;
     const timer = window.setTimeout(
-      () => setGreetingIndex((current) => (current + 1) % GREETINGS.length),
-      getGreetingDelay(greetingIndex)
+      () => setGreetingStep((current) => current + 1),
+      getGreetingDelay(greetingStep)
     );
     return () => window.clearTimeout(timer);
-  }, [greetingIndex, showLogo]);
+  }, [greetingStep, showLogo]);
 
   useEffect(() => {
     if (!showLogo) return;
@@ -85,17 +85,17 @@ export default function CinematicIntro({ onExit }: CinematicIntroProps) {
         <span className={styles.format}>PHOTO / FILM</span>
       </div>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         {!showLogo ? (
           <motion.p
-            key={greetingIndex}
+            key={greetingStep}
             className={styles.greeting}
             initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -14, filter: "blur(5px)" }}
             transition={{ duration: 0.1, ease: "easeOut" }}
           >
-            {GREETINGS[greetingIndex]}
+            {GREETINGS[greetingStep % GREETINGS.length]}
           </motion.p>
         ) : (
           <motion.img
