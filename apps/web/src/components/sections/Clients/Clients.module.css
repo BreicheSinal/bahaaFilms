@@ -34,32 +34,38 @@
 }
 
 .rail {
-  display: flex;
-  gap: var(--spacing-sm);
+  overflow: hidden;
   margin: 0 calc(var(--spacing-lg) * -1);
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-padding-inline: var(--spacing-lg);
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
 }
 
-.rail::-webkit-scrollbar {
-  display: none;
+.track {
+  display: flex;
+  width: max-content;
+  animation: slide-left 28s linear infinite;
+}
+
+.rail:hover .track,
+.rail:focus-within .track {
+  animation-play-state: paused;
+}
+
+.group {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding-right: var(--spacing-sm);
 }
 
 .client {
-  display: inline-flex;
-  min-width: max-content;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.68rem 0.88rem;
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  padding: 0.7rem;
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   background: var(--bg-secondary);
   color: inherit;
-  scroll-snap-align: start;
   text-decoration: none;
   transition: border-color var(--transition-base), transform var(--transition-base), background-color var(--transition-base), color var(--transition-base);
 }
@@ -77,14 +83,6 @@
   outline-offset: 3px;
 }
 
-.logoFrame {
-  display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  flex: 0 0 auto;
-}
-
 .logo {
   width: 100%;
   height: 100%;
@@ -96,13 +94,6 @@
 .client:focus-visible .logo {
   filter: brightness(1.1);
   transform: scale(1.04);
-}
-
-.name {
-  color: currentColor;
-  font-size: 0.9rem;
-  font-weight: 600;
-  white-space: nowrap;
 }
 
 .loading {
@@ -117,7 +108,13 @@
   }
 
   .rail {
-    margin-right: calc(var(--spacing-lg) * -1);
+    margin: 0 calc(var(--spacing-lg) * -1);
+  }
+}
+
+@keyframes slide-left {
+  to {
+    transform: translateX(-50%);
   }
 }
 
@@ -125,6 +122,10 @@
   .client,
   .logo {
     transition: none;
+  }
+
+  .track {
+    animation: none;
   }
 
   .client:hover,
