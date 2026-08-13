@@ -1,9 +1,8 @@
 "use client";
 
-import { Suspense, useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Search, Filter } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
 import Loader from "@/components/ui/Loader/Loader";
 import {
@@ -17,22 +16,12 @@ import { matchesSelectedTag } from "@/lib/projectFilters";
 import styles from "./page.module.css";
 
 export default function ProjectsPage() {
-  return (
-    <Suspense fallback={<div className={styles.projects}><Loader /></div>}>
-      <ProjectsPageContent />
-    </Suspense>
-  );
-}
-
-function ProjectsPageContent() {
   const dispatch = useAppDispatch();
-  const searchParams = useSearchParams();
-  const { items: allProjects, loading, searchQuery, selectedTag } = useAppSelector(
+  const { items: allProjects, loading, searchQuery, selectedTag, selectedClientLogo } = useAppSelector(
     (state) => state.projects
   );
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [tagSearch, setTagSearch] = useState("");
-  const [clientLogo, setClientLogo] = useState<string | null>(null);
   const tagRef = useRef<HTMLDivElement | null>(null);
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -54,12 +43,12 @@ function ProjectsPageContent() {
           tag.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-      const matchesTag = matchesSelectedTag(project.tags, selectedTag);
-      const matchesClient = !clientLogo || project.logo === clientLogo;
+      const matchesTag = selectedClientLogo || matchesSelectedTag(project.tags, selectedTag);
+      const matchesClient = !selectedClientLogo || project.logo === selectedClientLogo;
 
       return matchesSearch && matchesTag && matchesClient;
     });
-  }, [allProjects, clientLogo, searchQuery, selectedTag]);
+  }, [allProjects, searchQuery, selectedClientLogo, selectedTag]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -77,15 +66,6 @@ function ProjectsPageContent() {
       dispatch(fetchProjects());
     }
   }, [allProjects.length, dispatch, loading]);
-
-  useEffect(() => {
-    const tag = searchParams.get("tag");
-    const client = searchParams.get("client");
-    if (tag) {
-      dispatch(setSelectedTag(tag));
-    }
-    setClientLogo(client);
-  }, [dispatch, searchParams]);
 
   const filteredTags = useMemo(
     () =>

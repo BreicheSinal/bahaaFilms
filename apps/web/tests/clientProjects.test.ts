@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Project } from "@/data/projects";
-import {
-  getClientProjectsHref,
-  selectUniqueClients,
-} from "@/components/sections/Clients/clientProjects";
+import { selectUniqueClients } from "@/components/sections/Clients/clientProjects";
 
 const project = (overrides: Partial<Project>): Project => ({
   id: "id",
@@ -64,15 +61,4 @@ describe("selectUniqueClients", () => {
     expect(clients.map(({ id }) => id)).toEqual(["1"]);
   });
 
-  it("creates a projects URL with the client's first tag selected", () => {
-    expect(
-      getClientProjectsHref(
-        project({
-          slug: "acme",
-          tags: ["Commercial Work", "Film"],
-          logo: "https://bucket/acme.png",
-        })
-      )
-    ).toBe("/projects?tag=Commercial%20Work&client=https%3A%2F%2Fbucket%2Facme.png");
-  });
 });

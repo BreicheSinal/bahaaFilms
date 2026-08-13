@@ -2,12 +2,10 @@
 
 import { useEffect, useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
+import { useRouter } from "next/navigation";
 import Loader from "@/components/ui/Loader/Loader";
-import {
-  getClientProjectsHref,
-  selectUniqueClients,
-} from "@/components/sections/Clients/clientProjects";
-import { fetchProjects, setSelectedTag } from "@/store/projectsSlice";
+import { selectUniqueClients } from "@/components/sections/Clients/clientProjects";
+import { fetchProjects, setSelectedClient } from "@/store/projectsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import styles from "./Clients.module.css";
 
@@ -22,6 +20,7 @@ const headerVariants = {
 
 export default function Clients() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { items: projects, loading } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
@@ -62,12 +61,18 @@ export default function Clients() {
               {clients.map((project, index) => (
                 <motion.a
                   key={project.id}
-                  href={getClientProjectsHref(project)}
+                  href="/projects"
                   className={styles.client}
                   aria-label={`View ${project.title} projects`}
-                  onClick={() => {
-                    const tag = project.tags[0]?.trim();
-                    if (tag) dispatch(setSelectedTag(tag));
+                  onClick={(event) => {
+                    event.preventDefault();
+                    dispatch(
+                      setSelectedClient({
+                        title: project.title,
+                        logo: project.logo!,
+                      })
+                    );
+                    router.push("/projects");
                   }}
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
