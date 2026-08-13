@@ -3,13 +3,13 @@ import { getGreetingDelay } from "@/components/intro/greetingPacing";
 
 describe("getGreetingDelay", () => {
   it("holds the first multilingual greetings long enough to read", () => {
-    expect(getGreetingDelay(0)).toBe(800);
-    expect(getGreetingDelay(1)).toBe(700);
-    expect(getGreetingDelay(2)).toBe(600);
+    expect(getGreetingDelay(0)).toBe(650);
+    expect(getGreetingDelay(1)).toBe(600);
+    expect(getGreetingDelay(2)).toBe(520);
   });
 
   it("speeds up only toward the end of the sequence", () => {
-    expect(getGreetingDelay(5)).toBe(300);
-    expect(getGreetingDelay(6)).toBe(55);
+    expect(getGreetingDelay(5)).toBe(250);
+    expect(getGreetingDelay(6)).toBe(35);
   });
 });
